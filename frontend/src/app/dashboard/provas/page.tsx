@@ -12,13 +12,13 @@ import { UploadIcon } from '@phosphor-icons/react/dist/ssr/Upload';
 import dayjs from 'dayjs';
 
 import { config } from '@/config';
-import { IntegrationCard } from '@/components/dashboard/integrations/integrations-card';
-import type { Integration } from '@/components/dashboard/integrations/integrations-card';
-import { CompaniesFilters } from '@/components/dashboard/integrations/integrations-filters';
+import { ProvaCard } from '@/components/dashboard/provas/provas-card';
+import type { Prova } from '@/components/dashboard/provas/provas-card';
+import { CompaniesFilters } from '@/components/dashboard/provas/provas-filters';
 
-export const metadata = { title: `Integrations | Dashboard | ${config.site.name}` } satisfies Metadata;
+export const metadata = { title: `Provas | ${config.site.name}` } satisfies Metadata;
 
-const integrations = [
+const provas = [
   {
     id: 'INTEG-006',
     title: 'Dropbox',
@@ -67,14 +67,14 @@ const integrations = [
     installs: 435,
     updatedAt: dayjs().subtract(25, 'minute').subtract(6, 'hour').subtract(6, 'day').toDate(),
   },
-] satisfies Integration[];
+] satisfies Prova[];
 
 export default function Page(): React.JSX.Element {
   return (
-    <Stack spacing={3}>
+    <Stack spacing={3}> 
       <Stack direction="row" spacing={3}>
         <Stack spacing={1} sx={{ flex: '1 1 auto' }}>
-          <Typography variant="h4">Integrations</Typography>
+          <Typography variant="h4">Provas</Typography>
           <Stack sx={{ alignItems: 'center' }} direction="row" spacing={1}>
             <Button color="inherit" startIcon={<UploadIcon fontSize="var(--icon-fontSize-md)" />}>
               Import
@@ -92,16 +92,16 @@ export default function Page(): React.JSX.Element {
       </Stack>
       <CompaniesFilters />
       <Grid container spacing={3}>
-        {integrations.map((integration) => (
+        {provas.map((prova) => (
           <Grid
-            key={integration.id}
+            key={prova.id}
             size={{
               lg: 4,
               md: 6,
               xs: 12,
             }}
           >
-            <IntegrationCard integration={integration} />
+            <ProvaCard prova={prova} />
           </Grid>
         ))}
       </Grid>

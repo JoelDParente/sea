@@ -9,13 +9,13 @@ import { UploadIcon } from '@phosphor-icons/react/dist/ssr/Upload';
 import dayjs from 'dayjs';
 
 import { config } from '@/config';
-import { CustomersFilters } from '@/components/dashboard/customer/customers-filters';
-import { CustomersTable } from '@/components/dashboard/customer/customers-table';
-import type { Customer } from '@/components/dashboard/customer/customers-table';
+import { AlunosFilters } from '@/components/dashboard/alunos/alunos-filters';
+import { AlunosTable } from '@/components/dashboard/alunos/alunos-table';
+import type { Alunos } from '@/components/dashboard/alunos/alunos-table';
 
-export const metadata = { title: `Customers | Dashboard | ${config.site.name}` } satisfies Metadata;
+export const metadata = { title: `Alunos | Dashboard | ${config.site.name}` } satisfies Metadata;
 
-const customers = [
+const alunos = [
   {
     id: 'USR-010',
     name: 'Alcides Antonio',
@@ -107,19 +107,19 @@ const customers = [
     address: { city: 'San Diego', country: 'USA', state: 'California', street: '75247' },
     createdAt: dayjs().subtract(2, 'hours').toDate(),
   },
-] satisfies Customer[];
+] satisfies Alunos[];
 
 export default function Page(): React.JSX.Element {
   const page = 0;
   const rowsPerPage = 5;
 
-  const paginatedCustomers = applyPagination(customers, page, rowsPerPage);
+  const paginatedAlunos = applyPagination(alunos, page, rowsPerPage);
 
   return (
     <Stack spacing={3}>
       <Stack direction="row" spacing={3}>
         <Stack spacing={1} sx={{ flex: '1 1 auto' }}>
-          <Typography variant="h4">Customers</Typography>
+          <Typography variant="h4">Alunos</Typography>
           <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
             <Button color="inherit" startIcon={<UploadIcon fontSize="var(--icon-fontSize-md)" />}>
               Import
@@ -135,17 +135,17 @@ export default function Page(): React.JSX.Element {
           </Button>
         </div>
       </Stack>
-      <CustomersFilters />
-      <CustomersTable
-        count={paginatedCustomers.length}
+      <AlunosFilters />
+      <AlunosTable
+        count={paginatedAlunos.length}
         page={page}
-        rows={paginatedCustomers}
+        rows={paginatedAlunos}
         rowsPerPage={rowsPerPage}
       />
     </Stack>
   );
 }
 
-function applyPagination(rows: Customer[], page: number, rowsPerPage: number): Customer[] {
+function applyPagination(rows: Alunos[], page: number, rowsPerPage: number): Alunos[] {
   return rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 }
