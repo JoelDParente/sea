@@ -1,113 +1,127 @@
-import * as React from 'react';
-import type { Metadata } from 'next';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import { DownloadIcon } from '@phosphor-icons/react/dist/ssr/Download';
-import { PlusIcon } from '@phosphor-icons/react/dist/ssr/Plus';
-import { UploadIcon } from '@phosphor-icons/react/dist/ssr/Upload';
-import dayjs from 'dayjs';
+//page.tsx (Atualizado para alinhamento do título)
+'use client';
+import React, { JSX, Suspense, lazy } from 'react';
+import { Box, Stack, CircularProgress, Button, Typography, useTheme } from '@mui/material';
+import { Plus, ArrowLeft } from '@phosphor-icons/react';
+import CardAcao from '@/components/dashboard/criacao/card-acao'; // Assumindo que este componente existe
+import { styled } from '@mui/system';
 
-import { config } from '@/config';
-import { ProvaCard } from '@/components/dashboard/provas/provas-card';
-import type { Prova } from '@/components/dashboard/provas/provas-card';
-import { CompaniesFilters } from '@/components/dashboard/provas/provas-filters';
+// Lazy loading dos componentes
+const CriarProva = lazy(() => import('@/components/dashboard/criacao/prova/criar-prova'));
+const CriarQuestaoPage = lazy(() => import('@/components/dashboard/criacao/criar-questao'));
 
-export const metadata = { title: `Provas | ${config.site.name}` } satisfies Metadata;
+type Modos = 'lista' | 'criarProva' | 'criarQuestao';
 
-const provas = [
-  {
-    id: 'INTEG-006',
-    title: 'Dropbox',
-    description: 'Dropbox is a file hosting service that offers cloud storage, file synchronization, a personal cloud.',
-    logo: '/assets/logo-dropbox.png',
-    installs: 594,
-    updatedAt: dayjs().subtract(12, 'minute').toDate(),
-  },
-  {
-    id: 'INTEG-005',
-    title: 'Medium Corporation',
-    description: 'Medium is an online publishing platform developed by Evan Williams, and launched in August 2012.',
-    logo: '/assets/logo-medium.png',
-    installs: 625,
-    updatedAt: dayjs().subtract(43, 'minute').subtract(1, 'hour').toDate(),
-  },
-  {
-    id: 'INTEG-004',
-    title: 'Slack',
-    description: 'Slack is a cloud-based set of team collaboration tools and services, founded by Stewart Butterfield.',
-    logo: '/assets/logo-slack.png',
-    installs: 857,
-    updatedAt: dayjs().subtract(50, 'minute').subtract(3, 'hour').toDate(),
-  },
-  {
-    id: 'INTEG-003',
-    title: 'Lyft',
-    description: 'Lyft is an on-demand transportation company based in San Francisco, California.',
-    logo: '/assets/logo-lyft.png',
-    installs: 406,
-    updatedAt: dayjs().subtract(7, 'minute').subtract(4, 'hour').subtract(1, 'day').toDate(),
-  },
-  {
-    id: 'INTEG-002',
-    title: 'GitHub',
-    description: 'GitHub is a web-based hosting service for version control of code using Git.',
-    logo: '/assets/logo-github.png',
-    installs: 835,
-    updatedAt: dayjs().subtract(31, 'minute').subtract(4, 'hour').subtract(5, 'day').toDate(),
-  },
-  {
-    id: 'INTEG-001',
-    title: 'Squarespace',
-    description: 'Squarespace provides software as a service for website building and hosting. Headquartered in NYC.',
-    logo: '/assets/logo-squarespace.png',
-    installs: 435,
-    updatedAt: dayjs().subtract(25, 'minute').subtract(6, 'hour').subtract(6, 'day').toDate(),
-  },
-] satisfies Prova[];
+// Componente de Fallback Aprimorado
+const StyledFallback = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: '50vh',
+    padding: theme.spacing(4),
+}));
 
-export default function Page(): React.JSX.Element {
-  return (
-    <Stack spacing={3}> 
-      <Stack direction="row" spacing={3}>
-        <Stack spacing={1} sx={{ flex: '1 1 auto' }}>
-          <Typography variant="h4">Provas</Typography>
-          <Stack sx={{ alignItems: 'center' }} direction="row" spacing={1}>
-            <Button color="inherit" startIcon={<UploadIcon fontSize="var(--icon-fontSize-md)" />}>
-              Import
-            </Button>
-            <Button color="inherit" startIcon={<DownloadIcon fontSize="var(--icon-fontSize-md)" />}>
-              Export
-            </Button>
-          </Stack>
+export default function Page(): JSX.Element {
+    const [modo, setModo] = React.useState<Modos>('lista');
+    const theme = useTheme();
+
+    const handleVoltar = () => setModo('lista');
+
+    // Títulos dinâmicos para a página
+    const getTitle = (currentMode: Modos): string => {
+        switch (currentMode) {
+            case 'criarProva':
+                return 'Criar Nova Prova 📝';
+            case 'criarQuestao':
+                return 'Criar Questão Avulsa 💡';
+            default:
+                return 'O que você deseja criar hoje?';
+        }
+    };
+
+    const onQuestaoSalva = (questao: any) => {
+        console.log('Questão salva avulsa:', questao);
+        alert('Questão salva com sucesso! (Voltando para a lista)');
+        handleVoltar();
+    };
+
+    return (
+        <Stack spacing={0} sx={{ width: '100%', maxWidth: '1400px', mx: 'auto', p: 2 }}>
+            {/* CONTAINER DE TÍTULO/VOLTAR */}
+            <Box
+                sx={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    flexDirection: 'column',
+                    mb: 1,
+                    mt: 1
+                }}
+            >
+                {/* Exibe o botão de voltar somente nos modos de criação */}
+                {modo !== 'lista' ? (
+                    <Button
+                        startIcon={<ArrowLeft size={18} />}
+                        onClick={handleVoltar}
+                    >
+                        Voltar para o Menu
+                    </Button>
+                ) : (
+                    <Box sx={{ width: 0 }} />
+                )}
+
+                {/* TÍTULO DINÂMICO */}
+                <Typography
+                    variant="h5"
+                    fontWeight="bold"
+                    sx={{ color: theme.palette.primary.main, ml: modo !== 'lista' ? 2 : 0, mr: 'auto', textAlign:'left' }}
+                >
+                    {getTitle(modo)}
+                </Typography>
+            </Box>
+
+            {modo === 'lista' && (
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        gap: 3,
+                        justifyContent: { xs: 'center', md: 'flex-start' }
+                    }}
+                >
+                    <CardAcao
+                        title="Criar Prova Completa"
+                        description="Monte uma prova com cabeçalho, slots de questões e exportação para PDF."
+                        icon={<Plus size={32} />}
+                        onClick={() => setModo('criarProva')}
+                    />
+                    <CardAcao
+                        title="Criar Questão para Banco"
+                        description="Crie e salve questões individuais no seu banco de dados."
+                        icon={<Plus size={32} />}
+                        onClick={() => setModo('criarQuestao')}
+                    />
+                </Box>
+            )}
+
+            {modo !== 'lista' && (
+                <Box>
+                    {/* O botão de Voltar foi movido para o Container de Título/Voltar acima. */}
+                    <Suspense
+                        fallback={
+                            <StyledFallback>
+                                <CircularProgress size={50} sx={{ mb: 2 }} />
+                                <Typography variant="subtitle1" color="text.secondary">
+                                    Carregando o editor...
+                                </Typography>
+                            </StyledFallback>
+                        }
+                    >
+                        {modo === 'criarProva' && <CriarProva />}
+                        {modo === 'criarQuestao' && <CriarQuestaoPage onSave={onQuestaoSalva} />}
+                    </Suspense>
+                </Box>
+            )}
         </Stack>
-        <div>
-          <Button startIcon={<PlusIcon fontSize="var(--icon-fontSize-md)" />} variant="contained">
-            Add
-          </Button>
-        </div>
-      </Stack>
-      <CompaniesFilters />
-      <Grid container spacing={3}>
-        {provas.map((prova) => (
-          <Grid
-            key={prova.id}
-            size={{
-              lg: 4,
-              md: 6,
-              xs: 12,
-            }}
-          >
-            <ProvaCard prova={prova} />
-          </Grid>
-        ))}
-      </Grid>
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Pagination count={3} size="small" />
-      </Box>
-    </Stack>
-  );
+    );
 }

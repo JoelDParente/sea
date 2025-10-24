@@ -2,7 +2,6 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 import type { SxProps } from '@mui/material/styles';
 import { ProvaCard, Prova } from '@/components/dashboard/provas/provas-card';
@@ -19,7 +18,7 @@ export function MinhasAvaliacoes({
   sx,
 }: MinhasAvaliacoesProps): React.JSX.Element {
   return (
-    <Card sx={{ ...sx, mt: 4 }}>
+    <Card sx={{ ...sx, mt: 4}}>
       <CardHeader
         title="Minhas Avaliações"
         sx={{
@@ -27,7 +26,6 @@ export function MinhasAvaliacoes({
           '& .MuiCardHeader-title': { fontSize: '1.25rem', fontWeight: 600 },
         }}
       />
-      <Divider />
 
       {/* Grade de cards de provas */}
       <Box sx={{ p: 2 }}>
