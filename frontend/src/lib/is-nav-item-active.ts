@@ -12,16 +12,12 @@ export function isNavItemActive({
   }
 
   if (matcher) {
-    if (matcher.type === 'startsWith') {
-      return pathname.startsWith(matcher.href);
-    }
+    if (matcher.type === 'startsWith') return pathname === matcher.href || pathname.startsWith(`${matcher.href}/`);
 
-    if (matcher.type === 'equals') {
-      return pathname === matcher.href;
-    }
+    if (matcher.type === 'equals') return pathname === matcher.href;
 
     return false;
   }
 
-  return pathname === href;
+  return pathname === href || pathname.startsWith(`${href}/`);
 }
