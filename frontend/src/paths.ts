@@ -5,7 +5,11 @@ export const paths = {
     overview: '/dashboard',
     account: '/dashboard/account',
     alunos: '/dashboard/alunos',
-    provas: '/dashboard/provas',
+    criacao: {
+      root: '/dashboard/criacao',
+      prova: '/dashboard/criacao/prova',
+      questao: '/dashboard/criacao/questao',
+    },
     settings: '/dashboard/settings',
   },
   errors: { notFound: '/errors/not-found' },
