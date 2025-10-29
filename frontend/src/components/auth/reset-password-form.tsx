@@ -15,7 +15,7 @@ import { z as zod } from 'zod';
 
 import { authClient } from '@/lib/auth/client';
 
-const schema = zod.object({ email: zod.string().min(1, { message: 'Email is required' }).email() });
+const schema = zod.object({ email: zod.string().min(1, { message: 'Email Obrigatório' }).email() });
 
 type Values = zod.infer<typeof schema>;
 

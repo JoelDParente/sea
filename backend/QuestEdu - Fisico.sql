@@ -28,7 +28,7 @@ CREATE TABLE Turma (
 CREATE TABLE Usuario (
   uid INT PRIMARY KEY AUTO_INCREMENT,
   id_escola INT NOT NULL,
-  tipo VARCHAR(9) NOT NULL, -- 'professor', 'aluno', 'admin'
+  tipo VARCHAR(9) NOT NULL,
   nome VARCHAR(100) NOT NULL,
   email VARCHAR(320) NOT NULL,
   ativo BOOLEAN DEFAULT TRUE,

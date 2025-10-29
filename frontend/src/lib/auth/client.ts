@@ -58,7 +58,7 @@ class AuthClient {
 
     // We do not handle the API, so we'll check if the credentials match with the hardcoded ones.
     if (email !== 'sofia@devias.io' || password !== 'Secret1') {
-      return { error: 'Invalid credentials' };
+      return { error: 'Informações Inválidas' };
     }
 
     const token = generateToken();
@@ -68,11 +68,11 @@ class AuthClient {
   }
 
   async resetPassword(_: ResetPasswordParams): Promise<{ error?: string }> {
-    return { error: 'Password reset not implemented' };
+    return { error: 'A senha não foi redefinida' };
   }
 
   async updatePassword(_: ResetPasswordParams): Promise<{ error?: string }> {
-    return { error: 'Update reset not implemented' };
+    return { error: 'Senha não atualizada' };
   }
 
   async getUser(): Promise<{ data?: User | null; error?: string }> {
