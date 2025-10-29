@@ -76,7 +76,7 @@ export function SignInForm(): React.JSX.Element {
         <Typography color="text.secondary" variant="body2">
           É gestor de uma escola?{' '}
           <Link component={RouterLink} href={paths.auth.signUp} underline="hover" variant="subtitle2">
-            Fazer Login
+            Cadastrar escola
           </Link>
         </Typography>
       </Stack>
