@@ -1,0 +1,90 @@
+<?php
+
+namespace Models;
+
+class Alternativas{
+    private $id;
+    private $idQuestao;
+    private $texto;
+    private $correta;
+
+    /**
+     * Get the value of id
+     */ 
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set the value of id
+     *
+     * @return  self
+     */ 
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of idQuestao
+     */ 
+    public function getIdQuestao()
+    {
+        return $this->idQuestao;
+    }
+
+    /**
+     * Set the value of idQuestao
+     *
+     * @return  self
+     */ 
+    public function setIdQuestao($idQuestao)
+    {
+        $this->idQuestao = $idQuestao;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of texto
+     */ 
+    public function getTexto()
+    {
+        return $this->texto;
+    }
+
+    /**
+     * Set the value of texto
+     *
+     * @return  self
+     */ 
+    public function setTexto($texto)
+    {
+        $this->texto = $texto;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of correta
+     */ 
+    public function getCorreta()
+    {
+        return $this->correta;
+    }
+
+    /**
+     * Set the value of correta
+     *
+     * @return  self
+     */ 
+    public function setCorreta($correta)
+    {
+        $this->correta = $correta;
+
+        return $this;
+    }
+}
