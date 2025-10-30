@@ -2,8 +2,8 @@
 
 namespace Models;
 
-class Alternativas{
-    private $id;
+class Alternativa{
+    private $idAlternativa;
     private $idQuestao;
     private $texto;
     private $correta;
@@ -11,19 +11,19 @@ class Alternativas{
     /**
      * Get the value of id
      */ 
-    public function getId()
+    public function getIdAlternativa()
     {
-        return $this->id;
+        return $this->idAlternativa;
     }
 
     /**
-     * Set the value of id
+     * Set the value of idAlternativa
      *
      * @return  self
      */ 
-    public function setId($id)
+    public function setIdAlternativa($idAlternativa)
     {
-        $this->id = $id;
+        $this->idAlternativa = $idAlternativa;
 
         return $this;
     }

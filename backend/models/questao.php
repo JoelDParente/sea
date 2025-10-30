@@ -12,6 +12,7 @@ class Questao{
     private $status;
     private $publico;
     private $dataCriacao; 
+    private $ultimaAtualizacao;
 
     /**
      * Get the value of dataCriacao
@@ -189,6 +190,26 @@ class Questao{
     public function setPublico($publico)
     {
         $this->publico = $publico;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of ultimaAtualizacao
+     */ 
+    public function getUltimaAtualizacao()
+    {
+        return $this->ultimaAtualizacao;
+    }
+
+    /**
+     * Set the value of ultimaAtualizacao
+     *
+     * @return  self
+     */ 
+    public function setUltimaAtualizacao($ultimaAtualizacao)
+    {
+        $this->ultimaAtualizacao = $ultimaAtualizacao;
 
         return $this;
     }

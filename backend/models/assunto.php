@@ -3,7 +3,7 @@
 namespace Models;
 
 class Assunto {
-    private $id;
+    private $idAssunto;
     private $idDisciplina;
     private $nomeAssunto;
 
@@ -11,19 +11,19 @@ class Assunto {
     /**
      * Get the value of id
      */ 
-    public function getId()
+    public function getIdAssunto()
     {
-        return $this->id;
+        return $this->idAssunto;
     }
 
     /**
-     * Set the value of id
+     * Set the value of idAssunto
      *
      * @return  self
      */ 
-    public function setId($id)
+    public function setIdAssunto($idAssunto)
     {
-        $this->id = $id;
+        $this->idAssunto = $idAssunto;
 
         return $this;
     }

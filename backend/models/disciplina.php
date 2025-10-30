@@ -4,16 +4,16 @@ namespace Models;
 
 class Disciplina
 {
-    private $id;
+    private $idDisciplina;
     private $nomeDisciplina;
     private $descricao;
 
     /**
      * Get the value of id
      */ 
-    public function getId()
+    public function getIdDisciplina()
     {
-        return $this->id;
+        return $this->idDisciplina;
     }
 
     /**
@@ -21,9 +21,9 @@ class Disciplina
      *
      * @return  self
      */ 
-    public function setId($id)
+    public function setIdDisciplina($idDisciplina)
     {
-        $this->id = $id;
+        $this->idDisciplina = $idDisciplina;
 
         return $this;
     }

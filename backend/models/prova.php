@@ -8,6 +8,7 @@ class Prova{
     private $titulo;
     private $versao;
     private $dataCriacao;
+    private $ultimaAtualizacao;
 
     /**
      * Get the value of idProva
@@ -105,6 +106,26 @@ class Prova{
     public function setDataCriacao($dataCriacao)
     {
         $this->dataCriacao = $dataCriacao;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of ultimaAtualizacao
+     */ 
+    public function getUltimaAtualizacao()
+    {
+        return $this->ultimaAtualizacao;
+    }
+
+    /**
+     * Set the value of ultimaAtualizacao
+     *
+     * @return  self
+     */ 
+    public function setUltimaAtualizacao($ultimaAtualizacao)
+    {
+        $this->ultimaAtualizacao = $ultimaAtualizacao;
 
         return $this;
     }
