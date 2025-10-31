@@ -1,7 +1,7 @@
 <?php
 // dao/EscolaDAO.php
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../model/escola.php';
+require_once __DIR__ . '/../models/escola.php';
 
 use Models\Escola;
 

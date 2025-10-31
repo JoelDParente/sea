@@ -4,16 +4,16 @@ namespace Models;
 
 class Escola{
     private $id;
+    private $inep;
     private $nomeEscola;
     private $email;
     private $telefone;
-    private $inep;
     private $logo;
+    private $estado;
     private $cep;
     private $bairro;
     private $rua;
     private $numero;
-    private $estado;
 
     /**
      * Get the value of id

@@ -1,7 +1,7 @@
 <?php
 // dao/UsuarioDAO.php
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../model/usuario.php';
+require_once __DIR__ . '/../models/usuario.php';
 
 use Models\Usuario;
 

@@ -1,7 +1,7 @@
 <?php
 // dao/ProvaDAO.php
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../model/prova.php';
+require_once __DIR__ . '/../models/prova.php';
 
 use Models\Prova;
 

@@ -1,7 +1,7 @@
 <?php
 // dao/AlternativaDAO.php
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../model/alternativa.php';
+require_once __DIR__ . '/../models/alternativa.php';
 
 use Models\Alternativa;
 

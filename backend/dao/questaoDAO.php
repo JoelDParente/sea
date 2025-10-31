@@ -1,7 +1,7 @@
 <?php
 // dao/QuestaoDAO.php
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../model/questao.php';
+require_once __DIR__ . '/../models/questao.php';
 
 use Models\Questao;
 

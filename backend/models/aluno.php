@@ -3,31 +3,13 @@
 namespace Models;
 
 class Aluno {
-    private $id;
-    private $id_turma;
+    private $idAluno;
+    private $idTurma;
     private $nome;
     private $email;
     private $matricula;
 
-    /**
-     * Get the value of id
-     */ 
-    public function getId()
-    {
-        return $this->id;
-    }
 
-    /**
-     * Set the value of id
-     *
-     * @return  self
-     */ 
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
 
     /**
      * Get the value of nome
@@ -71,21 +53,21 @@ class Aluno {
 
 
     /**
-     * Get the value of id_turma
+     * Get the value of idTurma
      */ 
-    public function getId_turma()
+    public function getIdTurma()
     {
-        return $this->id_turma;
+        return $this->idTurma;
     }
 
     /**
-     * Set the value of id_turma
+     * Set the value of idTurma
      *
      * @return  self
      */ 
-    public function setId_turma($id_turma)
+    public function setIdTurma($idTurma)
     {
-        $this->id_turma = $id_turma;
+        $this->idTurma = $idTurma;
 
         return $this;
     }
@@ -106,6 +88,26 @@ class Aluno {
     public function setMatricula($matricula)
     {
         $this->matricula = $matricula;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of idAluno
+     */ 
+    public function getIdAluno()
+    {
+        return $this->idAluno;
+    }
+
+    /**
+     * Set the value of idAluno
+     *
+     * @return  self
+     */ 
+    public function setIdAluno($idAluno)
+    {
+        $this->idAluno = $idAluno;
 
         return $this;
     }

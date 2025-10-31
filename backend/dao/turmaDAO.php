@@ -1,7 +1,7 @@
 <?php
 // dao/TurmaDAO.php
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../model/turma.php';
+require_once __DIR__ . '/../models/turma.php';
 
 use Models\Turma;
 
