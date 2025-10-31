@@ -5,7 +5,7 @@ namespace Models;
 class Gabarito{
     private $idGabarito;
     private $idProva;
-    private $idQuestao;
+    private $Questao;
     private $alternativa;
     private $versao;
 
@@ -50,21 +50,21 @@ class Gabarito{
     }
 
     /**
-     * Get the value of idQuestao
+     * Get the value of Questao
      */ 
-    public function getIdQuestao()
+    public function getQuestao()
     {
-        return $this->idQuestao;
+        return $this->Questao;
     }
 
     /**
-     * Set the value of idQuestao
+     * Set the value of Questao
      *
      * @return  self
      */ 
-    public function setIdQuestao($idQuestao)
+    public function setQuestao($Questao)
     {
-        $this->idQuestao = $idQuestao;
+        $this->Questao = $Questao;
 
         return $this;
     }

@@ -1,1 +1,37 @@
+# =========================
+# QuestEdu Backend .gitignore
+# =========================
+
+# 1️⃣ Arquivos de ambiente e configuração sensível
 .env
+config/*.local.php
+config/*.backup.php
+
+# 2️⃣ Dependências (Composer)
+vendor/
+
+# 3️⃣ Logs e cache
+*.log
+*.cache
+*.tmp
+
+# 4️⃣ Arquivos de banco de dados e dumps locais
+*.sql
+*.sqlite
+*.db
+
+# 5️⃣ Arquivos de IDEs / editores
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# 6️⃣ Sistema operacional
+.DS_Store
+Thumbs.db
+
+# 7️⃣ Testes locais e scripts temporários
+teste*.php
+temp/
+backup/
+__pycache__/
