@@ -7,6 +7,7 @@ class Disciplina
     private $idDisciplina;
     private $nomeDisciplina;
     private $descricao;
+    private $categoria;
 
     /**
      * Get the value of id
@@ -64,6 +65,26 @@ class Disciplina
     public function setDescricao($descricao)
     {
         $this->descricao = $descricao;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of categoria
+     */ 
+    public function getCategoria()
+    {
+        return $this->categoria;
+    }
+
+    /**
+     * Set the value of categoria
+     *
+     * @return  self
+     */ 
+    public function setCategoria($categoria)
+    {
+        $this->categoria = $categoria;
 
         return $this;
     }
