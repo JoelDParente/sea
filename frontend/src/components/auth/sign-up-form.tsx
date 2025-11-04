@@ -18,16 +18,10 @@ import Typography from '@mui/material/Typography';
 import { EyeIcon } from '@phosphor-icons/react/dist/ssr/Eye';
 import { EyeSlashIcon } from "@phosphor-icons/react/dist/ssr/EyeSlash";
 import { Controller, useForm } from "react-hook-form";
-import { IMaskInput } from "react-imask";
+import { IMaskInput } from 'react-imask';
 import { z as zod } from "zod";
 
-
-
 import { paths } from '@/paths';
-
-
-
-
 
 // 🧩 Validação do cadastro do gestor
 const schema = zod.object({
@@ -88,6 +82,18 @@ export function SignUpForm(): React.JSX.Element {
     [router, setError]
   );
 
+  const InputTelefone = React.forwardRef<HTMLInputElement, any>(function InputTelefone(props, ref) {
+  return (
+    <IMaskInput
+      {...props}
+      inputRef={ref}     // <- IMask usa "inputRef" ao invés de "ref"
+      mask="(00) 00000-0000"
+      overwrite
+      definitions={{ 0: /\d/ }}
+    />
+  );
+});
+
   return (
 		<Stack spacing={3}>
 			<Stack spacing={1}>
@@ -135,12 +141,7 @@ export function SignUpForm(): React.JSX.Element {
 								<OutlinedInput
 									{...field}
 									label="Telefone"
-									inputComponent={IMaskInput as any}
-									inputProps={{
-										mask: "(00) 00000-0000",
-										overwrite: true,
-										definitions: { 0: /\d/ },
-									}}
+									inputComponent={InputTelefone as any}
 									sx={{
 										backgroundColor: field.value ? "rgba(63, 81, 181, 0.08)" : "transparent",
 										transition: "background-color 0.3s",

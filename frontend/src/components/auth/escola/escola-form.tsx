@@ -11,9 +11,12 @@ import {
 	FormControl,
 	FormControlLabel,
 	FormHelperText,
+	Input,
 	InputLabel,
 	Link,
+	MenuItem,
 	OutlinedInput,
+	Select,
 	Stack,
 	Typography,
 } from "@mui/material";
@@ -59,6 +62,36 @@ const defaultValues: Values = {
 	estado: "",
 	termos: false,
 };
+
+const estados = [
+	{ sigla: "AC", nome: "Acre" },
+	{ sigla: "AL", nome: "Alagoas" },
+	{ sigla: "AP", nome: "Amapá" },
+	{ sigla: "AM", nome: "Amazonas" },
+	{ sigla: "BA", nome: "Bahia" },
+	{ sigla: "CE", nome: "Ceará" },
+	{ sigla: "DF", nome: "Distrito Federal" },
+	{ sigla: "ES", nome: "Espírito Santo" },
+	{ sigla: "GO", nome: "Goiás" },
+	{ sigla: "MA", nome: "Maranhão" },
+	{ sigla: "MT", nome: "Mato Grosso" },
+	{ sigla: "MS", nome: "Mato Grosso do Sul" },
+	{ sigla: "MG", nome: "Minas Gerais" },
+	{ sigla: "PA", nome: "Pará" },
+	{ sigla: "PB", nome: "Paraíba" },
+	{ sigla: "PR", nome: "Paraná" },
+	{ sigla: "PE", nome: "Pernambuco" },
+	{ sigla: "PI", nome: "Piauí" },
+	{ sigla: "RJ", nome: "Rio de Janeiro" },
+	{ sigla: "RN", nome: "Rio Grande do Norte" },
+	{ sigla: "RS", nome: "Rio Grande do Sul" },
+	{ sigla: "RO", nome: "Rondônia" },
+	{ sigla: "RR", nome: "Roraima" },
+	{ sigla: "SC", nome: "Santa Catarina" },
+	{ sigla: "SP", nome: "São Paulo" },
+	{ sigla: "SE", nome: "Sergipe" },
+	{ sigla: "TO", nome: "Tocantins" }
+];
 
 export function SignUpForm(): React.JSX.Element {
 	const router = useRouter();
@@ -106,6 +139,29 @@ export function SignUpForm(): React.JSX.Element {
 		},
 		[router, setError]
 	);
+
+	const InputTelefone = React.forwardRef<HTMLInputElement, any>(function InputTelefone(props, ref) {
+		return (
+			<IMaskInput
+				{...props}
+				inputRef={ref}     // <- IMask usa "inputRef" ao invés de "ref"
+				mask="(00) 00000-0000"
+				overwrite
+				definitions={{ 0: /\d/ }}
+			/>
+		);
+	});
+	const InputCEP = React.forwardRef<HTMLInputElement, any>(function InputCEP(props, ref) {
+		return (
+			<IMaskInput
+				{...props}
+				inputRef={ref}     // <- IMask usa "inputRef" ao invés de "ref"
+				mask="00000-000"
+				overwrite
+				definitions={{ 0: /\d/ }}
+			/>
+		);
+	});
 
 	return (
 		<Stack spacing={3}>
@@ -155,11 +211,7 @@ export function SignUpForm(): React.JSX.Element {
 										<InputLabel>Telefone</InputLabel>
 										<OutlinedInput
 											{...field}
-											inputComponent={IMaskInput as any}
-											inputProps={{
-												mask: "(00) 00000-0000",
-												overwrite: true,
-											}}
+											inputComponent={InputTelefone as any}
 											label="Telefone"
 										/>
 										{errors.telefone && <FormHelperText>{errors.telefone.message}</FormHelperText>}
@@ -183,11 +235,7 @@ export function SignUpForm(): React.JSX.Element {
 										<InputLabel>CEP</InputLabel>
 										<OutlinedInput
 											{...field}
-											inputComponent={IMaskInput as any}
-											inputProps={{
-												mask: "00000-000",
-												overwrite: true,
-											}}
+											inputComponent={InputCEP as any}
 											label="CEP"
 										/>
 										{errors.cep && <FormHelperText>{errors.cep.message}</FormHelperText>}
@@ -235,9 +283,18 @@ export function SignUpForm(): React.JSX.Element {
 								control={control}
 								name="estado"
 								render={({ field }) => (
-									<FormControl error={Boolean(errors.estado)}>
+									<FormControl error={Boolean(errors.estado)} fullWidth>
 										<InputLabel>Estado</InputLabel>
-										<OutlinedInput {...field} label="Estado" />
+										<Select
+											{...field}
+											label="Estado"
+										>
+											{estados.map((estado) => (
+												<MenuItem key={estado.sigla} value={estado.sigla}>
+													{estado.nome}
+												</MenuItem>
+											))}
+										</Select>
 										{errors.estado && <FormHelperText>{errors.estado.message}</FormHelperText>}
 									</FormControl>
 								)}
