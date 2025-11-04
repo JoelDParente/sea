@@ -78,6 +78,12 @@ class UsuarioDAO {
         return $stmt->execute();
     }
 
+    public function buscarPorEmail($email) {
+        $stmt = $this->conn->prepare("SELECT * FROM usuario WHERE email = ?");
+        $stmt->execute([$email]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     private function mapRowToUsuario(array $row): Usuario {
         $usuario = new Usuario();
         $usuario->setIdUsuario($row['uid'])
