@@ -1,13 +1,19 @@
-"use client";
+import * as React from 'react';
+import type { Metadata } from 'next';
 
-import React from "react";
-import { Container } from "@mui/material";
-import EscolaForm from "@/components/auth/escola/escola-form";
+import { config } from '@/config';
+import { GuestGuard } from '@/components/auth/guest-guard';
+import { Layout } from '@/components/auth/layout';
+import { SignUpForm } from '@/components/auth/escola/escola-form';
 
-export default function EscolaPage() {
+export const metadata = { title: `Sign up | Auth | ${config.site.name}` } satisfies Metadata;
+
+export default function Page(): React.JSX.Element {
   return (
-    <Container maxWidth="lg" sx={{ py: 6 }}>
-      <EscolaForm />
-    </Container>
+    <Layout>
+      <GuestGuard>
+        <SignUpForm />
+      </GuestGuard>
+    </Layout>
   );
 }
