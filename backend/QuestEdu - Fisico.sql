@@ -1,8 +1,8 @@
 -- Modelo Físico - QuestEdu
 -- Compatível com MySQL ANSI 2003
 
-CREATE DATABASE QuestEdu;
-USE QuestEdu;
+CREATE DATABASE sea;
+USE sea;
 
 CREATE TABLE Escola (
   id_escola INT PRIMARY KEY AUTO_INCREMENT,
@@ -12,7 +12,7 @@ CREATE TABLE Escola (
   telefone VARCHAR(15),
   logo VARCHAR(1024),
   estado VARCHAR(50),
-  cep VARCHAR(9),
+  cidade VARCHAR(50),
   bairro VARCHAR(50),
   rua VARCHAR(50),
   num VARCHAR(100),

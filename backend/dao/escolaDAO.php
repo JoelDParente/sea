@@ -14,8 +14,8 @@ class EscolaDAO {
 
     // CREATE
     public function criarEscola(Escola $escola): int {
-        $sql = "INSERT INTO escola (inep, nome_escola, email, telefone, logo, estado, cep, bairro, rua, num)
-                VALUES (:inep, :nome_escola, :email, :telefone, :logo, :estado, :cep, :bairro, :rua, :num)";
+        $sql = "INSERT INTO escola (inep, nome_escola, email, telefone, logo, estado, cidade, bairro, rua, num)
+                VALUES (:inep, :nome_escola, :email, :telefone, :logo, :estado, :cidade, :bairro, :rua, :num)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':inep', $escola->getInep(), PDO::PARAM_STR);
         $stmt->bindValue(':nome_escola', $escola->getNomeEscola(), PDO::PARAM_STR);
@@ -23,7 +23,7 @@ class EscolaDAO {
         $stmt->bindValue(':telefone', $escola->getTelefone(), PDO::PARAM_STR);
         $stmt->bindValue(':logo', $escola->getLogo(), PDO::PARAM_STR);
         $stmt->bindValue(':estado', $escola->getEstado(), PDO::PARAM_STR);
-        $stmt->bindValue(':cep', $escola->getCep(), PDO::PARAM_STR);
+        $stmt->bindValue(':cidade', $escola->getCidade(), PDO::PARAM_STR);
         $stmt->bindValue(':bairro', $escola->getBairro(), PDO::PARAM_STR);
         $stmt->bindValue(':rua', $escola->getRua(), PDO::PARAM_STR);
         $stmt->bindValue(':num', $escola->getNumero(), PDO::PARAM_STR);
@@ -57,7 +57,7 @@ class EscolaDAO {
 
     // UPDATE
     public function atualizarEscola(Escola $escola): bool {
-        $sql = "UPDATE escola SET inep = :inep, nome_escola = :nome_escola, email = :email, telefone = :telefone, logo = :logo, estado = :estado, cep = :cep, bairro = :bairro, rua = :rua, num = :num
+        $sql = "UPDATE escola SET inep = :inep, nome_escola = :nome_escola, email = :email, telefone = :telefone, logo = :logo, estado = :estado, cidade = :cidade, bairro = :bairro, rua = :rua, num = :num
                 WHERE id = :id";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':inep', $escola->getInep(), PDO::PARAM_STR);
@@ -66,7 +66,7 @@ class EscolaDAO {
         $stmt->bindValue(':telefone', $escola->getTelefone(), PDO::PARAM_STR);
         $stmt->bindValue(':logo', $escola->getLogo(), PDO::PARAM_STR);
         $stmt->bindValue(':estado', $escola->getEstado(), PDO::PARAM_STR);
-        $stmt->bindValue(':cep', $escola->getCep(), PDO::PARAM_STR);
+        $stmt->bindValue(':cidade', $escola->getCidade(), PDO::PARAM_STR);
         $stmt->bindValue(':bairro', $escola->getBairro(), PDO::PARAM_STR);
         $stmt->bindValue(':rua', $escola->getRua(), PDO::PARAM_STR);
         $stmt->bindValue(':num', $escola->getNumero(), PDO::PARAM_STR);
@@ -90,7 +90,7 @@ class EscolaDAO {
                 ->setTelefone($row['telefone'])
                 ->setLogo($row['logo'])
                 ->setEstado($row['estado'])
-                ->setCep($row['cep'])
+                ->setCidade($row['cidade'])
                 ->setBairro($row['bairro'])
                 ->setRua($row['rua'])
                 ->setNumero($row['num']);
