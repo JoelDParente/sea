@@ -5,7 +5,9 @@ import { PlugsConnectedIcon } from '@phosphor-icons/react/dist/ssr/PlugsConnecte
 import { UserIcon } from '@phosphor-icons/react/dist/ssr/User';
 import { UsersIcon } from '@phosphor-icons/react/dist/ssr/Users';
 import { XSquare } from '@phosphor-icons/react/dist/ssr/XSquare';
-import {ArticleIcon} from '@phosphor-icons/react/dist/ssr/Article';
+import { ArticleIcon } from '@phosphor-icons/react/dist/ssr/Article';
+import { CheckSquareIcon } from '@phosphor-icons/react/dist/ssr/CheckSquare';
+import { ChalkboardIcon } from '@phosphor-icons/react/dist/ssr/Chalkboard';
 
 export const navIcons = {
   'house': HouseIcon,
@@ -15,4 +17,6 @@ export const navIcons = {
   user: UserIcon,
   users: UsersIcon,
   'prova': ArticleIcon,
+  'check-square': CheckSquareIcon,
+  'chalkboard': ChalkboardIcon,
 } as Record<string, Icon>;

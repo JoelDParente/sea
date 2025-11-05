@@ -1,3 +1,5 @@
+'use client';
+
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Card from '@mui/material/Card';
@@ -7,12 +9,16 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import type { SxProps } from '@mui/material/styles';
 import { FileText } from '@phosphor-icons/react/dist/ssr/FileText';
+import { useRouter } from 'next/navigation';
+import { paths } from '@/paths';
 
 export interface CriarProvaProps {
   sx?: SxProps;
 }
 
 export function CriarProva({ sx }: CriarProvaProps): React.JSX.Element {
+  const router = useRouter();
+  
   return (
     <Card
       sx={{
@@ -53,6 +59,7 @@ export function CriarProva({ sx }: CriarProvaProps): React.JSX.Element {
 
           <Button
             variant="contained"
+            onClick={() => router.push(paths.dashboard.criacao.root)}
             sx={{
               textTransform: 'none',
               alignSelf: 'flex-start',
