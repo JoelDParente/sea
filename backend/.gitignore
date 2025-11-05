@@ -7,7 +7,7 @@ config/*.local.php
 config/*.backup.php
 
 # 2️⃣ Dependências (Composer)
-/vendor
+.\vendor\
 
 # 3️⃣ Logs e cache
 *.log
