@@ -14,7 +14,7 @@ interface Escola {
   nome_escola: string;
   email: string;
   logo?: string;
-  cep?: string;
+  
   bairro?: string;
   rua?: string;
   num?: string;
@@ -28,7 +28,7 @@ export default function EscolaForm() {
     nome_escola: "",
     email: "",
     logo: "",
-    cep: "",
+    
     bairro: "",
     rua: "",
     num: "",
@@ -114,15 +114,7 @@ export default function EscolaForm() {
             />
           </Grid>
 
-          <Grid size={{xs: 12, md:6}}>
-            <TextField
-              fullWidth
-              label="CEP"
-              name="cep"
-              value={escola.cep}
-              onChange={handleChange}
-            />
-          </Grid>
+          
 
           <Grid size={{xs: 12, md:6}}>
             <TextField
