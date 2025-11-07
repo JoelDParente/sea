@@ -10,7 +10,7 @@ class Escola{
     private $telefone;
     private $logo;
     private $estado;
-    private $cep;
+    private $cidade;
     private $bairro;
     private $rua;
     private $numero;
@@ -136,21 +136,21 @@ class Escola{
     }
 
     /**
-     * Get the value of cep
+     * Get the value of cidade
      */ 
-    public function getCep()
+    public function getCidade()
     {
-        return $this->cep;
+        return $this->cidade;
     }
 
     /**
-     * Set the value of cep
+     * Set the value of cidade
      *
      * @return  self
      */ 
-    public function setCep($cep)
+    public function setCidade($cidade)
     {
-        $this->cep = $cep;
+        $this->cidade = $cidade;
 
         return $this;
     }
