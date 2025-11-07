@@ -16,7 +16,6 @@ vendor/
 *.tmp
 
 # 4️⃣ Arquivos de banco de dados e dumps locais
-*.sql
 *.sqlite
 *.db
 
