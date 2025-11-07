@@ -36,8 +36,10 @@ const step1Schema = zod.object({
 });
 
 const step2Schema = zod.object({
-	cidade: zod.string().nonempty("Cidade é obrigatória"),
-
+	cep: zod
+		.string()
+		.regex(/^\d{5}-\d{3}$/, "CEP inválido (ex: 12345-678)")
+		.nonempty("CEP é obrigatório"),
 	rua: zod.string().nonempty("Rua é obrigatória"),
 	numero: zod.string().nonempty("Número é obrigatório"),
 	bairro: zod.string().nonempty("Bairro é obrigatório"),
@@ -53,7 +55,7 @@ const defaultValues: Values = {
 	nome: "",
 	email: "",
 	telefone: "",
-	cidade: "",
+	cep: "",
 	rua: "",
 	numero: "",
 	bairro: "",
@@ -88,7 +90,7 @@ const estados = [
 	{ sigla: "SC", nome: "Santa Catarina" },
 	{ sigla: "SP", nome: "São Paulo" },
 	{ sigla: "SE", nome: "Sergipe" },
-	{ sigla: "TO", nome: "Tocantins" },
+	{ sigla: "TO", nome: "Tocantins" }
 ];
 
 export function SignUpForm(): React.JSX.Element {
@@ -142,8 +144,19 @@ export function SignUpForm(): React.JSX.Element {
 		return (
 			<IMaskInput
 				{...props}
-				inputRef={ref} // <- IMask usa "inputRef" ao invés de "ref"
+				inputRef={ref}     // <- IMask usa "inputRef" ao invés de "ref"
 				mask="(00) 00000-0000"
+				overwrite
+				definitions={{ 0: /\d/ }}
+			/>
+		);
+	});
+	const InputCEP = React.forwardRef<HTMLInputElement, any>(function InputCEP(props, ref) {
+		return (
+			<IMaskInput
+				{...props}
+				inputRef={ref}     // <- IMask usa "inputRef" ao invés de "ref"
+				mask="00000-000"
 				overwrite
 				definitions={{ 0: /\d/ }}
 			/>
@@ -196,7 +209,11 @@ export function SignUpForm(): React.JSX.Element {
 								render={({ field }) => (
 									<FormControl error={Boolean(errors.telefone)}>
 										<InputLabel>Telefone</InputLabel>
-										<OutlinedInput {...field} inputComponent={InputTelefone as any} label="Telefone" />
+										<OutlinedInput
+											{...field}
+											inputComponent={InputTelefone as any}
+											label="Telefone"
+										/>
 										{errors.telefone && <FormHelperText>{errors.telefone.message}</FormHelperText>}
 									</FormControl>
 								)}
@@ -212,41 +229,16 @@ export function SignUpForm(): React.JSX.Element {
 						<>
 							<Controller
 								control={control}
-								name="estado"
+								name="cep"
 								render={({ field }) => (
-									<FormControl error={Boolean(errors.estado)} fullWidth>
-										<InputLabel>Estado</InputLabel>
-										<Select {...field} label="Estado">
-											{estados.map((estado) => (
-												<MenuItem key={estado.sigla} value={estado.sigla}>
-													{estado.nome}
-												</MenuItem>
-											))}
-										</Select>
-										{errors.estado && <FormHelperText>{errors.estado.message}</FormHelperText>}
-									</FormControl>
-								)}
-							/>
-							<Controller
-								control={control}
-								name="cidade"
-								render={({ field }) => (
-									<FormControl error={Boolean(errors.cidade)}>
-										<InputLabel>Cidade</InputLabel>
-										<OutlinedInput {...field} label="Cidade" />
-										{errors.cidade && <FormHelperText>{errors.cidade.message}</FormHelperText>}
-									</FormControl>
-								)}
-							/>
-
-							<Controller
-								control={control}
-								name="bairro"
-								render={({ field }) => (
-									<FormControl error={Boolean(errors.bairro)}>
-										<InputLabel>Bairro</InputLabel>
-										<OutlinedInput {...field} label="Bairro" />
-										{errors.bairro && <FormHelperText>{errors.bairro.message}</FormHelperText>}
+									<FormControl error={Boolean(errors.cep)}>
+										<InputLabel>CEP</InputLabel>
+										<OutlinedInput
+											{...field}
+											inputComponent={InputCEP as any}
+											label="CEP"
+										/>
+										{errors.cep && <FormHelperText>{errors.cep.message}</FormHelperText>}
 									</FormControl>
 								)}
 							/>
@@ -271,6 +263,39 @@ export function SignUpForm(): React.JSX.Element {
 										<InputLabel>Número</InputLabel>
 										<OutlinedInput {...field} label="Número" />
 										{errors.numero && <FormHelperText>{errors.numero.message}</FormHelperText>}
+									</FormControl>
+								)}
+							/>
+
+							<Controller
+								control={control}
+								name="bairro"
+								render={({ field }) => (
+									<FormControl error={Boolean(errors.bairro)}>
+										<InputLabel>Bairro</InputLabel>
+										<OutlinedInput {...field} label="Bairro" />
+										{errors.bairro && <FormHelperText>{errors.bairro.message}</FormHelperText>}
+									</FormControl>
+								)}
+							/>
+
+							<Controller
+								control={control}
+								name="estado"
+								render={({ field }) => (
+									<FormControl error={Boolean(errors.estado)} fullWidth>
+										<InputLabel>Estado</InputLabel>
+										<Select
+											{...field}
+											label="Estado"
+										>
+											{estados.map((estado) => (
+												<MenuItem key={estado.sigla} value={estado.sigla}>
+													{estado.nome}
+												</MenuItem>
+											))}
+										</Select>
+										{errors.estado && <FormHelperText>{errors.estado.message}</FormHelperText>}
 									</FormControl>
 								)}
 							/>
