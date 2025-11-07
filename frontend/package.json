@@ -52,6 +52,7 @@
     "@tiptap/react": "^3.7.2",
     "@tiptap/starter-kit": "^3.7.2",
     "apexcharts": "4.7.0",
+    "axios": "^1.13.2",
     "dayjs": "1.11.13",
     "jodit-react": "^5.2.26",
     "next": "^15.5.6",
