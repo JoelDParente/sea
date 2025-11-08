@@ -50,7 +50,7 @@ switch ($metodo) {
         $usuario = new Usuario();
         $usuario->setNome($data['nome'] ?? '');
         $usuario->setEmail($data['email_gestor'] ?? '');
-        $usuario->setSenha(hash('sha256', $data['senha'] ?? ''));
+        $usuario->setSenha(password_hash($data['senha'] ?? '', PASSWORD_DEFAULT));
         $usuario->setTipo('gestor');
         $usuario->setAtivo($data['ativo'] ?? 1);
         $usuario->setTelefone($data['telefone_gestor'] ?? null);

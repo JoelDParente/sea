@@ -1,25 +1,33 @@
+'use client'
+
 import * as React from 'react';
 import type { Metadata } from 'next';
 import Grid from '@mui/material/Grid';
 import { Typography, Box } from '@mui/material';
-import dayjs from 'dayjs';
 
 import { config } from '@/config';
 import { CriarProva } from '@/components/dashboard/overview/criar-prova';
 import { MinhasAvaliacoes } from '@/components/dashboard/overview/minhas-avaliacoes';
-import { LatestProducts } from '@/components/dashboard/overview/latest-products';
-import { Sales } from '@/components/dashboard/overview/sales';
 import { ImportarProva } from '@/components/dashboard/overview/importar-prova';
 import { CorrigirProva } from '@/components/dashboard/overview/corrigir-prova';
-import { Traffic } from '@/components/dashboard/overview/traffic';
 
-export const metadata = { title: `Inicio | ${config.site.name}` } satisfies Metadata;
 
 export default function Page(): React.JSX.Element {
+  const [firstName, setFirstName] = React.useState("Professor");
+
+  React.useEffect(() => {
+    // Esse código só roda no cliente
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const user = JSON.parse(storedUser);
+      const nome = user?.nome || user?.name;
+      if (nome) setFirstName(nome.split(" ")[0]);
+    }
+  }, []);
   return (
     <Box sx={{ p: 0 }}>
       <Typography variant="h4" fontWeight="bold" gutterBottom>
-        👋 Bem-vindo(a), Professor!
+        👋 Bem-vindo(a), {firstName}!
       </Typography>
 
       <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>

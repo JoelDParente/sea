@@ -1,10 +1,14 @@
 'use client';
 import React, { useState } from 'react';
 import { Box, Button, Typography, Card, CardContent } from '@mui/material';
-import EditorQuestao from './editor-questao';
 import ListaAlternativas, { Alternativa } from './lista-alternativas';
+import ModalUploadImagem from './modal-upload-imagem';
+import { SimpleEditor } from '@/components/tiptap-templates/simple/simple-editor'
 
 export default function CriarQuestao({ onSave }: { onSave: (questao: any) => void }) {
+  const [imagem, setImagem] = useState<string | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+
   const getInitialAlternatives = () => [
     { id: crypto.randomUUID(), texto: '', correta: true },
     { id: crypto.randomUUID(), texto: '', correta: false },
@@ -26,18 +30,19 @@ export default function CriarQuestao({ onSave }: { onSave: (questao: any) => voi
       return;
     }
 
-    const questaoFinal = {
+const questaoFinal = {
       titulo: enunciado.substring(0, 50) + '...',
       enunciado,
+      imagem, // adiciona caminho da imagem
       alternativas: alternativas.map((alt, index) => ({
         ...alt,
         id: String.fromCharCode(65 + index),
       })),
     };
-
     onSave(questaoFinal);
     setEnunciado('');
     setAlternativas(getInitialAlternatives());
+    setImagem(null);
   };
 
   return (
@@ -91,7 +96,7 @@ export default function CriarQuestao({ onSave }: { onSave: (questao: any) => voi
               pr: 1,
             }}
           >
-            <EditorQuestao value={enunciado} onChange={setEnunciado} />
+            <SimpleEditor />
           </Box>
         </Box>
 
@@ -136,6 +141,12 @@ export default function CriarQuestao({ onSave }: { onSave: (questao: any) => voi
           Salvar Questão
         </Button>
       </Box>
+
+      <ModalUploadImagem
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onUploadSuccess={setImagem}
+      />
     </Card>
   );
 }

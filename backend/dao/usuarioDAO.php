@@ -5,15 +5,18 @@ require_once __DIR__ . '/../models/usuario.php';
 
 use Models\Usuario;
 
-class UsuarioDAO {
+class UsuarioDAO
+{
     private $conn;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->conn = Database::getInstance()->getConnection();
     }
 
     // CREATE
-    public function criarUsuario(Usuario $usuario): int {
+    public function criarUsuario(Usuario $usuario): int
+    {
         $sql = "INSERT INTO usuario (id_escola, nome, email, senha, telefone, tipo, ativo)
                 VALUES (:id_escola, :nome, :email, :senha, :telefone, :tipo, :ativo)";
         $stmt = $this->conn->prepare($sql);
@@ -30,7 +33,8 @@ class UsuarioDAO {
     }
 
     // READ por ID
-    public function getUsuarioById(int $uid): ?Usuario {
+    public function getUsuarioById(int $uid): ?Usuario
+    {
         $sql = "SELECT * FROM usuario WHERE uid = :uid";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':uid', $uid, PDO::PARAM_INT);
@@ -42,7 +46,8 @@ class UsuarioDAO {
     }
 
     // READ todos
-    public function getAllUsuarios(): array {
+    public function getAllUsuarios(): array
+    {
         $sql = "SELECT * FROM usuario";
         $stmt = $this->conn->query($sql);
         $usuarios = [];
@@ -53,7 +58,8 @@ class UsuarioDAO {
     }
 
     // UPDATE
-    public function atualizarUsuario(Usuario $usuario): bool {
+    public function atualizarUsuario(Usuario $usuario): bool
+    {
         $sql = "UPDATE usuario SET id_escola = :id_escola, nome = :nome, email = :email,
                 senha = :senha, telefone = :telefone, tipo = :tipo, ativo = :ativo
                 WHERE uid = :uid";
@@ -71,29 +77,46 @@ class UsuarioDAO {
     }
 
     // DELETE
-    public function excluirUsuario(int $uid): bool {
+    public function excluirUsuario(int $uid): bool
+    {
         $sql = "DELETE FROM usuario WHERE uid = :uid";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':uid', $uid, PDO::PARAM_INT);
         return $stmt->execute();
     }
 
-    public function buscarPorEmail($email) {
-        $stmt = $this->conn->prepare("SELECT * FROM usuario WHERE email = ?");
-        $stmt->execute([$email]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+    public function buscarPorEmail(string $email): ?array
+    {
+        try {
+            $sql = "SELECT id_usuario, id_escola, nome, email, senha, tipo, ativo 
+                    FROM usuario 
+                    WHERE email = :email 
+                    LIMIT 1";
+
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+            $stmt->execute();
+
+            $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $usuario ?: null;
+        } catch (PDOException $e) {
+            // Em produção, logue o erro em vez de exibir
+            error_log("Erro ao buscar usuário: " . $e->getMessage());
+            return null;
+        }
     }
 
-    private function mapRowToUsuario(array $row): Usuario {
+    private function mapRowToUsuario(array $row): Usuario
+    {
         $usuario = new Usuario();
         $usuario->setIdUsuario($row['uid'])
-                ->setIdEscola($row['id_escola'])
-                ->setNome($row['nome'])
-                ->setEmail($row['email'])
-                ->setSenha($row['senha'])
-                ->setTelefone($row['telefone'])
-                ->setAtivo($row['ativo'])
-                ->setDataCadastro($row['data_cadastro']);
+            ->setIdEscola($row['id_escola'])
+            ->setNome($row['nome'])
+            ->setEmail($row['email'])
+            ->setSenha($row['senha'])
+            ->setTelefone($row['telefone'])
+            ->setAtivo($row['ativo'])
+            ->setDataCadastro($row['data_cadastro']);
         return $usuario;
     }
 }

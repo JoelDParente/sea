@@ -1,8 +1,11 @@
 export interface User {
-  id: string;
+  id_usuario: string;
+  id_escola?: string;
   name?: string;
-  avatar?: string;
   email?: string;
+  senha?: string;
+  tipo?: string;
 
+ 
   [key: string]: unknown;
 }

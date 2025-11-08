@@ -1,20 +1,15 @@
 'use client';
 
 import type { User } from '@/types/user';
+import axios from "axios";
+
+const API_BASE = "http://localhost/sea/backend/controllers"; // ajuste conforme seu projeto
 
 function generateToken(): string {
   const arr = new Uint8Array(12);
   globalThis.crypto.getRandomValues(arr);
   return Array.from(arr, (v) => v.toString(16).padStart(2, '0')).join('');
 }
-
-const user = {
-  id: 'USR-000',
-  avatar: '/assets/avatar.png',
-  firstName: 'Sofia',
-  lastName: 'Rivers',
-  email: 'sofia@devias.io',
-} satisfies User;
 
 export interface SignUpParams {
   firstName: string;
@@ -37,35 +32,36 @@ export interface ResetPasswordParams {
 }
 
 class AuthClient {
-  async signUp(_: SignUpParams): Promise<{ error?: string }> {
-    // Make API request
-
-    // We do not handle the API, so we'll just generate a token and store it in localStorage.
-    const token = generateToken();
-    localStorage.setItem('custom-auth-token', token);
-
-    return {};
-  }
-
   async signInWithOAuth(_: SignInWithOAuthParams): Promise<{ error?: string }> {
     return { error: 'Social authentication not implemented' };
   }
 
-  async signInWithPassword(params: SignInWithPasswordParams): Promise<{ error?: string }> {
-    const { email, password } = params;
+async signInWithPassword(params: SignInWithPasswordParams): Promise<{ error?: string }> {
+  const { email, password } = params;
 
-    // Make API request
+  try {
+    const response = await axios.post(`${API_BASE}/Login.php`, {
+      email,
+      senha: password, // note que o backend espera "senha"
+    });
 
-    // We do not handle the API, so we'll check if the credentials match with the hardcoded ones.
-    if (email !== 'sofia@devias.io' || password !== 'Secret1') {
-      return { error: 'Informações Inválidas' };
-    }
+    console.log(response);
 
-    const token = generateToken();
-    localStorage.setItem('custom-auth-token', token);
+    // Sucesso — guardar token retornado pelo backend
+    const { token, user } = response.data;
+    localStorage.setItem("jwt", token);
+    localStorage.setItem("user", JSON.stringify(user));
 
     return {};
+  } catch (error: any) {
+    // Tratar erros do backend
+    if (error.response?.data?.error) {
+      return { error: error.response.data.error };
+    }
+    return { error: "Erro ao conectar com o servidor." };
   }
+}
+
 
   async resetPassword(_: ResetPasswordParams): Promise<{ error?: string }> {
     return { error: 'A senha não foi redefinida' };
@@ -75,24 +71,33 @@ class AuthClient {
     return { error: 'Senha não atualizada' };
   }
 
-  async getUser(): Promise<{ data?: User | null; error?: string }> {
-    // Make API request
+async getUser(): Promise<{ data?: User | null; error?: string }> {
+  try {
+    const token = localStorage.getItem("jwt");
+    const userData = localStorage.getItem("user");
 
-    // We do not handle the API, so just check if we have a token in localStorage.
-    const token = localStorage.getItem('custom-auth-token');
-
-    if (!token) {
+    if (!token || !userData) {
       return { data: null };
     }
 
-    return { data: user };
+    // garante que userData é JSON válido
+    const parsed = JSON.parse(userData);
+    return { data: parsed };
+  } catch {
+    // se der erro no JSON.parse, limpa o storage e retorna null
+    localStorage.removeItem("jwt");
+    localStorage.removeItem("user");
+    return { data: null };
   }
+}
 
-  async signOut(): Promise<{ error?: string }> {
-    localStorage.removeItem('custom-auth-token');
 
-    return {};
-  }
+
+async signOut(): Promise<{ error?: string }> {
+  localStorage.removeItem('jwt');
+  localStorage.removeItem('user');
+  return {};
+}
 }
 
 export const authClient = new AuthClient();
