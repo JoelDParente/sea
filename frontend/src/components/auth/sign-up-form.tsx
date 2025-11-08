@@ -69,51 +69,22 @@ export function SignUpForm(): React.JSX.Element {
     );
   });
 
-  // 🚀 Envio real do cadastro
+  // Envio (mas sem enviar ainda)
   const onSubmit = React.useCallback(
     async (values: Values): Promise<void> => {
-      setIsPending(true);
-      setSuccess(false);
-      setErrorMsg(null);
-
       try {
-        const response = await fetch("/api/cadastrar_gestor.php", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            nome: values.nome,
-            email: values.email,
-            telefone: values.telefone,
-            senha: values.senha,
-          }),
-        });
+        // Armazena os dados do gestor localmente
+        localStorage.setItem('gestor_temp', JSON.stringify(values));
 
-        const data = await response.json();
-
-        if (!data.success) {
-          const mensagemErro = data.erro || "Erro ao cadastrar gestor.";
-          setError('root', { type: 'server', message: mensagemErro });
-          setErrorMsg(mensagemErro);
-          setIsPending(false);
-          return;
-        }
-
-        // ✅ Sucesso
-        setSuccess(true);
-        setIsPending(false);
-
-        // Redireciona para cadastro da escola (ou dashboard inicial)
-        setTimeout(() => {
-          router.push('/auth/sign-up/escola');
-        }, 1500);
-
-      } catch (error: any) {
-        setErrorMsg("Erro de conexão com o servidor.");
-        setIsPending(false);
+        // Redireciona para o próximo passo
+        router.push('/auth/sign-up/escola');
+      } catch (error) {
+        setErrorMsg("Erro ao salvar dados localmente.");
       }
     },
-    [router, setError]
+    [router]
   );
+
 
   return (
     <Stack spacing={3}>

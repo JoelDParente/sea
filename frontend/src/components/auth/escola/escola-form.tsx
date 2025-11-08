@@ -25,21 +25,23 @@ import { EyeSlashIcon } from "@phosphor-icons/react/dist/ssr/EyeSlash";
 import { Controller, useForm } from "react-hook-form";
 import { IMaskInput } from "react-imask";
 import { z as zod } from "zod";
+import axios from 'axios';
 
 import { paths } from "@/paths";
 
 // ✅ Schema dividido por etapas
 const step1Schema = zod.object({
+	inep: zod
+		.string()
+		.regex(/^\d{8}$/, "O código INEP deve conter exatamente 8 números")
+		.nonempty("O INEP é obrigatório"),
 	nome: zod.string().min(3, { message: "O nome da escola é obrigatório" }),
 	email: zod.string().email({ message: "E-mail inválido" }),
 	telefone: zod.string().regex(/^\(?\d{2}\)?\s?\d{4,5}-?\d{4}$/, "Telefone inválido"),
 });
 
 const step2Schema = zod.object({
-	cep: zod
-		.string()
-		.regex(/^\d{5}-\d{3}$/, "CEP inválido (ex: 12345-678)")
-		.nonempty("CEP é obrigatório"),
+	cidade: zod.string().nonempty("Cidade é obrigatório"),
 	rua: zod.string().nonempty("Rua é obrigatória"),
 	numero: zod.string().nonempty("Número é obrigatório"),
 	bairro: zod.string().nonempty("Bairro é obrigatório"),
@@ -52,10 +54,11 @@ const schema = step1Schema.and(step2Schema);
 type Values = zod.infer<typeof schema>;
 
 const defaultValues: Values = {
+	inep: "",
 	nome: "",
 	email: "",
 	telefone: "",
-	cep: "",
+	cidade: "",
 	rua: "",
 	numero: "",
 	bairro: "",
@@ -119,26 +122,52 @@ export function SignUpForm(): React.JSX.Element {
 			setIsPending(true);
 			setSuccess(false);
 
-			await new Promise((resolve) => setTimeout(resolve, 1200));
+			try {
+				// 📦 Recupera os dados do gestor salvos anteriormente
+				const gestor = JSON.parse(localStorage.getItem("gestor_temp") || "{}");
 
-			if (values.email === "teste@exemplo.com") {
-				setError("root", {
-					type: "server",
-					message: "Este e-mail já está cadastrado.",
-				});
+				// 🧩 Monta o payload combinando gestor + escola
+				const payload = {
+					// Dados da escola
+					inep: values.inep,
+					nome_escola: values.nome,
+					email: values.email,
+					telefone: values.telefone,
+					cidade: values.cidade,
+					rua: values.rua,
+					num: values.numero,
+					bairro: values.bairro,
+					estado: values.estado,
+
+					// Dados do gestor
+					nome: gestor.nome,
+					email_gestor: gestor.email,
+					senha: gestor.senha,
+					telefone_gestor: gestor.telefone
+				};
+
+				// 🚀 Envia para o backend (ajuste o endpoint conforme seu backend)
+				const response = await axios.post(
+					"http://localhost/sea/backend/controllers/EscolaController.php",
+					payload
+				);
+
+				if (response.data.sucesso) {
+					setSuccess(true);
+					localStorage.removeItem("gestor_temp"); // limpa o cache
+					setTimeout(() => router.push(paths.auth.signIn), 1500);
+				} else {
+					throw new Error(response.data.erro || "Erro ao cadastrar");
+				}
+			} catch (error: any) {
+				setError("root", { type: "server", message: error.message });
+			} finally {
 				setIsPending(false);
-				return;
 			}
-
-			setSuccess(true);
-			setIsPending(false);
-
-			setTimeout(() => {
-				router.push(paths.auth.signIn);
-			}, 1500);
 		},
 		[router, setError]
 	);
+
 
 	const InputTelefone = React.forwardRef<HTMLInputElement, any>(function InputTelefone(props, ref) {
 		return (
@@ -151,12 +180,12 @@ export function SignUpForm(): React.JSX.Element {
 			/>
 		);
 	});
-	const InputCEP = React.forwardRef<HTMLInputElement, any>(function InputCEP(props, ref) {
+	const InputInep = React.forwardRef<HTMLInputElement, any>(function InputInep(props, ref) {
 		return (
 			<IMaskInput
 				{...props}
 				inputRef={ref}     // <- IMask usa "inputRef" ao invés de "ref"
-				mask="00000-000"
+				mask="00000000"
 				overwrite
 				definitions={{ 0: /\d/ }}
 			/>
@@ -179,6 +208,22 @@ export function SignUpForm(): React.JSX.Element {
 				<Stack spacing={2}>
 					{step === 1 && (
 						<>
+							<Controller
+								control={control}
+								name="inep"
+								render={({ field }) => (
+									<FormControl error={Boolean(errors.inep)}>
+										<InputLabel>Inep da Escola</InputLabel>
+										<OutlinedInput
+											{...field}
+											inputComponent={InputInep as any}
+											label="Inep da Escola"
+										/>
+										{errors.inep && <FormHelperText>{errors.inep.message}</FormHelperText>}
+									</FormControl>
+								)}
+							/>
+
 							<Controller
 								control={control}
 								name="nome"
@@ -229,16 +274,12 @@ export function SignUpForm(): React.JSX.Element {
 						<>
 							<Controller
 								control={control}
-								name="cep"
+								name="cidade"
 								render={({ field }) => (
-									<FormControl error={Boolean(errors.cep)}>
-										<InputLabel>CEP</InputLabel>
-										<OutlinedInput
-											{...field}
-											inputComponent={InputCEP as any}
-											label="CEP"
-										/>
-										{errors.cep && <FormHelperText>{errors.cep.message}</FormHelperText>}
+									<FormControl error={Boolean(errors.cidade)}>
+										<InputLabel>Cidade</InputLabel>
+										<OutlinedInput {...field} label="Cidade" />
+										{errors.cidade && <FormHelperText>{errors.cidade.message}</FormHelperText>}
 									</FormControl>
 								)}
 							/>

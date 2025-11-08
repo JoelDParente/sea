@@ -1,12 +1,23 @@
 <?php
+header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
+header("Access-Control-Allow-Credentials: true");
+
+// Responde a requisições OPTIONS (preflight)
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
 
 use Models\Escola;
-
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Headers: *');
+use Models\Usuario;
 
 include('../dao/escolaDAO.php');
+include('../dao/usuarioDAO.php');
 require_once('../models/escola.php');
+require_once('../models/usuario.php');
+$userDao = new UsuarioDAO();
 $dao = new EscolaDAO();
 
 $metodo = $_SERVER['REQUEST_METHOD'];
@@ -31,8 +42,23 @@ switch ($metodo) {
         $escola->setBairro($data['bairro'] ?? '');
         $escola->setRua($data['rua'] ?? '');
         $escola->setNumero($data['num'] ?? '');
+        
+        //pega o id da última escola criada
+        $idEscola = $dao->criarEscola($escola);
 
-        $dao->criarEscola($escola);
+        //Criar usuário gestor
+        $usuario = new Usuario();
+        $usuario->setNome($data['nome'] ?? '');
+        $usuario->setEmail($data['email_gestor'] ?? '');
+        $usuario->setSenha(hash('sha256', $data['senha'] ?? ''));
+        $usuario->setTipo('gestor');
+        $usuario->setAtivo($data['ativo'] ?? 1);
+        $usuario->setTelefone($data['telefone_gestor'] ?? null);
+        $usuario->setIdEscola($idEscola);
+        
+        //cria o usuario
+        $userDao->criarUsuario($usuario);
+
 
         echo json_encode(['sucesso' => true]);
         break;
