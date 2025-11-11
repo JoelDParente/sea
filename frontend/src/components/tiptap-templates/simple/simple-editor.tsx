@@ -178,7 +178,7 @@ const MobileToolbarContent = ({
   </>
 )
 
-export function SimpleEditor() {
+export function SimpleEditor({ onChange }: { onChange?: (html: string) => void }) {
   const isMobile = useIsMobile()
   const { height } = useWindowSize()
   const [mobileView, setMobileView] = useState<"main" | "highlighter" | "link">(
@@ -231,6 +231,21 @@ export function SimpleEditor() {
     editor,
     overlayHeight: toolbarRef.current?.getBoundingClientRect().height ?? 0,
   })
+
+  // notificar conteúdo inicial e nas atualizações do editor
+  useEffect(() => {
+    if (!editor) return
+
+    const handler = () => onChange?.(editor.getHTML())
+
+    // envia conteúdo inicial uma vez
+    onChange?.(editor.getHTML())
+
+    editor.on("update", handler)
+    return () => {
+      editor.off("update", handler)
+    }
+  }, [editor, onChange])
 
   useEffect(() => {
     if (!isMobile && mobileView !== "main") {

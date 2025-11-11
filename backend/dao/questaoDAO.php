@@ -5,14 +5,17 @@ require_once __DIR__ . '/../models/questao.php';
 
 use Models\Questao;
 
-class QuestaoDAO {
+class QuestaoDAO
+{
     private $conn;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->conn = Database::getInstance()->getConnection();
     }
 
-    public function criarQuestao(Questao $questao): int {
+    public function criarQuestao(Questao $questao): int
+    {
         $sql = "INSERT INTO questao (id_assunto, uid_professor, enunciado, resposta_correta, tipo, publico, data_criacao, ultima_atualizacao)
                 VALUES (:id_assunto, :uid_professor, :enunciado, :resposta_correta, :tipo, :publico, :data_criacao, :ultima_atualizacao)";
         $stmt = $this->conn->prepare($sql);
@@ -29,7 +32,8 @@ class QuestaoDAO {
         return (int)$this->conn->lastInsertId();
     }
 
-    public function getQuestaoById(int $id_questao): ?Questao {
+    public function getQuestaoById(int $id_questao): ?Questao
+    {
         $sql = "SELECT * FROM questao WHERE id_questao = :id_questao";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id_questao', $id_questao, PDO::PARAM_INT);
@@ -40,7 +44,8 @@ class QuestaoDAO {
         return $this->mapRowToQuestao($row);
     }
 
-    public function getAllQuestaos(): array {
+    public function getAllQuestaos(): array
+    {
         $sql = "SELECT * FROM questao";
         $stmt = $this->conn->query($sql);
         $questaos = [];
@@ -50,7 +55,8 @@ class QuestaoDAO {
         return $questaos;
     }
 
-    public function atualizarQuestao(Questao $questao): bool {
+    public function atualizarQuestao(Questao $questao): bool
+    {
         $sql = "UPDATE questao SET id_assunto = :id_assunto, uid_professor = :uid_professor, enunciado = :enunciado, resposta_correta = :resposta_correta, tipo = :tipo, publico = :publico, data_criacao = :data_criacao, ultima_atualizacao = :ultima_atualizacao
                 WHERE id_questao = :id_questao";
         $stmt = $this->conn->prepare($sql);
@@ -67,24 +73,65 @@ class QuestaoDAO {
         return $stmt->execute();
     }
 
-    public function excluirQuestao(int $id_questao): bool {
+    public function excluirQuestao(int $id_questao): bool
+    {
         $sql = "DELETE FROM questao WHERE id_questao = :id_questao";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id_questao', $id_questao, PDO::PARAM_INT);
         return $stmt->execute();
     }
 
-    private function mapRowToQuestao(array $row): Questao {
+    private function mapRowToQuestao(array $row): Questao
+    {
         $questao = new Questao();
         $questao->setIdQuestao($row['id_questao'])
-                ->setIdAssunto($row['id_assunto'])
-                ->setIdProfessor($row['uid_professor'])
-                ->setEnunciado($row['enunciado'])
-                ->setRespostaCorreta($row['resposta_correta'])
-                ->setTipo($row['tipo'])
-                ->setPublico($row['publico'])
-                ->setDataCriacao($row['data_criacao'])
-                ->setUltimaAtualizacao($row['ultima_atualizacao']);
+            ->setIdAssunto($row['id_assunto'])
+            ->setIdProfessor($row['uid_professor'])
+            ->setEnunciado($row['enunciado'])
+            ->setRespostaCorreta($row['resposta_correta'])
+            ->setTipo($row['tipo'])
+            ->setPublico($row['publico'])
+            ->setDataCriacao($row['data_criacao'])
+            ->setUltimaAtualizacao($row['ultima_atualizacao']);
         return $questao;
+    }
+
+    public function listarComRelacionamentos()
+    {
+        $sql = "
+        SELECT 
+            q.id_questao,
+            q.enunciado,
+            q.resposta_correta,
+            q.tipo,
+            q.publico,
+            q.data_criacao,
+            q.ultima_atualizacao,
+            
+            -- Assunto relacionado
+            a.id_assunto,
+            a.nome_assunto,
+            
+            -- Categoria relacionada
+            c.id_categoria,
+            c.nome_categoria,
+            
+            -- Disciplina relacionada
+            d.id_disciplina,
+            d.nome_disciplina,
+            
+            -- Professor (opcional, se existir relacionamento)
+            q.id_professor
+
+        FROM questao q
+        LEFT JOIN assunto a ON q.id_assunto = a.id_assunto
+        LEFT JOIN categoria c ON a.id_categoria = c.id_categoria
+        LEFT JOIN disciplina d ON c.id_disciplina = d.id_disciplina
+
+        ORDER BY q.data_criacao DESC
+    ";
+
+        $stmt = $this->conn->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

@@ -4,6 +4,7 @@ require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/alternativa.php';
 
 use Models\Alternativa;
+use Models\Questao;
 
 class AlternativaDAO
 {
@@ -28,11 +29,11 @@ class AlternativaDAO
         return (int)$this->conn->lastInsertId();
     }
 
-    public function getAlternativaById(int $id_alternativa): ?Alternativa
+    public function getAlternativaByIdQuestao(int $id_questao): ?Alternativa
     {
-        $sql = "SELECT * FROM alternativas WHERE id_alternativa = :id_alternativa";
+        $sql = "SELECT * FROM alternativas WHERE id_questao = :id_questao";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindValue(':id_alternativa', $id_alternativa, PDO::PARAM_INT);
+        $stmt->bindValue(':id_questao', $id_questao, PDO::PARAM_INT);
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 

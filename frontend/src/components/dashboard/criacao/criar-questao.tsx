@@ -1,9 +1,12 @@
-'use client';
-import React, { useState } from 'react';
-import { Box, Button, Typography, Card, CardContent } from '@mui/material';
+ 'use client';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Box, Button, Typography, Card, CardContent, TextField, MenuItem } from '@mui/material';
 import ListaAlternativas, { Alternativa } from './lista-alternativas';
 import ModalUploadImagem from './modal-upload-imagem';
 import { SimpleEditor } from '@/components/tiptap-templates/simple/simple-editor'
+
+const API_BASE = 'http://localhost/sea/backend/controllers';
 
 export default function CriarQuestao({ onSave }: { onSave: (questao: any) => void }) {
   const [imagem, setImagem] = useState<string | null>(null);
@@ -16,11 +19,121 @@ export default function CriarQuestao({ onSave }: { onSave: (questao: any) => voi
     { id: crypto.randomUUID(), texto: '', correta: false },
   ];
 
-  const [enunciado, setEnunciado] = useState('');
+  // conteúdo HTML vindo do editor Tiptap
+  const [editorContent, setEditorContent] = useState('');
+  
+  // Estados para dados do backend
+  const [disciplinas, setDisciplinas] = useState<any[]>([]);
+  const [categorias, setCategorias] = useState<any[]>([]);
+  const [assuntos, setAssuntos] = useState<any[]>([]);
+  const [loadingDados, setLoadingDados] = useState(true);
+
+  // Estados para seleções (usando IDs do backend)
+  const [disciplinaSelecionada, setDisciplinaSelecionada] = useState<number | ''>('');
+  const [categoriaSelecionada, setCategoriaSelecionada] = useState<number | ''>('');
+  const [assuntoSelecionado, setAssuntoSelecionado] = useState<number | ''>('');
+
   const [alternativas, setAlternativas] = useState<Alternativa[]>(getInitialAlternatives());
 
+  // Buscar disciplinas ao montar o componente
+  useEffect(() => {
+    const buscarDados = async () => {
+      try {
+        setLoadingDados(true);
+  const resDisciplinas = await axios.get(`${API_BASE}/QuestaoController.php?tipo=disciplinas`);
+  const dataDisc = resDisciplinas.data;
+  // normaliza para array (quando backend devolver objeto associativo)
+  const arrDisc = Array.isArray(dataDisc) ? dataDisc : Object.values(dataDisc || {});
+  setDisciplinas(arrDisc);
+        
+        // Selecionar primeira disciplina automaticamente
+        if (resDisciplinas.data && resDisciplinas.data.length > 0) {
+          const primeiraDisciplina = resDisciplinas.data[0];
+          setDisciplinaSelecionada(primeiraDisciplina.id_disciplina);
+          
+          // Buscar categorias da primeira disciplina
+          buscarCategorias(primeiraDisciplina.id_disciplina);
+        }
+      } catch (err) {
+        console.error('Erro ao buscar disciplinas:', err);
+      } finally {
+        setLoadingDados(false);
+      }
+    };
+
+    buscarDados();
+  }, []);
+
+  // Buscar categorias quando disciplina muda
+  const buscarCategorias = async (idDisciplina: number) => {
+    try {
+      const res = await axios.get(
+        `${API_BASE}/QuestaoController.php?tipo=categorias&id_disciplina=${idDisciplina}`
+      );
+      const dataCat = res.data;
+      const arrCat = Array.isArray(dataCat) ? dataCat : Object.values(dataCat || {});
+      setCategorias(arrCat);
+      
+      // Selecionar primeira categoria
+      if (res.data && res.data.length > 0) {
+        const primeiraCategoria = res.data[0];
+        setCategoriaSelecionada(primeiraCategoria.id_categoria);
+        
+        // Buscar assuntos da primeira categoria
+        buscarAssuntos(primeiraCategoria.id_categoria);
+      } else {
+        setCategoriaSelecionada('');
+        setAssuntos([]);
+        setAssuntoSelecionado('');
+      }
+    } catch (err) {
+      console.error('Erro ao buscar categorias:', err);
+      setCategorias([]);
+      setAssuntos([]);
+    }
+  };
+
+  // Buscar assuntos quando categoria muda
+  const buscarAssuntos = async (idCategoria: number) => {
+    try {
+      const res = await axios.get(
+        `${API_BASE}/QuestaoController.php?tipo=assuntos&id_categoria=${idCategoria}`
+      );
+      const dataAss = res.data;
+      const arrAss = Array.isArray(dataAss) ? dataAss : Object.values(dataAss || {});
+      setAssuntos(arrAss);
+      
+      // Selecionar primeiro assunto
+      if (res.data && res.data.length > 0) {
+        setAssuntoSelecionado(res.data[0].id_assunto);
+      } else {
+        setAssuntoSelecionado('');
+      }
+    } catch (err) {
+      console.error('Erro ao buscar assuntos:', err);
+      setAssuntos([]);
+      setAssuntoSelecionado('');
+    }
+  };
+
+  const handleDisciplinaChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const idDisciplina = Number(e.target.value);
+    setDisciplinaSelecionada(idDisciplina);
+    await buscarCategorias(idDisciplina);
+  };
+
+  const handleCategoriaChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const idCategoria = Number(e.target.value);
+    setCategoriaSelecionada(idCategoria);
+    await buscarAssuntos(idCategoria);
+  };
+
+  const handleAssuntoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAssuntoSelecionado(Number(e.target.value));
+  };
+
   const handleSave = () => {
-    if (!enunciado.trim()) {
+    if (!editorContent || !editorContent.replace(/<[^>]+>/g, '').trim()) {
       alert('O enunciado não pode estar vazio.');
       return;
     }
@@ -30,17 +143,46 @@ export default function CriarQuestao({ onSave }: { onSave: (questao: any) => voi
       return;
     }
 
-const questaoFinal = {
-      titulo: enunciado.substring(0, 50) + '...',
-      enunciado,
+    if (!disciplinaSelecionada || !categoriaSelecionada || !assuntoSelecionado) {
+      alert('Selecione disciplina, categoria e assunto para a questão.');
+      return;
+    }
+
+    // gerar título a partir do texto puro do enunciado (primeiros 50 chars)
+    const plain = editorContent.replace(/<[^>]+>/g, ' ')
+    const titulo = (plain.trim().substring(0, 50) || 'Questão') + '...'
+
+    const questaoFinal = {
+      titulo,
+      enunciado: editorContent,
+      id_disciplina: disciplinaSelecionada,
+      id_categoria: categoriaSelecionada,
+      id_assunto: assuntoSelecionado,
       imagem, // adiciona caminho da imagem
       alternativas: alternativas.map((alt, index) => ({
         ...alt,
         id: String.fromCharCode(65 + index),
       })),
     };
+    // mostra no console e envia para o backend
+    console.log('Questão (preview):', questaoFinal)
     onSave(questaoFinal);
-    setEnunciado('');
+
+    axios
+      .post(`${API_BASE}/QuestaoController.php`, questaoFinal, {
+        headers: { 'Content-Type': 'application/json' },
+      })
+      .then((res) => {
+        console.log('Resposta backend:', res.data)
+        alert('Questão salva com sucesso!');
+      })
+      .catch((err) => {
+        console.error('Erro ao enviar questão:', err)
+        alert('Erro ao enviar questão para o servidor.')
+      })
+
+    // limpar (mantendo consistência com estado anterior)
+    setEditorContent('')
     setAlternativas(getInitialAlternatives());
     setImagem(null);
   };
@@ -88,6 +230,62 @@ const questaoFinal = {
           >
             Enunciado da Questão
           </Typography>
+          {/* Seletores: Disciplina / Categoria / Assunto */}
+          {loadingDados ? (
+            <Typography variant="body2" sx={{ mb: 2, color: 'text.secondary' }}>
+              Carregando dados...
+            </Typography>
+          ) : (
+            <Box sx={{ display: 'flex', gap: 2, mb: 2, flexWrap: 'wrap' }}>
+              <TextField
+                select
+                label="Disciplina"
+                value={disciplinaSelecionada}
+                onChange={handleDisciplinaChange}
+                size="small"
+                sx={{ minWidth: 150 }}
+              >
+                {disciplinas.map((d) => (
+                  <MenuItem key={d.id_disciplina} value={d.id_disciplina}>
+                    {d.nome_disciplina}
+                  </MenuItem>
+                ))}
+              </TextField>
+
+              <TextField
+                select
+                label="Categoria"
+                value={categoriaSelecionada}
+                onChange={handleCategoriaChange}
+                size="small"
+                sx={{ minWidth: 150 }}
+                disabled={!disciplinaSelecionada}
+              >
+                {categorias.map((c) => (
+                  <MenuItem key={c.id_categoria} value={c.id_categoria}>
+                    {c.nome_categoria}
+                  </MenuItem>
+                ))}
+              </TextField>
+
+              <TextField
+                select
+                label="Assunto"
+                value={assuntoSelecionado}
+                onChange={handleAssuntoChange}
+                size="small"
+                sx={{ minWidth: 150 }}
+                disabled={!categoriaSelecionada}
+              >
+                {assuntos.map((a) => (
+                  <MenuItem key={a.id_assunto} value={a.id_assunto}>
+                    {a.nome_assunto}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Box>
+          )}
+
           <Box
             sx={{
               flex: 1,
@@ -96,7 +294,7 @@ const questaoFinal = {
               pr: 1,
             }}
           >
-            <SimpleEditor />
+            <SimpleEditor onChange={setEditorContent} />
           </Box>
         </Box>
 
