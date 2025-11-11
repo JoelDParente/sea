@@ -37,13 +37,18 @@ class DisciplinaDAO {
     }
 
     public function getAllDisciplinas(): array {
-        $sql = "SELECT * FROM disciplina";
-        $stmt = $this->conn->query($sql);
-        $disciplinas = [];
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $disciplinas[] = $this->mapRowToDisciplina($row);
-        }
-        return $disciplinas;
+            $sql = "SELECT * FROM disciplina";
+            try {
+                $stmt = $this->conn->prepare($sql);
+                $stmt->execute();
+                $disciplinas = [];
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    $disciplinas[] = $this->mapRowToDisciplina($row);
+                }
+                return $disciplinas;
+            } catch (PDOException $e) {
+                throw new Exception('Erro ao obter disciplinas: ' . $e->getMessage());
+            }
     }
 
     public function atualizarDisciplina(Disciplina $disciplina): bool {

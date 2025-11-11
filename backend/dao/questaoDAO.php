@@ -16,11 +16,11 @@ class QuestaoDAO
 
     public function criarQuestao(Questao $questao): int
     {
-        $sql = "INSERT INTO questao (id_assunto, uid_professor, enunciado, resposta_correta, tipo, publico, data_criacao, ultima_atualizacao)
-                VALUES (:id_assunto, :uid_professor, :enunciado, :resposta_correta, :tipo, :publico, :data_criacao, :ultima_atualizacao)";
+        $sql = "INSERT INTO questao (id_assunto, id_professor, enunciado, resposta_correta, tipo, publico, data_criacao, ultima_atualizacao)
+                VALUES (:id_assunto, :id_professor, :enunciado, :resposta_correta, :tipo, :publico, :data_criacao, :ultima_atualizacao)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id_assunto', $questao->getIdAssunto(), PDO::PARAM_INT);
-        $stmt->bindValue(':uid_professor', $questao->getIdProfessor(), PDO::PARAM_INT);
+        $stmt->bindValue(':id_professor', $questao->getIdProfessor(), PDO::PARAM_INT);
         $stmt->bindValue(':enunciado', $questao->getEnunciado(), PDO::PARAM_STR);
         $stmt->bindValue(':resposta_correta', $questao->getRespostaCorreta(), PDO::PARAM_STR);
         $stmt->bindValue(':tipo', $questao->getTipo(), PDO::PARAM_STR);
@@ -57,11 +57,11 @@ class QuestaoDAO
 
     public function atualizarQuestao(Questao $questao): bool
     {
-        $sql = "UPDATE questao SET id_assunto = :id_assunto, uid_professor = :uid_professor, enunciado = :enunciado, resposta_correta = :resposta_correta, tipo = :tipo, publico = :publico, data_criacao = :data_criacao, ultima_atualizacao = :ultima_atualizacao
+        $sql = "UPDATE questao SET id_assunto = :id_assunto, id_professor = :id_professor, enunciado = :enunciado, resposta_correta = :resposta_correta, tipo = :tipo, publico = :publico, data_criacao = :data_criacao, ultima_atualizacao = :ultima_atualizacao
                 WHERE id_questao = :id_questao";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id_assunto', $questao->getIdAssunto(), PDO::PARAM_INT);
-        $stmt->bindValue(':uid_professor', $questao->getIdProfessor(), PDO::PARAM_INT);
+        $stmt->bindValue(':id_professor', $questao->getIdProfessor(), PDO::PARAM_INT);
         $stmt->bindValue(':enunciado', $questao->getEnunciado(), PDO::PARAM_STR);
         $stmt->bindValue(':resposta_correta', $questao->getRespostaCorreta(), PDO::PARAM_STR);
         $stmt->bindValue(':tipo', $questao->getTipo(), PDO::PARAM_STR);
@@ -86,7 +86,7 @@ class QuestaoDAO
         $questao = new Questao();
         $questao->setIdQuestao($row['id_questao'])
             ->setIdAssunto($row['id_assunto'])
-            ->setIdProfessor($row['uid_professor'])
+            ->setIdProfessor($row['id_professor'])
             ->setEnunciado($row['enunciado'])
             ->setRespostaCorreta($row['resposta_correta'])
             ->setTipo($row['tipo'])
@@ -101,6 +101,7 @@ class QuestaoDAO
         $sql = "
         SELECT 
             q.id_questao,
+            SUBSTRING(q.enunciado, 1, 100) AS titulo,
             q.enunciado,
             q.resposta_correta,
             q.tipo,

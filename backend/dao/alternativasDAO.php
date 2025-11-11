@@ -29,16 +29,19 @@ class AlternativaDAO
         return (int)$this->conn->lastInsertId();
     }
 
-    public function getAlternativaByIdQuestao(int $id_questao): ?Alternativa
+    public function getAlternativaByIdQuestao(int $id_questao): array
     {
-        $sql = "SELECT * FROM alternativas WHERE id_questao = :id_questao";
+        $sql = "SELECT texto FROM alternativas WHERE id_questao = :id_questao ORDER BY id_alternativa ASC";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id_questao', $id_questao, PDO::PARAM_INT);
         $stmt->execute();
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if (!$row) return null;
-        return $this->mapRowToAlternativa($row);
+        $alternativas = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $alternativas[] = [
+                'texto' => $row['texto']
+            ];
+        }
+        return $alternativas;
     }
 
     public function getAllAlternativa(): array
@@ -60,7 +63,6 @@ class AlternativaDAO
         $stmt->bindValue(':id_alternativa', $alternativa->getIdAlternativa(), PDO::PARAM_INT);
         $stmt->bindValue(':id_questao', $alternativa->getIdQuestao(), PDO::PARAM_INT);
         $stmt->bindValue(':texto', $alternativa->getTexto(), PDO::PARAM_STR);
-
         return $stmt->execute();
     }
 
@@ -71,7 +73,7 @@ class AlternativaDAO
         $stmt->bindValue(':id_alternativa', $id_alternativa, PDO::PARAM_INT);
         return $stmt->execute();
     }
-
+    
     private function mapRowToAlternativa(array $row): Alternativa
     {
         $alternativa = new Alternativa();

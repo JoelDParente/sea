@@ -148,20 +148,32 @@ export default function CriarQuestao({ onSave }: { onSave: (questao: any) => voi
       return;
     }
 
+    // Remover tags HTML do enunciado e alternativas
+    const stripHtml = (html: string) => {
+      const div = document.createElement('div');
+      div.innerHTML = html;
+      return div.textContent || div.innerText || '';
+    };
+
     // gerar título a partir do texto puro do enunciado (primeiros 50 chars)
-    const plain = editorContent.replace(/<[^>]+>/g, ' ')
-    const titulo = (plain.trim().substring(0, 50) || 'Questão') + '...'
+    const enunciadoLimpo = stripHtml(editorContent);
+    const titulo = (enunciadoLimpo.trim().substring(0, 50) || 'Questão') + '...';
+
+    // Encontrar qual alternativa é correta (A, B, C ou D)
+    const respostaCorreta = String.fromCharCode(
+      65 + alternativas.findIndex((alt) => alt.correta)
+    );
 
     const questaoFinal = {
       titulo,
-      enunciado: editorContent,
+      enunciado: enunciadoLimpo,
       id_disciplina: disciplinaSelecionada,
       id_categoria: categoriaSelecionada,
       id_assunto: assuntoSelecionado,
+      resposta_correta: respostaCorreta,
       imagem, // adiciona caminho da imagem
-      alternativas: alternativas.map((alt, index) => ({
-        ...alt,
-        id: String.fromCharCode(65 + index),
+      alternativas: alternativas.map((alt) => ({
+        texto: stripHtml(alt.texto),
       })),
     };
     // mostra no console e envia para o backend

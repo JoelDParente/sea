@@ -4,7 +4,6 @@ import React from 'react';
 import { Box, Typography, List, ListItem, ListItemText } from '@mui/material';
 
 interface Alternativa {
-  id: string;
   texto: string;
   correta: boolean;
 }
@@ -72,10 +71,10 @@ const SlotQuestao: React.FC<SlotQuestaoProps> = ({ questao, onClick, showFull = 
           <List dense sx={{ mt: 'auto', p: 0 }}>
             {(questao.alternativas ?? [])
               .slice(0, showFull ? undefined : 2)
-              .map((alt) => (
-                <ListItem key={alt.id} sx={{ p: 0.2 }}>
+              .map((alt, index) => (
+                <ListItem sx={{ p: 0.2 }} key={index}>
                   <ListItemText
-                    primary={`${alt.id}) ${alt.texto}`}
+                    primary={`${String.fromCharCode(65 + index)}) ${alt.texto}`}
                     primaryTypographyProps={{
                       fontSize: 10,
                       fontWeight: alt.correta ? 'bold' : 'normal',

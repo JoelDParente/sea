@@ -10,21 +10,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 include('../config/database.php');
-include('../config/database.php');
 include('../dao/questaoDAO.php');
-include('../models/questao.php');
-
 include('../dao/alternativasDAO.php');
-include('../models/alternativa.php');
-
 include('../dao/categoriaDAO.php');
-include('../models/categoria.php');
-
 include('../dao/assuntoDAO.php');
-include('../models/assunto.php');
-
 include('../dao/disciplinaDAO.php');
-include('../models/disciplina.php');
 
 use Models\Questao;
 use Models\Alternativa;
@@ -73,10 +63,10 @@ switch ($metodo) {
 
         // Cadastra as alternativas (entidade fraca)
         if (!empty($data['alternativas']) && is_array($data['alternativas'])) {
-            foreach ($data['alternativas'] as $texto) {
+            foreach ($data['alternativas'] as $item) {
                 $alt = new Alternativa();
                 $alt->setIdQuestao($idQuestao);
-                $alt->setTexto($texto);
+                $alt->setTexto($item['texto']);
                 $alternativaDAO->criarAlternativa($alt);
             }
         }
@@ -90,15 +80,34 @@ switch ($metodo) {
             $tipo = $_GET['tipo'];
             switch ($tipo) {
                 case 'disciplinas':
-                    $disciplinas = $disciplinaDAO->getAllDisciplinas();
-                    $resultado = [];
-                    foreach ($disciplinas as $d) {
-                        $resultado[] = [
-                            'id_disciplina' => $d->getIdDisciplina(),
-                            'nome_disciplina' => $d->getNomeDisciplina()
-                        ];
+                    try {
+                        $disciplinas = $disciplinaDAO->getAllDisciplinas();
+
+                        if (!is_array($disciplinas)) {
+                            throw new Exception('Retorno inválido ao buscar disciplinas');
+                        }
+
+                        $resultado = [];
+                        foreach ($disciplinas as $d) {
+                            // protege caso o DAO retorne dados inesperados
+                            if (is_object($d) && method_exists($d, 'getIdDisciplina')) {
+                                $resultado[] = [
+                                    'id_disciplina' => $d->getIdDisciplina(),
+                                    'nome_disciplina' => $d->getNomeDisciplina()
+                                ];
+                            }
+                        }
+
+                        // Se pedir debug, envie também o conteúdo bruto (útil para investigação local)
+                        if (empty($resultado) && isset($_GET['debug'])) {
+                            echo json_encode(['erro' => 'Nenhuma disciplina encontrada', 'raw' => $disciplinas]);
+                        } else {
+                            echo json_encode($resultado);
+                        }
+                    } catch (Exception $e) {
+                        http_response_code(500);
+                        echo json_encode(['erro' => 'Erro ao obter disciplinas', 'mensagem' => $e->getMessage()]);
                     }
-                    echo json_encode($resultado);
                     break;
                 case 'categorias':
                     // Se id_disciplina é fornecido, filtra por disciplina
@@ -137,6 +146,67 @@ switch ($metodo) {
                         echo json_encode($assuntos);
                     } else {
                         echo json_encode($assuntoDAO->listarTodos());
+                    }
+                    break;
+                case 'questoes':
+                    // Se id_assunto é fornecido, filtra por assunto
+                    if (isset($_GET['id_assunto'])) {
+                        try {
+                            $idAssunto = (int)$_GET['id_assunto'];
+                            $conn = Database::getInstance()->getConnection();
+                            
+                            $sql = "
+                            SELECT 
+                                q.id_questao,
+                                SUBSTRING(q.enunciado, 1, 100) AS titulo,
+                                q.enunciado,
+                                q.resposta_correta,
+                                q.tipo,
+                                q.publico,
+                                q.data_criacao,
+                                q.ultima_atualizacao,
+                                q.id_assunto,
+                                a.nome_assunto,
+                                c.id_categoria,
+                                c.nome_categoria,
+                                d.id_disciplina,
+                                d.nome_disciplina,
+                                q.id_professor
+                            FROM questao q
+                            LEFT JOIN assunto a ON q.id_assunto = a.id_assunto
+                            LEFT JOIN categoria c ON a.id_categoria = c.id_categoria
+                            LEFT JOIN disciplina d ON c.id_disciplina = d.id_disciplina
+                            WHERE q.id_assunto = :id_assunto
+                            ORDER BY q.data_criacao DESC
+                            ";
+                            
+                            $stmt = $conn->prepare($sql);
+                            $stmt->bindValue(':id_assunto', $idAssunto, PDO::PARAM_INT);
+                            $stmt->execute();
+                            $questoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                            
+                            // Adicionar alternativas para cada questão
+                            foreach ($questoes as &$q) {
+                                $q['alternativas'] = $alternativaDAO->getAlternativaByIdQuestao($q['id_questao']);
+                            }
+                            
+                            echo json_encode($questoes);
+                        } catch (Exception $e) {
+                            http_response_code(500);
+                            echo json_encode(['erro' => 'Erro ao obter questões', 'mensagem' => $e->getMessage()]);
+                        }
+                    } else {
+                        // Se não filtrar por assunto, retorna todas as questões
+                        try {
+                            $questoes = $questaoDAO->listarComRelacionamentos();
+                            foreach ($questoes as &$q) {
+                                $q['alternativas'] = $alternativaDAO->getAlternativaByIdQuestao($q['id_questao']);
+                            }
+                            echo json_encode($questoes);
+                        } catch (Exception $e) {
+                            http_response_code(500);
+                            echo json_encode(['erro' => 'Erro ao obter questões', 'mensagem' => $e->getMessage()]);
+                        }
                     }
                     break;
                 default:

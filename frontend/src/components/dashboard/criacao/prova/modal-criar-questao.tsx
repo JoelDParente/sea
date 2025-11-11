@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Modal,
     Box,
@@ -8,9 +8,12 @@ import {
     useTheme,
     useMediaQuery,
     Backdrop,
+    Tabs,
+    Tab,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import CriarQuestao from '../criar-questao'; // Assumindo que este path está correto
+import ConsultarQuestoes from './consultar-questoes';
 
 interface ModalCriarQuestaoProps {
     open: boolean;
@@ -18,9 +21,41 @@ interface ModalCriarQuestaoProps {
     onSave: (questao: any) => void;
 }
 
+interface TabPanelProps {
+    children?: React.ReactNode;
+    index: number;
+    value: number;
+}
+
+function TabPanel(props: TabPanelProps) {
+    const { children, value, index, ...other } = props;
+
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`tabpanel-${index}`}
+            aria-labelledby={`tab-${index}`}
+            {...other}
+        >
+            {value === index && <Box sx={{ p: 2 }}>{children}</Box>}
+        </div>
+    );
+}
+
 export default function ModalCriarQuestao({ open, onClose, onSave }: ModalCriarQuestaoProps) {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const [tabValue, setTabValue] = useState(0);
+
+    const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+        setTabValue(newValue);
+    };
+
+    const handleSelectQuestao = (questao: any) => {
+        onSave(questao);
+        onClose();
+    };
 
     return (
         <Modal
@@ -49,17 +84,33 @@ export default function ModalCriarQuestao({ open, onClose, onSave }: ModalCriarQ
                 {/* Cabeçalho */}
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', pb: 2, borderBottom: '1px solid #eee' }}>
                     <Typography variant="h5" component="h2" fontWeight="bold">
-                        Criar Nova Questão
+                        Adicionar Questão
                     </Typography>
                     <IconButton onClick={onClose} size="large">
                         <CloseIcon />
                     </IconButton>
                 </Box>
 
-                {/* Corpo do Modal */}
-                <Box sx={{ pt: 2 }}>
-                    <CriarQuestao onSave={onSave} />
+                {/* Abas */}
+                <Box sx={{ borderBottom: 1, borderColor: 'divider', mt: 2 }}>
+                    <Tabs
+                        value={tabValue}
+                        onChange={handleTabChange}
+                        aria-label="questão options"
+                    >
+                        <Tab label="Criar Nova Questão" id="tab-0" aria-controls="tabpanel-0" />
+                        <Tab label="Banco de Questões" id="tab-1" aria-controls="tabpanel-1" />
+                    </Tabs>
                 </Box>
+
+                {/* Conteúdo das Abas */}
+                <TabPanel value={tabValue} index={0}>
+                    <CriarQuestao onSave={onSave} />
+                </TabPanel>
+
+                <TabPanel value={tabValue} index={1}>
+                    <ConsultarQuestoes onSelectQuestao={handleSelectQuestao} />
+                </TabPanel>
             </Box>
         </Modal>
     );
