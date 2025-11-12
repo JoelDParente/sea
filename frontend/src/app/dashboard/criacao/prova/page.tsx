@@ -4,7 +4,7 @@ import { Box, Button, Typography } from '@mui/material';
 import { ArrowLeft } from '@phosphor-icons/react';
 import { useRouter } from 'next/navigation';
 import { paths } from '@/paths';
-import CriarProva from '@/components/dashboard/criacao/prova/criar-prova';
+import EditorProva from '@/components/dashboard/criacao/prova/editor-prova';
 
 export default function CriarProvaPage() {
   const router = useRouter();
@@ -26,7 +26,7 @@ export default function CriarProvaPage() {
       </Typography>
 
       {/* Componente principal */}
-      <CriarProva />
+      <EditorProva />
     </Box>
   );
 }

@@ -1,123 +1,56 @@
 'use client';
 import React from 'react';
-import { Box, Typography, Divider } from '@mui/material';
-import SlotQuestao from './slot-questao';
-import CabecalhoProva from './CabecalhoProva';
+import { Box } from '@mui/material';
+import CabecalhoProva from './cabecalho-prova';
+import BlocoQuestao from './bloco-questao';
 
-interface ProvaMetadata {
-  titulo: string;
-  disciplina: string;
+interface FolhaA4Props {
+  questoes: string[];
+  onChangeQuestao: (index: number, conteudo: string) => void;
+  onRemoveQuestao: (index: number) => void;
+  metadata: {
+    titulo: string;
+    disciplina: string;
+    avaliacao: string;
+    professor: string;
+  };
 }
 
-interface FolhasA4Props {
-  questoes: (any | null)[];
-  onSlotClick: (index: number) => void;
-  slotsPorFolha?: number;
-  metadata: ProvaMetadata;
-}
-
-const pxA4Width = 794;
-const pxA4Height = 1122;
-
-const FolhasA4: React.FC<FolhasA4Props> = ({
+const FolhaA4: React.FC<FolhaA4Props> = ({
   questoes,
-  onSlotClick,
-  slotsPorFolha = 10, // Aumentei o limite, pois agora aproveitamos melhor o espaço
+  onChangeQuestao,
+  onRemoveQuestao,
   metadata,
 }) => {
-  const paginas: (any | null)[][] = [];
-  for (let i = 0; i < questoes.length; i += slotsPorFolha) {
-    paginas.push(questoes.slice(i, i + slotsPorFolha));
-  }
-
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 4 }}>
-      {paginas.map((pagina, pageIndex) => (
-        <Box
-          key={pageIndex}
-          sx={{
-            width: pxA4Width,
-            height: pxA4Height, // altura fixa da folha
-            mx: 'auto',
-            mb: 6,
-            p: 4,
-            border: '1px solid #ccc',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-            backgroundColor: '#fff',
-            display: 'flex',
-            flexDirection: 'column',
-            boxSizing: 'border-box',
-            overflow: 'hidden', // evita esticar
-            position: 'relative',
-            pageBreakAfter: 'always', // garante quebra correta na exportação PDF
-          }}
-        >
-          {/* Cabeçalho */}
-          {pageIndex === 0 ? (
-            <CabecalhoProva
-              titulo={metadata.titulo || 'Questões de 1 a N'}
-              disciplina={metadata.disciplina || 'Disciplina'}
-              avaliacao="AVALIAÇÃO BIMESTRAL 2"
-              professor="Professor(a)"
-            />
-          ) : (
-            <Typography variant="caption" align="right" mb={0}>
-              Página {pageIndex + 1}
-            </Typography>
-          )}
+    <Box
+      sx={{
+        width: 794,
+        height: 1122,
+        p: 4,
+        border: '1px solid #ccc',
+        borderRadius: 1,
+        boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+        backgroundColor: '#fff',
+        mb: 6,
+        pageBreakAfter: 'always',
+      }}
+    >
+      <CabecalhoProva {...metadata} />
 
-          <Divider sx={{ my: 1 }} />
-
-          {/* Área de questões em duas colunas */}
-          <Box
-            component="section"
-            sx={{
-              columnCount: 2,
-              columnGap: '2rem',
-              columnRule: '1px solid rgba(0,0,0,0.35)',
-              width: '100%',
-              height: '100%',
-              overflow: 'hidden',
-            }}
-          >
-            {pagina.map((questao, index) => {
-              const globalIndex = pageIndex * slotsPorFolha + index;
-              return (
-                <Box
-                  key={globalIndex}
-                  sx={{
-                    display: 'block',
-                    // permite que o conteúdo seja quebrado entre colunas/páginas
-                    breakInside: 'auto',
-                    WebkitColumnBreakInside: 'auto',
-                    MozColumnBreakInside: 'auto',
-                    mb: 1.5,
-                    fontSize: '0.78rem', // fonte menor globalmente
-                    lineHeight: 1.3,
-                  }}
-                >
-                  <Typography
-                    variant="subtitle2"
-                    fontWeight="bold"
-                    sx={{ mb: 0.5, fontSize: '0.85rem' }}
-                  >
-                    Questão {globalIndex + 1}
-                  </Typography>
-
-                  <SlotQuestao
-                    questao={questao}
-                    onClick={() => onSlotClick(globalIndex)}
-                    showFull
-                    hideTitle
-                  />
-                </Box>
-              );
-            })}
-          </Box>
-        </Box>
-      ))}
+      <Box sx={{ mt: 2 }}>
+        {questoes.map((q, i) => (
+          <BlocoQuestao
+            key={i}
+            index={i}
+            conteudo={q}
+            onChange={(html: any) => onChangeQuestao(i, html)}
+            onRemove={() => onRemoveQuestao(i)}
+          />
+        ))}
+      </Box>
     </Box>
   );
 };
 
-export default FolhasA4;
+export default FolhaA4;
