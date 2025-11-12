@@ -238,6 +238,7 @@ export default function ConsultarQuestoes({ onSelectQuestao }: ConsultarQuestoes
                 >
                   <ListItemText
                     primary={questao.titulo}
+                    secondaryTypographyProps={{ component: 'div' }}
                     secondary={
                       <Box
                         sx={{

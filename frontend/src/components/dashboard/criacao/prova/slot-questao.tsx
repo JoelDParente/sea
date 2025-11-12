@@ -29,13 +29,13 @@ const SlotQuestao: React.FC<SlotQuestaoProps> = ({ questao, onClick, showFull = 
       sx={{
         border: '1px dashed',
         borderColor: questao ? 'primary.main' : '#999',
-        display: 'flex',
-        flexDirection: 'column',
+        display: 'block', // permitir que o conteúdo seja quebrado entre colunas
         cursor: 'pointer',
         height: 'auto',
         minHeight: 40,
         '&:hover': { backgroundColor: '#f5f5f5' },
         textAlign: 'left',
+        padding: 1,
       }}
     >
       {questao ? (
@@ -53,14 +53,10 @@ const SlotQuestao: React.FC<SlotQuestaoProps> = ({ questao, onClick, showFull = 
               fontSize: 10,
               color: '#333',
               mb: 1,
-              display: '-webkit-box',
-              WebkitBoxOrient: 'vertical',
               overflow: showFull ? 'visible' : 'hidden',
               textOverflow: 'ellipsis',
               wordBreak: 'break-word',
-              ...(showFull
-                ? { WebkitLineClamp: 'unset', whiteSpace: 'pre-wrap' }
-                : { WebkitLineClamp: 3 }),
+              whiteSpace: showFull ? 'pre-wrap' : 'normal',
               '& img': { maxWidth: '100%', height: 'auto' },
               '& table': { tableLayout: 'fixed', width: '100%' },
             }}
@@ -68,7 +64,7 @@ const SlotQuestao: React.FC<SlotQuestaoProps> = ({ questao, onClick, showFull = 
           />
 
           {/* Lista de alternativas */}
-          <List dense sx={{ mt: 'auto', p: 0 }}>
+          <List dense sx={{ mt: 1, p: 0 }}>
             {(questao.alternativas ?? [])
               .slice(0, showFull ? undefined : 2)
               .map((alt, index) => (

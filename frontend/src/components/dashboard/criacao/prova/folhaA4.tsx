@@ -87,9 +87,10 @@ const FolhasA4: React.FC<FolhasA4Props> = ({
                   key={globalIndex}
                   sx={{
                     display: 'block',
-                    breakInside: 'avoid',
-                    WebkitColumnBreakInside: 'avoid',
-                    MozColumnBreakInside: 'avoid',
+                    // permite que o conteúdo seja quebrado entre colunas/páginas
+                    breakInside: 'auto',
+                    WebkitColumnBreakInside: 'auto',
+                    MozColumnBreakInside: 'auto',
                     mb: 1.5,
                     fontSize: '0.78rem', // fonte menor globalmente
                     lineHeight: 1.3,

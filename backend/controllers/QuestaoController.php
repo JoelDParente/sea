@@ -98,7 +98,6 @@ switch ($metodo) {
                             }
                         }
 
-                        // Se pedir debug, envie também o conteúdo bruto (útil para investigação local)
                         if (empty($resultado) && isset($_GET['debug'])) {
                             echo json_encode(['erro' => 'Nenhuma disciplina encontrada', 'raw' => $disciplinas]);
                         } else {
