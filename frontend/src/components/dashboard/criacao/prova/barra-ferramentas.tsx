@@ -1,3 +1,5 @@
+ 'use client';
+
 import { Box, Button, Stack, TextField, MenuItem, CircularProgress } from '@mui/material';
 import { Add, Print, Save } from '@mui/icons-material';
 import React, { useState, useEffect } from 'react';

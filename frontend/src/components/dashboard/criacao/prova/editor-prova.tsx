@@ -6,7 +6,7 @@ import FolhaA4 from './folhaA4';
 import BarraFerramentas from './barra-ferramentas';
 
 const EditorProva: React.FC = () => {
-  const [questoes, setQuestoes] = useState<string[]>(['']);
+  const [questoes, setQuestoes] = useState<any[]>([{ enunciado: '' }]);
   const [professorNome, setProfessorNome] = useState('Prof. João Silva');
 
   // Puxar nome do professor do JWT em localStorage (mesmo padrão do dashboard)
@@ -26,10 +26,10 @@ const EditorProva: React.FC = () => {
   }, []);
 
   const [metadata, setMetadata] = useState({
-    titulo: 'Avaliação de Matemática',
-    disciplina: 'Matemática',
+    titulo: 'Minha Avaliação',
+    disciplina: '',
     categoria: '',
-    avaliacao: '2º Bimestre',
+    avaliacao: '',
     professor: professorNome,
   });
 
@@ -42,12 +42,14 @@ const EditorProva: React.FC = () => {
   }, [professorNome]);
 
   const handleAdicionarQuestao = () => {
-    setQuestoes([...questoes, '']);
+    setQuestoes([...questoes, { enunciado: '' }]);
+    console.log('Adicionar Questão: novo total =', questoes.length + 1);
   };
 
   const handleChangeQuestao = (index: number, novoConteudo: string) => {
     const novas = [...questoes];
-    novas[index] = novoConteudo;
+    const prev = novas[index] || {};
+    novas[index] = { ...prev, enunciado: novoConteudo };
     setQuestoes(novas);
   };
 
