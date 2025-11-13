@@ -1,0 +1,131 @@
+<?php
+// controllers/usuarioDisciplinaController.php
+
+header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
+header("Access-Control-Allow-Credentials: true");
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
+
+require_once('../config/database.php');
+require_once('../dao/professorDisciplinaDAO.php');
+require_once('../models/professorDisciplina.php');
+require_once('../dao/usuarioDAO.php');
+require_once('../dao/disciplinaDAO.php');
+
+use Models\ProfessorDisciplina;
+use Models\usuario;
+
+header('Content-Type: application/json; charset=utf-8');
+
+$metodo = $_SERVER['REQUEST_METHOD'];
+$dao = new ProfessorDisciplinaDAO();
+$usuarioDAO = new usuarioDAO();
+$disciplinaDAO = new DisciplinaDAO();
+
+switch ($metodo) {
+
+    // 🔹 CRIAR ASSOCIAÇÃO usuario ↔ DISCIPLINA
+    case 'POST':
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        if (!$data || !isset($data['id_usuario'], $data['id_disciplina'])) {
+            http_response_code(400);
+            echo json_encode(['erro' => 'Campos obrigatórios: id_usuario e id_disciplina']);
+            exit;
+        }
+
+        $leciona = new ProfessorDisciplina();
+        $leciona->setIdProfessor($data['id_usuario']);
+        $leciona->setIdDisciplina($data['id_disciplina']);
+
+        $criado = $dao->criarProfessorDisciplina($leciona);
+        if ($criado) {
+            echo json_encode(['sucesso' => true, 'mensagem' => 'Associação criada com sucesso']);
+        } else {
+            http_response_code(500);
+            echo json_encode(['erro' => 'Erro ao criar associação professor-disciplina']);
+        }
+        break;
+
+    // 🔹 LISTAR TODAS ASSOCIAÇÕES OU FILTRAR POR usuario/DISCIPLINA
+    case 'GET':
+        $conn = Database::getInstance()->getConnection();
+
+        try {
+            // Filtro por usuario
+            if (isset($_GET['id_usuario'])) {
+                $idusuario = (int)$_GET['id_usuario'];
+                $sql = "SELECT pd.id_disciplina, d.nome_disciplina, pd.id_usuario, p.nome AS nome_usuario
+                        FROM professordisciplina pd
+                        INNER JOIN disciplina d ON pd.id_disciplina = d.id_disciplina
+                        INNER JOIN usuario p ON pd.id_usuario = p.id_usuario
+                        WHERE pd.id_usuario = :id_usuario";
+                $stmt = $conn->prepare($sql);
+                $stmt->bindValue(':id_usuario', $idusuario, PDO::PARAM_INT);
+                $stmt->execute();
+                echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+                exit;
+            }
+
+            // Filtro por disciplina
+            if (isset($_GET['id_disciplina'])) {
+                $idDisciplina = (int)$_GET['id_disciplina'];
+                $sql = "SELECT pd.id_disciplina, d.nome_disciplina, pd.id_usuario, p.nome AS nome_usuario
+                        FROM usuariodisciplina pd
+                        INNER JOIN disciplina d ON pd.id_disciplina = d.id_disciplina
+                        INNER JOIN usuario p ON pd.id_usuario = p.id_usuario
+                        WHERE pd.id_disciplina = :id_disciplina";
+                $stmt = $conn->prepare($sql);
+                $stmt->bindValue(':id_disciplina', $idDisciplina, PDO::PARAM_INT);
+                $stmt->execute();
+                echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+                exit;
+            }
+
+            // Lista completa (com nomes)
+            $sql = "SELECT pd.id_disciplina, d.nome_disciplina, pd.id_usuario, p.nome AS nome_usuario
+                    FROM usuariodisciplina pd
+                    INNER JOIN disciplina d ON pd.id_disciplina = d.id_disciplina
+                    INNER JOIN usuario p ON pd.id_usuario = p.id_usuario
+                    ORDER BY p.nome ASC, d.nome_disciplina ASC";
+            $stmt = $conn->query($sql);
+            echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['erro' => 'Erro ao listar associações', 'mensagem' => $e->getMessage()]);
+        }
+        break;
+
+    // 🔹 REMOVER ASSOCIAÇÃO usuario ↔ DISCIPLINA
+    case 'DELETE':
+        if (!isset($_GET['id_usuario']) || !isset($_GET['id_disciplina'])) {
+            http_response_code(400);
+            echo json_encode(['erro' => 'Parâmetros obrigatórios: id_usuario e id_disciplina']);
+            exit;
+        }
+
+        $idusuario = (int)$_GET['id_usuario'];
+        $idDisciplina = (int)$_GET['id_disciplina'];
+
+        $removido = $dao->excluirProfessorDisciplina($idDisciplina, $idusuario);
+
+        if ($removido) {
+            echo json_encode(['sucesso' => true, 'mensagem' => 'Associação removida com sucesso']);
+        } else {
+            http_response_code(500);
+            echo json_encode(['erro' => 'Erro ao remover associação']);
+        }
+        break;
+
+    default:
+        http_response_code(405);
+        echo json_encode(['erro' => 'Método não permitido']);
+        break;
+}
+?>
