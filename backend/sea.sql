@@ -3,9 +3,13 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 13/11/2025 às 01:31
+-- Tempo de geração: 15/11/2025 às 17:02
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
+
+CREATE DATABASE sea;
+
+USE sea;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -214,7 +218,8 @@ INSERT INTO `escola` (`id_escola`, `inep`, `nome_escola`, `email`, `telefone`, `
 (8, '23236078', 'Osmira Eduardo de Castro', 'osmira@gmail.com', '(51) 91951-9619', NULL, 'CE', 'Morada No', '02 DE AGOSTO', 'RUA ALUIZIO GONZAGA LIMA', 'SN PREDIO', '2025-11-08 14:49:19'),
 (9, '23236078', 'Osmira Eduardo de Castro', 'osmira@gmail.com', '(51) 91951-9619', NULL, 'CE', 'Morada No', '02 DE AGOSTO', 'RUA ALUIZIO GONZAGA LIMA', 'SN PREDIO', '2025-11-08 14:50:00'),
 (10, '23236078', 'Osmira Eduardo de Castro', 'osmira@gmail.com', '(51) 91951-9619', NULL, 'CE', 'Morada No', '02 DE AGOSTO', 'RUA ALUIZIO GONZAGA LIMA', 'SN PREDIO', '2025-11-08 14:52:15'),
-(11, '23060700', 'Paulo Sarasate EEF', 'paulo.sarasate@gmail.com', '(51) 91951-9619', NULL, 'CE', 'Cascavel ', 'CRISTAIS,', 'AV. SANTOS DUMONT- KM 92', '232', '2025-11-08 16:28:38');
+(11, '23060700', 'Paulo Sarasate EEF', 'paulo.sarasate@gmail.com', '(51) 91951-9619', NULL, 'CE', 'Cascavel ', 'CRISTAIS,', 'AV. SANTOS DUMONT- KM 92', '232', '2025-11-08 16:28:38'),
+(12, '12365478', 'EEEP Escola Teste', 'teste.escola@gmail.com', '(98) 76543-2103', NULL, 'CE', 'Cascavel ', 'CRISTAIS,', 'AV. SANTOS DUMONT- KM 92', '232', '2025-11-15 16:01:03');
 
 -- --------------------------------------------------------
 
@@ -246,6 +251,18 @@ CREATE TABLE `gabaritoaluno` (
 -- --------------------------------------------------------
 
 --
+-- Estrutura para tabela `imagemquestao`
+--
+
+CREATE TABLE `imagemquestao` (
+  `id_imagem` int(11) NOT NULL,
+  `id_questao` int(11) DEFAULT NULL,
+  `caminho_imagem` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `professordisciplina`
 --
 
@@ -253,6 +270,13 @@ CREATE TABLE `professordisciplina` (
   `id_disciplina` int(11) DEFAULT NULL,
   `id_professor` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `professordisciplina`
+--
+
+INSERT INTO `professordisciplina` (`id_disciplina`, `id_professor`) VALUES
+(1, 6);
 
 -- --------------------------------------------------------
 
@@ -312,6 +336,7 @@ CREATE TABLE `questao` (
   `id_questao` int(11) NOT NULL,
   `id_assunto` int(11) DEFAULT NULL,
   `id_professor` int(11) DEFAULT NULL,
+  `serie` varchar(10) DEFAULT NULL,
   `enunciado` text DEFAULT NULL,
   `resposta_correta` text DEFAULT NULL,
   `tipo` varchar(15) DEFAULT NULL,
@@ -324,10 +349,10 @@ CREATE TABLE `questao` (
 -- Despejando dados para a tabela `questao`
 --
 
-INSERT INTO `questao` (`id_questao`, `id_assunto`, `id_professor`, `enunciado`, `resposta_correta`, `tipo`, `publico`, `data_criacao`, `ultima_atualizacao`) VALUES
-(1, 2, NULL, 'Para concretar a laje de sua residência, uma pessoa contratou uma construtora. Tal empresa informa que o preço y do concreto bombeado é composto de duas partes: uma fixa, chamada de taxa de bombeamento, e uma variável, que depende do volume x de concreto utilizado. Sabe-se que a taxa de bombeamento custa R$ 500,00 e que o metro cúbico do concreto bombeado é de R$ 250,00. A expressão que representa o preço y em função do volume x, em metro cúbico, é', 'A', 'objetiva', 0, '2025-11-11 22:38:40', '2025-11-11 22:38:40'),
-(2, 2, NULL, 'Uma piscina tem capacidade de 2 500 000 litros. Seu sistema de abastecimento foi regulado para ter uma vazão constante de 6 000 litros de água por minuto. O mesmo sistema foi instalado em uma segunda piscina, com capacidade de 2 750 000 litros, e regulado para ter uma vazão, também constante, capaz de enchê-la em um tempo 20% maior que o gasto para encher a primeira piscina. A vazão do sistema de abastecimento da segunda piscina, em litro por minuto, é', 'A', 'objetiva', 0, '2025-11-12 23:29:23', '2025-11-12 23:29:23'),
-(3, 2, NULL, 'Uma piscina tem capacidade de 2 500 000 litros. Seu sistema de abastecimento foi regulado para ter uma vazão constante de 6 000 litros de água por minuto. O mesmo sistema foi instalado em uma segunda piscina, com capacidade de 2 750 000 litros, e regulado para ter uma vazão, também constante, capaz de enchê-la em um tempo 20% maior que o gasto para encher a primeira piscina. A vazão do sistema de abastecimento da segunda piscina, em litro por minuto, é', 'A', 'objetiva', 0, '2025-11-12 23:29:23', '2025-11-12 23:29:23');
+INSERT INTO `questao` (`id_questao`, `id_assunto`, `id_professor`, `serie`, `enunciado`, `resposta_correta`, `tipo`, `publico`, `data_criacao`, `ultima_atualizacao`) VALUES
+(1, 2, NULL, NULL, 'Para concretar a laje de sua residência, uma pessoa contratou uma construtora. Tal empresa informa que o preço y do concreto bombeado é composto de duas partes: uma fixa, chamada de taxa de bombeamento, e uma variável, que depende do volume x de concreto utilizado. Sabe-se que a taxa de bombeamento custa R$ 500,00 e que o metro cúbico do concreto bombeado é de R$ 250,00. A expressão que representa o preço y em função do volume x, em metro cúbico, é', 'A', 'objetiva', 0, '2025-11-11 22:38:40', '2025-11-11 22:38:40'),
+(2, 2, NULL, NULL, 'Uma piscina tem capacidade de 2 500 000 litros. Seu sistema de abastecimento foi regulado para ter uma vazão constante de 6 000 litros de água por minuto. O mesmo sistema foi instalado em uma segunda piscina, com capacidade de 2 750 000 litros, e regulado para ter uma vazão, também constante, capaz de enchê-la em um tempo 20% maior que o gasto para encher a primeira piscina. A vazão do sistema de abastecimento da segunda piscina, em litro por minuto, é', 'A', 'objetiva', 0, '2025-11-12 23:29:23', '2025-11-12 23:29:23'),
+(3, 2, NULL, NULL, 'Uma piscina tem capacidade de 2 500 000 litros. Seu sistema de abastecimento foi regulado para ter uma vazão constante de 6 000 litros de água por minuto. O mesmo sistema foi instalado em uma segunda piscina, com capacidade de 2 750 000 litros, e regulado para ter uma vazão, também constante, capaz de enchê-la em um tempo 20% maior que o gasto para encher a primeira piscina. A vazão do sistema de abastecimento da segunda piscina, em litro por minuto, é', 'A', 'objetiva', 0, '2025-11-12 23:29:23', '2025-11-12 23:29:23');
 
 -- --------------------------------------------------------
 
@@ -379,7 +404,8 @@ CREATE TABLE `usuario` (
 
 INSERT INTO `usuario` (`id_usuario`, `id_escola`, `nome`, `email`, `senha`, `telefone`, `tipo`, `ativo`, `data_cadastro`, `ultima_atualizacao`) VALUES
 (6, 10, 'Joel Damasceno Parente', 'jo3ldamasceno@gmail.com', '$2y$10$wlPhXbc4hLilhs62wGwABeVcosuBR/SOnYKiB4oGs/EpuVvG7TjVy', '(85) 99125-9840', 'gestor', 1, '2025-11-08 14:52:15', '2025-11-08 14:52:15'),
-(7, 11, 'Ana Rebeca Damasceno Mastracusa', 'ana.mastracusa01@gmail.com', '$2y$10$eF8TVb.67eWJ17YHAVtnduDdujW.EfXDy/wUG4pnGakph22IsOHY6', '(85) 99971-5867', 'gestor', 1, '2025-11-08 16:28:38', '2025-11-08 16:28:38');
+(7, 11, 'Ana Rebeca Damasceno Mastracusa', 'ana.mastracusa01@gmail.com', '$2y$10$eF8TVb.67eWJ17YHAVtnduDdujW.EfXDy/wUG4pnGakph22IsOHY6', '(85) 99971-5867', 'gestor', 1, '2025-11-08 16:28:38', '2025-11-08 16:28:38'),
+(8, 12, 'teste da escola', 'teste@gmail.com', '$2y$10$nTZ0K2p2.iDQOaLFQLnoVuqXzlOBd1zDjHUUnNQPkksMphUyes.3i', '(01) 23456-7890', 'gestor', 1, '2025-11-15 16:01:03', '2025-11-15 16:01:03');
 
 --
 -- Índices para tabelas despejadas
@@ -445,6 +471,13 @@ ALTER TABLE `gabarito`
 ALTER TABLE `gabaritoaluno`
   ADD KEY `id_prova` (`id_prova`),
   ADD KEY `id_aluno` (`id_aluno`),
+  ADD KEY `id_questao` (`id_questao`);
+
+--
+-- Índices de tabela `imagemquestao`
+--
+ALTER TABLE `imagemquestao`
+  ADD PRIMARY KEY (`id_imagem`),
   ADD KEY `id_questao` (`id_questao`);
 
 --
@@ -555,7 +588,7 @@ ALTER TABLE `disciplina`
 -- AUTO_INCREMENT de tabela `escola`
 --
 ALTER TABLE `escola`
-  MODIFY `id_escola` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_escola` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de tabela `gabarito`
@@ -591,7 +624,7 @@ ALTER TABLE `turma`
 -- AUTO_INCREMENT de tabela `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Restrições para tabelas despejadas

@@ -4,9 +4,40 @@ import { Plus } from '@phosphor-icons/react';
 import CardAcao from '@/components/dashboard/criacao/card-acao';
 import { useRouter } from 'next/navigation';
 import { paths } from '@/paths';
+import React, { useState } from 'react';
+import ModalNomeSerie from '@/components/criar-prova/ModalNomeSerie';
+import ModalComponenteCurricular from '@/components/criar-prova/ModalDisciplina';
 
 export default function DashboardPage() {
     const router = useRouter();
+
+    const [openNomeSerie, setOpenNomeSerie] = useState(false);
+    const [openComponente, setOpenComponente] = useState(false);
+    const [tmpProva, setTmpProva] = useState<{ nome: string; serie: string } | null>(null);
+
+    const handleClickCriarProva = () => {
+        // inicia o fluxo pelos modais
+        setOpenNomeSerie(true);
+    };
+
+    const handleConfirmNomeSerie = (payload: { nome: string; serie: string }) => {
+        setTmpProva(payload);
+        setOpenNomeSerie(false);
+        setOpenComponente(true);
+    };
+
+    const handleConfirmComponente = (turma: any) => {
+        // persistir dados temporariamente para a página de criação (pode ser lido pela página)
+        try {
+            const data = { prova: tmpProva, turma };
+            sessionStorage.setItem('criarProvaInit', JSON.stringify(data));
+        } catch (e) {
+            console.warn('Não foi possível gravar sessionStorage criarProvaInit', e);
+        }
+        setOpenComponente(false);
+        // navegar para a página de criação completa
+        router.push(paths.dashboard.criacao.prova);
+    };
 
     return (
         <Box sx={{ p: 2 }}>
@@ -19,7 +50,7 @@ export default function DashboardPage() {
                     title="Criar Prova Completa"
                     description="Monte uma prova com cabeçalho e exportação para PDF."
                     icon={<Plus size={32} />}
-                    onClick={() => router.push(paths.dashboard.criacao.prova)}
+                    onClick={handleClickCriarProva}
                 />
 
                 <CardAcao
@@ -30,6 +61,9 @@ export default function DashboardPage() {
                 />
 
             </Box>
+
+            <ModalNomeSerie open={openNomeSerie} onClose={() => setOpenNomeSerie(false)} onConfirm={handleConfirmNomeSerie} />
+            <ModalComponenteCurricular open={openComponente} onClose={() => setOpenComponente(false)} onConfirm={handleConfirmComponente} />
         </Box>
     );
 }
