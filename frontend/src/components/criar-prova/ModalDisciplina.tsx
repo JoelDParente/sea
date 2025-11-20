@@ -20,8 +20,7 @@ import {
 import axios from 'axios';
 
 interface Turma {
-    id_turma: string | number;
-    nome_turma: string;
+    id_disciplina: string | number;
     disciplina: string;
 }
 
@@ -100,23 +99,16 @@ export default function ModalComponenteCurricular({ open, onClose, onConfirm, pr
                 const raw = Array.isArray(res.data) ? res.data : Object.values(res.data || {});
 
                 // Normalizar diferentes formatos que a API pode retornar
-                const normalized = (raw as any[]).map((it) => {
-                    // tente extrair id da turma / disciplina a partir de vários campos possíveis
-                    const id_turma = it.id_turma ?? it.id_turma_fk ?? it.id_turma_prof ?? it.id_turma_professor ?? it.id_disciplina ?? it.id_professor_disciplina ?? it.id ?? (it.turma && (it.turma.id || it.turma.id_turma)) ?? '';
-                    const nome_turma = it.nome_turma ?? it.turma_nome ?? it.nome_turma ?? it.nome_disciplina ?? it.disciplina_nome ?? it.nome ?? (it.turma && (it.turma.nome || it.turma.nome_turma)) ?? '';
-                    const disciplina = it.disciplina ?? it.nome_disciplina ?? it.disciplina_nome ?? it.nome ?? '';
+                const normalized = raw.map((it) => ({
+                    id_disciplina: it.id_disciplina,
+                    disciplina: it.nome_disciplina
+                }));
 
-                    return {
-                        id_turma: id_turma,
-                        nome_turma: String(nome_turma || id_turma),
-                        disciplina: String(disciplina || ''),
-                    } as Turma;
-                });
 
                 setTurmas(normalized);
                 // se não houver seleção, selecione a primeira turma retornada
                 if (!selected && normalized.length > 0) {
-                    setSelected(String(normalized[0].id_turma));
+                    setSelected(String(normalized[0].id_disciplina));
                 }
             } catch (err) {
                 console.error('Erro ao buscar turmas do professor', err);
@@ -129,7 +121,7 @@ export default function ModalComponenteCurricular({ open, onClose, onConfirm, pr
     }, [open, professorId]);
 
     const handleConfirm = () => {
-        const t = turmas.find((x) => String(x.id_turma) === String(selected));
+        const t = turmas.find((x) => String(x.id_disciplina) === String(selected));
         if (!t) return;
         onConfirm(t);
         onClose();
@@ -152,11 +144,11 @@ export default function ModalComponenteCurricular({ open, onClose, onConfirm, pr
                         <RadioGroup value={selected} onChange={(e) => setSelected(e.target.value)}>
                             <List>
                                 {turmas.map((t) => (
-                                    <ListItem key={t.id_turma} disablePadding>
+                                    <ListItem key={t.id_disciplina} disablePadding>
                                         <FormControlLabel
-                                            value={String(t.id_turma)}
+                                            value={String(t.id_disciplina)}
                                             control={<Radio />}
-                                            label={`${t.nome_turma} — ${t.disciplina || ''}`}
+                                            label={`${t.disciplina || ''}`}
                                             sx={{ width: '100%' }}
                                         />
                                     </ListItem>

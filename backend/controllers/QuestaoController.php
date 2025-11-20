@@ -148,12 +148,121 @@ switch ($metodo) {
                     }
                     break;
                 case 'questoes':
+                    // 🔹 FILTRAR POR ASSUNTO
+                    if (isset($_GET['id_assunto'])) {
+                        try {
+                            $idAssunto = (int)$_GET['id_assunto'];
+                            $conn = Database::getInstance()->getConnection();
+
+                            $sql = "
+            SELECT 
+                q.id_questao,
+                SUBSTRING(q.enunciado, 1, 100) AS titulo,
+                q.enunciado,
+                q.resposta_correta,
+                q.tipo,
+                q.publico,
+                q.data_criacao,
+                q.ultima_atualizacao,
+                q.id_assunto,
+                a.nome_assunto,
+                c.id_categoria,
+                c.nome_categoria,
+                d.id_disciplina,
+                d.nome_disciplina,
+                q.id_professor
+            FROM questao q
+            LEFT JOIN assunto a ON q.id_assunto = a.id_assunto
+            LEFT JOIN categoria c ON a.id_categoria = c.id_categoria
+            LEFT JOIN disciplina d ON c.id_disciplina = d.id_disciplina
+            WHERE q.id_assunto = :id_assunto
+            ORDER BY q.data_criacao DESC
+            ";
+
+                            $stmt = $conn->prepare($sql);
+                            $stmt->bindValue(':id_assunto', $idAssunto, PDO::PARAM_INT);
+                            $stmt->execute();
+                            $questoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                            foreach ($questoes as &$q) {
+                                $q['alternativas'] = $alternativaDAO->getAlternativaByIdQuestao($q['id_questao']);
+                            }
+
+                            echo json_encode($questoes);
+                        } catch (Exception $e) {
+                            http_response_code(500);
+                            echo json_encode(['erro' => 'Erro ao obter questões', 'mensagem' => $e->getMessage()]);
+                        }
+                        break;
+                    }
+
+                    // 🔹 NOVO: FILTRAR POR DISCIPLINA
+                    if (isset($_GET['id_disciplina'])) {
+                        try {
+                            $idDisciplina = (int)$_GET['id_disciplina'];
+                            $conn = Database::getInstance()->getConnection();
+
+                            $sql = "
+            SELECT 
+                q.id_questao,
+                SUBSTRING(q.enunciado, 1, 100) AS titulo,
+                q.enunciado,
+                q.resposta_correta,
+                q.tipo,
+                q.publico,
+                q.data_criacao,
+                q.ultima_atualizacao,
+                q.id_assunto,
+                a.nome_assunto,
+                c.id_categoria,
+                c.nome_categoria,
+                d.id_disciplina,
+                d.nome_disciplina,
+                q.id_professor
+            FROM questao q
+            LEFT JOIN assunto a ON q.id_assunto = a.id_assunto
+            LEFT JOIN categoria c ON a.id_categoria = c.id_categoria
+            LEFT JOIN disciplina d ON c.id_disciplina = d.id_disciplina
+            WHERE d.id_disciplina = :id_disciplina
+            ORDER BY q.data_criacao DESC
+            ";
+
+                            $stmt = $conn->prepare($sql);
+                            $stmt->bindValue(':id_disciplina', $idDisciplina, PDO::PARAM_INT);
+                            $stmt->execute();
+                            $questoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                            foreach ($questoes as &$q) {
+                                $q['alternativas'] = $alternativaDAO->getAlternativaByIdQuestao($q['id_questao']);
+                            }
+
+                            echo json_encode($questoes);
+                        } catch (Exception $e) {
+                            http_response_code(500);
+                            echo json_encode(['erro' => 'Erro ao obter questões por disciplina', 'mensagem' => $e->getMessage()]);
+                        }
+                        break;
+                    }
+
+                    // 🔹 SEM FILTROS → listar todas
+                    try {
+                        $questoes = $questaoDAO->listarComRelacionamentos();
+                        foreach ($questoes as &$q) {
+                            $q['alternativas'] = $alternativaDAO->getAlternativaByIdQuestao($q['id_questao']);
+                        }
+                        echo json_encode($questoes);
+                    } catch (Exception $e) {
+                        http_response_code(500);
+                        echo json_encode(['erro' => 'Erro ao obter questões', 'mensagem' => $e->getMessage()]);
+                    }
+                    break;
+
                     // Se id_assunto é fornecido, filtra por assunto
                     if (isset($_GET['id_assunto'])) {
                         try {
                             $idAssunto = (int)$_GET['id_assunto'];
                             $conn = Database::getInstance()->getConnection();
-                            
+
                             $sql = "
                             SELECT 
                                 q.id_questao,
@@ -178,17 +287,17 @@ switch ($metodo) {
                             WHERE q.id_assunto = :id_assunto
                             ORDER BY q.data_criacao DESC
                             ";
-                            
+
                             $stmt = $conn->prepare($sql);
                             $stmt->bindValue(':id_assunto', $idAssunto, PDO::PARAM_INT);
                             $stmt->execute();
                             $questoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                            
+
                             // Adicionar alternativas para cada questão
                             foreach ($questoes as &$q) {
                                 $q['alternativas'] = $alternativaDAO->getAlternativaByIdQuestao($q['id_questao']);
                             }
-                            
+
                             echo json_encode($questoes);
                         } catch (Exception $e) {
                             http_response_code(500);
@@ -227,4 +336,3 @@ switch ($metodo) {
         echo json_encode(['erro' => 'Método não permitido']);
         break;
 }
-?>

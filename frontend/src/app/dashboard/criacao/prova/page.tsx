@@ -2,11 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 import { Container, Box, Button, Typography, Stack } from '@mui/material';
-import ModalNomeSerie from '../../../../components/criar-prova/ModalNomeSerie';
-import ModalComponenteCurricular from '../../../../components/criar-prova/ModalDisciplina';
-import ConstrutorTabs from '../../../../components/criar-prova/ConstrutorTabs';
-import ListaQuestoes, { Question } from '../../../../components/criar-prova/ListaQuestoes';
-import QuestoesSelecionadas from '../../../../components/criar-prova/QuestoesSelecionadas';
+import ModalNomeSerie from '@/components/criar-prova/ModalNomeSerie';
+import ModalComponenteCurricular from '@/components/criar-prova/ModalDisciplina';
+import ConstrutorTabs from '@/components/criar-prova/ConstrutorTabs';
+import ListaQuestoes, { Question } from '@/components/criar-prova/ListaQuestoes';
+import QuestoesSelecionadas from '@/components/criar-prova/QuestoesSelecionadas';
 import axios from 'axios';
 
 export default function Page() {
@@ -16,7 +16,7 @@ export default function Page() {
 
   // Etapa 2: Componente curricular
   const [openComponente, setOpenComponente] = useState(false);
-  const [turmaSelecionada, setTurmaSelecionada] = useState<any | null>(null);
+  const [componenteSelecionado, setComponenteSelecionado] = useState<any | null>(null);
 
   // Tabs
   const [tab, setTab] = useState(0);
@@ -34,7 +34,7 @@ export default function Page() {
           setProva(parsed.prova);
         }
         if (parsed?.turma) {
-          setTurmaSelecionada(parsed.turma);
+          setComponenteSelecionado(parsed.turma);
         }
         // limpar para não reutilizar
         sessionStorage.removeItem('criarProvaInit');
@@ -59,7 +59,7 @@ export default function Page() {
   };
 
   const handleConfirmComponente = (turma: any) => {
-    setTurmaSelecionada(turma);
+    setComponenteSelecionado(turma);
     setOpenComponente(false);
     setTab(0);
   };
@@ -74,12 +74,12 @@ export default function Page() {
   };
 
   const handleGerarPDF = async () => {
-    if (!prova || !turmaSelecionada) return;
+    if (!prova || !componenteSelecionado) return;
     try {
       const payload = {
         nome_prova: prova.nome,
         serie: prova.serie,
-        id_turma: turmaSelecionada.id_turma,
+        id_disciplina: componenteSelecionado.id_disciplina,
         questoes: questoesSelecionadas.map((q) => q.id_questao),
       };
 
@@ -101,7 +101,7 @@ export default function Page() {
       <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
         <Box>
           <Typography variant="subtitle1">{prova ? `${prova.nome} — ${prova.serie}` : 'Nome e série não definidos'}</Typography>
-          <Typography variant="caption">Turma: {turmaSelecionada?.nome_turma || 'Nenhuma'}</Typography>
+          <Typography variant="caption">Disciplina: {componenteSelecionado?.nome_disciplina || 'Nenhuma'}</Typography>
         </Box>
         <Box>
           <Button variant="outlined" onClick={() => setOpenNomeSerie(true)} sx={{ mr: 1 }}>
@@ -117,14 +117,18 @@ export default function Page() {
 
       <Box>
         {tab === 0 && (
-          <ListaQuestoes turmaId={turmaSelecionada?.id_turma ?? null} onSelect={handleSelectQuestao} />
+          <ListaQuestoes
+            id_disciplina={componenteSelecionado?.id_disciplina ?? null}
+            onSelect={handleSelectQuestao}
+            selectedIds={questoesSelecionadas.map((q) => q.id_questao)}
+          />
         )}
 
         {tab === 1 && (
           <Box>
             <QuestoesSelecionadas questoes={questoesSelecionadas} onRemove={handleRemoveQuestao} />
             <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
-              <Button variant="contained" color="primary" onClick={handleGerarPDF} disabled={!prova || !turmaSelecionada || questoesSelecionadas.length === 0}>
+              <Button variant="contained" color="primary" onClick={handleGerarPDF} disabled={!prova || !componenteSelecionado || questoesSelecionadas.length === 0}>
                 Gerar PDF
               </Button>
             </Box>

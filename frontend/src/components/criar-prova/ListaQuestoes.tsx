@@ -21,21 +21,22 @@ export interface Question {
 }
 
 interface Props {
-  turmaId: string | number | null;
+  id_disciplina: string | number | null;
   onSelect: (q: Question) => void;
+  selectedIds?: Array<string | number>;
 }
 
-export default function ListaQuestoes({ turmaId, onSelect }: Props) {
+export default function ListaQuestoes({ id_disciplina, onSelect, selectedIds = [] }: Props) {
   const [questoes, setQuestoes] = useState<Question[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!turmaId) return setQuestoes([]);
+    if (!id_disciplina) return setQuestoes([]);
     const fetchQuestoes = async () => {
       setLoading(true);
       try {
         // Ajuste a URL conforme seu backend
-        const res = await axios.get(`/backend/controllers/QuestaoController.php?tipo=porTurma&id_turma=${turmaId}`);
+        const res = await axios.get(`http://localhost/sea/backend/controllers/QuestaoController.php?tipo=questoes&id_disciplina=${id_disciplina}`);
         const data = Array.isArray(res.data) ? res.data : Object.values(res.data || {});
         setQuestoes(data as Question[]);
       } catch (err) {
@@ -46,9 +47,9 @@ export default function ListaQuestoes({ turmaId, onSelect }: Props) {
       }
     };
     fetchQuestoes();
-  }, [turmaId]);
+  }, [id_disciplina]);
 
-  if (!turmaId) return <Typography>Selecione um componente curricular para listar questões.</Typography>;
+  if (!id_disciplina) return <Typography>Selecione um componente curricular para listar questões.</Typography>;
 
   return (
     <Box>
@@ -67,9 +68,19 @@ export default function ListaQuestoes({ turmaId, onSelect }: Props) {
                 </CardContent>
                 <Divider />
                 <Box sx={{ p: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                  <Button size="small" variant="contained" onClick={() => onSelect(q)}>
-                    Selecionar
-                  </Button>
+                  {(() => {
+                    const isSelected = selectedIds.some((id) => String(id) === String(q.id_questao));
+                    return (
+                      <Button
+                        size="small"
+                        variant={isSelected ? 'outlined' : 'contained'}
+                        onClick={() => onSelect(q)}
+                        disabled={isSelected}
+                      >
+                        {isSelected ? 'Selecionada' : 'Selecionar'}
+                      </Button>
+                    );
+                  })()}
                 </Box>
               </Card>
             </Grid>

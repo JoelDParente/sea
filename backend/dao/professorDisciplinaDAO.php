@@ -36,17 +36,21 @@ class ProfessorDisciplinaDAO {
         return $this->mapRowToProfessorDisciplina($row);
     }
 
-        public function getDisciplinaByProfessorId(int $idProfesor): ?ProfessorDisciplina {
-        $sql = "SELECT id_disciplina FROM professordisciplina 
-                WHERE id_professor = :id_professor";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindValue(':id_professor', $idProfesor, PDO::PARAM_INT);
-        $stmt->execute();
-        $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+public function getDisciplinaByProfessorId(int $idProfessor): array {
+    $sql = "
+        SELECT d.id_disciplina, d.nome_disciplina as nome_disciplina
+        FROM professordisciplina pd
+        INNER JOIN disciplina d ON d.id_disciplina = pd.id_disciplina
+        WHERE pd.id_professor = :id_professor
+    ";
+    
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindValue(':id_professor', $idProfessor, PDO::PARAM_INT);
+    $stmt->execute();
 
-        if (!$row) return null;
-        return $this->mapRowToProfessorDisciplina($row);
-    }
+    return $stmt->fetchAll(PDO::FETCH_ASSOC); 
+}
+
 
     // READ todos
     public function getAllProfessorDisciplinas(): array {
