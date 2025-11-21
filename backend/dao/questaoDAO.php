@@ -135,4 +135,44 @@ class QuestaoDAO
         $stmt = $this->conn->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function listarQuestoesPorProva(int $id_prova): array
+    {
+        $sql = "
+        SELECT 
+            q.id_questao,
+            q.enunciado,
+            q.resposta_correta,
+            q.tipo,
+            q.publico,
+            q.data_criacao,
+            q.ultima_atualizacao,
+            q.id_assunto,
+            q.id_professor,
+
+            -- Assunto
+            a.nome_assunto,
+
+            -- Categoria
+            c.nome_categoria,
+
+            -- Disciplina
+            d.nome_disciplina
+
+        FROM provas_questoes pq
+        INNER JOIN questao q ON pq.id_questao = q.id_questao
+        LEFT JOIN assunto a ON q.id_assunto = a.id_assunto
+        LEFT JOIN categoria c ON a.id_categoria = c.id_categoria
+        LEFT JOIN disciplina d ON c.id_disciplina = d.id_disciplina
+
+        WHERE pq.id_prova = :id_prova
+        ORDER BY pq.ordem ASC
+    ";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':id_prova', $id_prova, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

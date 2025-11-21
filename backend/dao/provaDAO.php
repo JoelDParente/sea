@@ -13,10 +13,10 @@ class ProvaDAO {
     }
 
     public function criarProva(Prova $prova): int {
-        $sql = "INSERT INTO prova (uid_professor, titulo, versao, data_criacao, ultima_atualizacao)
-                VALUES (:uid_professor, :titulo, :versao, :data_criacao, :ultima_atualizacao)";
+        $sql = "INSERT INTO prova (id_professor, titulo, versao, data_criacao, ultima_atualizacao)
+                VALUES (:id_professor, :titulo, :versao, :data_criacao, :ultima_atualizacao)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindValue(':uid_professor', $prova->getIdProfessor(), PDO::PARAM_INT);
+        $stmt->bindValue(':id_professor', $prova->getIdProfessor(), PDO::PARAM_INT);
         $stmt->bindValue(':titulo', $prova->getTitulo(), PDO::PARAM_STR);
         $stmt->bindValue(':versao', $prova->getVersao(), PDO::PARAM_STR);
         $stmt->bindValue(':data_criacao', $prova->getDataCriacao(), PDO::PARAM_STR);
@@ -48,10 +48,10 @@ class ProvaDAO {
     }
 
     public function atualizarProva(Prova $prova): bool {
-        $sql = "UPDATE prova SET uid_professor = :uid_professor, titulo = :titulo, versao = :versao, data_criacao = :data_criacao, ultima_atualizacao = :ultima_atualizacao
+        $sql = "UPDATE prova SET id_professor = :id_professor, titulo = :titulo, versao = :versao, data_criacao = :data_criacao, ultima_atualizacao = :ultima_atualizacao
                 WHERE id_prova = :id_prova";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindValue(':uid_professor', $prova->getIdProfessor(), PDO::PARAM_INT);
+        $stmt->bindValue(':id_professor', $prova->getIdProfessor(), PDO::PARAM_INT);
         $stmt->bindValue(':titulo', $prova->getTitulo(), PDO::PARAM_STR);
         $stmt->bindValue(':versao', $prova->getVersao(), PDO::PARAM_STR);
         $stmt->bindValue(':data_criacao', $prova->getDataCriacao(), PDO::PARAM_STR);
@@ -71,7 +71,7 @@ class ProvaDAO {
     private function mapRowToProva(array $row): Prova {
         $prova = new Prova();
         $prova->setIdProva($row['id_prova'])
-                ->setIdProfessor($row['uid_professor'])
+                ->setIdProfessor($row['id_professor'])
                 ->setTitulo($row['titulo'])
                 ->setVersao($row['versao'])
                 ->setDataCriacao($row['data_criacao'])

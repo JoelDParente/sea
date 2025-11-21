@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { Container, Box, Button, Typography, Stack } from '@mui/material';
+import { Container, Box, Button, Typography, Stack, TextField } from '@mui/material';
 import ModalNomeSerie from '@/components/criar-prova/ModalNomeSerie';
 import ModalComponenteCurricular from '@/components/criar-prova/ModalDisciplina';
 import ConstrutorTabs from '@/components/criar-prova/ConstrutorTabs';
@@ -23,6 +23,8 @@ export default function Page() {
 
   // Questões selecionadas
   const [questoesSelecionadas, setQuestoesSelecionadas] = useState<Question[]>([]);
+  // Quantidade de versões a gerar (1..4)
+  const [versionsCount, setVersionsCount] = useState<number>(1);
 
   // Ao montar, verificar se existe um payload de inicialização vindo do CardAcao (sessionStorage)
   useEffect(() => {
@@ -81,14 +83,33 @@ export default function Page() {
         serie: prova.serie,
         id_disciplina: componenteSelecionado.id_disciplina,
         questoes: questoesSelecionadas.map((q) => q.id_questao),
+        versions_count: versionsCount,
+        // tentar extrair id do professor do localStorage (se disponível)
+        id_professor: (() => {
+          try {
+            const u = localStorage.getItem('user');
+            if (u) {
+              const parsed = JSON.parse(u);
+              return parsed?.id || parsed?.id_professor || parsed?.id_usuario || null;
+            }
+          } catch (e) {
+            // ignore
+          }
+          return null;
+        })(),
       };
 
-      // Ajuste a URL conforme seu backend
-      const res = await axios.post('/backend/controllers/ProvaController.php?acao=gerarPdf', payload);
-      console.log('Gerar PDF resposta:', res.data);
-      // você pode mostrar um toast ou iniciar download, dependendo da resposta
+      const res = await axios.post('http://localhost/sea/backend/controllers/gerarVersoesProvaController.php', payload);
+      if (res.data?.sucesso && Array.isArray(res.data.versoes)) {
+        // abrir cada PDF em nova aba
+        res.data.versoes.forEach((v: any) => {
+          if (v.url_pdf) window.open(v.url_pdf, '_blank');
+        });
+      } else {
+        console.error('Resposta inesperada ao gerar versões', res.data);
+      }
     } catch (err) {
-      console.error('Erro ao gerar PDF', err);
+      console.error('Erro ao gerar versões', err);
     }
   };
 
@@ -108,7 +129,7 @@ export default function Page() {
             Editar Nome/Série
           </Button>
           <Button variant="outlined" onClick={() => setOpenComponente(true)}>
-            Trocar Componente
+            Trocar Disciplina
           </Button>
         </Box>
       </Stack>
@@ -127,7 +148,20 @@ export default function Page() {
         {tab === 1 && (
           <Box>
             <QuestoesSelecionadas questoes={questoesSelecionadas} onRemove={handleRemoveQuestao} />
-            <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
+            <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 2 }}>
+              <TextField
+                label="Versões"
+                type="number"
+                size="small"
+                value={versionsCount}
+                inputProps={{ min: 1, max: 4 }}
+                onChange={(e) => {
+                  const v = Number(e.target.value);
+                  if (isNaN(v)) return setVersionsCount(1);
+                  setVersionsCount(Math.max(1, Math.min(4, Math.floor(v))));
+                }}
+                sx={{ width: 100 }}
+              />
               <Button variant="contained" color="primary" onClick={handleGerarPDF} disabled={!prova || !componenteSelecionado || questoesSelecionadas.length === 0}>
                 Gerar PDF
               </Button>

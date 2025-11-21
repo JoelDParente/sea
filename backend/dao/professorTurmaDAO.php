@@ -14,21 +14,21 @@ class ProfessorTurmaDAO {
 
     // CREATE
     public function criarProfessorTurma(ProfessorTurma $leciona): bool {
-        $sql = "INSERT INTO professorturma (id_turma, uid_professor)
-                VALUES (:id_turma, :uid_professor)";
+        $sql = "INSERT INTO professorturma (id_turma, id_professor)
+                VALUES (:id_turma, :id_professor)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id_turma', $leciona->getIdTurma(), PDO::PARAM_INT);
-        $stmt->bindValue(':uid_professor', $leciona->getIdProfessor(), PDO::PARAM_INT);
+        $stmt->bindValue(':id_professor', $leciona->getIdProfessor(), PDO::PARAM_INT);
         return $stmt->execute();
     }
 
-    // READ por chave composta (id_turma, uid_professor, id_questao)
+    // READ por chave composta (id_turma, id_professor, id_questao)
     public function getProfessorTurmaById(int $idTurma, int $idProfesor): ?ProfessorTurma {
         $sql = "SELECT * FROM professorturma 
-                WHERE id_turma = :id_turma AND uid_professor = :uid_professor";
+                WHERE id_turma = :id_turma AND id_professor = :id_professor";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id_turma', $idTurma, PDO::PARAM_INT);
-        $stmt->bindValue(':uid_professor', $idProfesor, PDO::PARAM_INT);
+        $stmt->bindValue(':id_professor', $idProfesor, PDO::PARAM_INT);
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -50,17 +50,17 @@ class ProfessorTurmaDAO {
     // DELETE
     public function excluirProfessorTurma(int $idTurma, int $idProfessor): bool {
         $sql = "DELETE FROM professorturma 
-                WHERE id_turma = :id_turma AND uid_professor = :uid_professor";
+                WHERE id_turma = :id_turma AND id_professor = :id_professor";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id_turma', $idTurma, PDO::PARAM_INT);
-        $stmt->bindValue(':uid_professor', $idProfessor, PDO::PARAM_INT);
+        $stmt->bindValue(':id_professor', $idProfessor, PDO::PARAM_INT);
         return $stmt->execute();
     }
 
     private function mapRowToProfessorTurma(array $row): ProfessorTurma {
         $leciona = new ProfessorTurma();
         $leciona->setidTurma($row['id_turma'])
-                 ->setIdProfessor($row['uid_professor']);
+                 ->setIdProfessor($row['id_professor']);
         return $leciona;
     }
 }

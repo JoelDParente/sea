@@ -12,12 +12,14 @@ import {
   CircularProgress,
   Divider,
 } from '@mui/material';
+import ModalVerMais from './ModalVerMais';
 import axios from 'axios';
 
 export interface Question {
   id_questao: string | number;
   enunciado: string;
   imagem?: string | null;
+  alternativas?: { texto: string }[];
 }
 
 interface Props {
@@ -29,6 +31,7 @@ interface Props {
 export default function ListaQuestoes({ id_disciplina, onSelect, selectedIds = [] }: Props) {
   const [questoes, setQuestoes] = useState<Question[]>([]);
   const [loading, setLoading] = useState(false);
+  const [openQuestion, setOpenQuestion] = useState<Question | null>(null);
 
   useEffect(() => {
     if (!id_disciplina) return setQuestoes([]);
@@ -54,20 +57,33 @@ export default function ListaQuestoes({ id_disciplina, onSelect, selectedIds = [
   return (
     <Box>
       {loading ? (
-        <CircularProgress />
+        <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}><CircularProgress /></Box>
       ) : (
         <Grid container spacing={2}>
           {questoes.map((q) => (
-            <Grid size={{xs: 12, sm:8, md:6}} key={q.id_questao}>
-              <Card>
+            <Grid item xs={12} sm={6} md={6} key={q.id_questao}>
+              <Card sx={{ height: 260, display: 'flex', flexDirection: 'column' }}>
                 {q.imagem && (
-                  <CardMedia component="img" height="140" image={q.imagem} alt={`imagem-${q.id_questao}`} />
+                  <CardMedia component="img" image={q.imagem} alt={`imagem-${q.id_questao}`} sx={{ height: 120, objectFit: 'cover' }} />
                 )}
-                <CardContent>
-                  <Typography variant="body2" dangerouslySetInnerHTML={{ __html: q.enunciado }} />
+                <CardContent sx={{ flex: 1, overflow: 'hidden' }}>
+                  <Typography
+                    variant="body2"
+                    dangerouslySetInnerHTML={{ __html: q.enunciado }}
+                    sx={{
+                      display: '-webkit-box',
+                      WebkitLineClamp: 6,
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                    }}
+                  />
                 </CardContent>
                 <Divider />
-                <Box sx={{ p: 1, display: 'flex', justifyContent: 'flex-end' }}>
+                <Box sx={{ p: 1, display: 'flex', justifyContent: 'space-between', gap: 1 }}>
+                  <Button size="small" onClick={() => setOpenQuestion(q)}>
+                    Ver mais
+                  </Button>
                   {(() => {
                     const isSelected = selectedIds.some((id) => String(id) === String(q.id_questao));
                     return (
@@ -87,6 +103,7 @@ export default function ListaQuestoes({ id_disciplina, onSelect, selectedIds = [
           ))}
         </Grid>
       )}
+      <ModalVerMais open={!!openQuestion} question={openQuestion || undefined} onClose={() => setOpenQuestion(null)} />
     </Box>
   );
 }

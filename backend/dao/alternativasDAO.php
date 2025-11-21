@@ -73,7 +73,32 @@ class AlternativaDAO
         $stmt->bindValue(':id_alternativa', $id_alternativa, PDO::PARAM_INT);
         return $stmt->execute();
     }
-    
+
+    public function listarPorQuestao(int $id_questao): array
+    {
+        $sql = "SELECT id_alternativa, id_questao, texto 
+            FROM alternativas 
+            WHERE id_questao = :id_questao 
+            ORDER BY id_alternativa ASC";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':id_questao', $id_questao, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $alternativas = [];
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $alternativas[] = [
+                'id_alternativa' => $row['id_alternativa'],
+                'id_questao'     => $row['id_questao'],
+                'texto'          => $row['texto']
+            ];
+        }
+
+        return $alternativas;
+    }
+
+
     private function mapRowToAlternativa(array $row): Alternativa
     {
         $alternativa = new Alternativa();
