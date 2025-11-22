@@ -178,7 +178,7 @@ const MobileToolbarContent = ({
   </>
 )
 
-export function SimpleEditor({ onChange }: { onChange?: (html: string) => void }) {
+export function SimpleEditor({ onChange, initialContent }: { onChange?: (html: string) => void, initialContent?: string }) {
   const isMobile = useIsMobile()
   const { height } = useWindowSize()
   const [mobileView, setMobileView] = useState<"main" | "highlighter" | "link">(
@@ -240,6 +240,17 @@ export function SimpleEditor({ onChange }: { onChange?: (html: string) => void }
 
     // envia conteúdo inicial uma vez
     onChange?.(editor.getHTML())
+
+    // se um conteúdo inicial foi fornecido, seta-o (útil para edição)
+    if (initialContent && initialContent.length > 0) {
+      try {
+        editor.commands.setContent(initialContent)
+        // notificar após setar
+        onChange?.(editor.getHTML())
+      } catch (e) {
+        console.warn('Falha ao setar initialContent no SimpleEditor', e)
+      }
+    }
 
     editor.on("update", handler)
     return () => {

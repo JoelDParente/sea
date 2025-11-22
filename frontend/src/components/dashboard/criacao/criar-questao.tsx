@@ -1,4 +1,4 @@
- 'use client';
+'use client';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Box, Button, Typography, Card, CardContent, TextField, MenuItem } from '@mui/material';
@@ -21,12 +21,14 @@ export default function CriarQuestao({ onSave }: { onSave: (questao: any) => voi
 
   // conteúdo HTML vindo do editor Tiptap
   const [editorContent, setEditorContent] = useState('');
-  
+
   // Estados para dados do backend
   const [disciplinas, setDisciplinas] = useState<any[]>([]);
   const [categorias, setCategorias] = useState<any[]>([]);
   const [assuntos, setAssuntos] = useState<any[]>([]);
   const [loadingDados, setLoadingDados] = useState(true);
+
+  const [idUsuario, setIdUsuario] = useState<number | null>(null);
 
   // Estados para seleções (usando IDs do backend)
   const [disciplinaSelecionada, setDisciplinaSelecionada] = useState<number | ''>('');
@@ -37,20 +39,28 @@ export default function CriarQuestao({ onSave }: { onSave: (questao: any) => voi
 
   // Buscar disciplinas ao montar o componente
   useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const user = JSON.parse(storedUser);
+
+      if (user?.id_usuario) {
+        setIdUsuario(Number(user.id_usuario));
+      }
+    }
     const buscarDados = async () => {
       try {
         setLoadingDados(true);
-  const resDisciplinas = await axios.get(`${API_BASE}/QuestaoController.php?tipo=disciplinas`);
-  const dataDisc = resDisciplinas.data;
-  // normaliza para array (quando backend devolver objeto associativo)
-  const arrDisc = Array.isArray(dataDisc) ? dataDisc : Object.values(dataDisc || {});
-  setDisciplinas(arrDisc);
-        
+        const resDisciplinas = await axios.get(`${API_BASE}/QuestaoController.php?tipo=disciplinas`);
+        const dataDisc = resDisciplinas.data;
+        // normaliza para array (quando backend devolver objeto associativo)
+        const arrDisc = Array.isArray(dataDisc) ? dataDisc : Object.values(dataDisc || {});
+        setDisciplinas(arrDisc);
+
         // Selecionar primeira disciplina automaticamente
         if (resDisciplinas.data && resDisciplinas.data.length > 0) {
           const primeiraDisciplina = resDisciplinas.data[0];
           setDisciplinaSelecionada(primeiraDisciplina.id_disciplina);
-          
+
           // Buscar categorias da primeira disciplina
           buscarCategorias(primeiraDisciplina.id_disciplina);
         }
@@ -73,12 +83,12 @@ export default function CriarQuestao({ onSave }: { onSave: (questao: any) => voi
       const dataCat = res.data;
       const arrCat = Array.isArray(dataCat) ? dataCat : Object.values(dataCat || {});
       setCategorias(arrCat);
-      
+
       // Selecionar primeira categoria
       if (res.data && res.data.length > 0) {
         const primeiraCategoria = res.data[0];
         setCategoriaSelecionada(primeiraCategoria.id_categoria);
-        
+
         // Buscar assuntos da primeira categoria
         buscarAssuntos(primeiraCategoria.id_categoria);
       } else {
@@ -102,7 +112,7 @@ export default function CriarQuestao({ onSave }: { onSave: (questao: any) => voi
       const dataAss = res.data;
       const arrAss = Array.isArray(dataAss) ? dataAss : Object.values(dataAss || {});
       setAssuntos(arrAss);
-      
+
       // Selecionar primeiro assunto
       if (res.data && res.data.length > 0) {
         setAssuntoSelecionado(res.data[0].id_assunto);
@@ -166,22 +176,19 @@ export default function CriarQuestao({ onSave }: { onSave: (questao: any) => voi
 
     const questaoFinal = {
       titulo,
-      enunciado: enunciadoLimpo,
+      enunciado: editorContent, // <-- preserva o HTML
       id_disciplina: disciplinaSelecionada,
       id_categoria: categoriaSelecionada,
       id_assunto: assuntoSelecionado,
       resposta_correta: respostaCorreta,
-      imagem, // adiciona caminho da imagem
+      imagem,
       alternativas: alternativas.map((alt) => ({
-        texto: stripHtml(alt.texto),
+        texto: alt.texto,
       })),
+      id_professor: idUsuario,
     };
-    // mostra no console e envia para o backend
     console.log('Questão (preview):', questaoFinal);
 
-    // Envia para o backend primeiro; NÃO chama onSave automaticamente para evitar
-    // que o componente pai feche/redirect a página. O onSave deve ser chamado
-    // explicitamente quando o usuário quiser inserir a questão na prova.
     axios
       .post(`${API_BASE}/QuestaoController.php`, questaoFinal, {
         headers: { 'Content-Type': 'application/json' },
@@ -196,63 +203,6 @@ export default function CriarQuestao({ onSave }: { onSave: (questao: any) => voi
       })
       .catch((err) => {
         console.error('Erro ao enviar questão:', err);
-        alert('Erro ao enviar questão para o servidor.');
-      });
-  };
-
-  // Salva a questão e notifica o componente pai via onSave para que a questão
-  // possa ser inserida automaticamente na prova (se o pai desejar).
-  const handleSaveAndInsert = () => {
-    if (!editorContent || !editorContent.replace(/<[^>]+>/g, '').trim()) {
-      alert('O enunciado não pode estar vazio.');
-      return;
-    }
-
-    if (!alternativas.some((alt) => alt.correta)) {
-      alert('Marque a alternativa correta.');
-      return;
-    }
-
-    if (!disciplinaSelecionada || !categoriaSelecionada || !assuntoSelecionado) {
-      alert('Selecione disciplina, categoria e assunto para a questão.');
-      return;
-    }
-
-    const stripHtml = (html: string) => {
-      const div = document.createElement('div');
-      div.innerHTML = html;
-      return div.textContent || div.innerText || '';
-    };
-
-    const enunciadoLimpo = stripHtml(editorContent);
-    const titulo = (enunciadoLimpo.trim().substring(0, 50) || 'Questão') + '...';
-    const respostaCorreta = String.fromCharCode(
-      65 + alternativas.findIndex((alt) => alt.correta)
-    );
-
-    const questaoFinal = {
-      titulo,
-      enunciado: enunciadoLimpo,
-      id_disciplina: disciplinaSelecionada,
-      id_categoria: categoriaSelecionada,
-      id_assunto: assuntoSelecionado,
-      resposta_correta: respostaCorreta,
-      imagem,
-      alternativas: alternativas.map((alt) => ({ texto: stripHtml(alt.texto) })),
-    };
-
-    axios
-      .post(`${API_BASE}/QuestaoController.php`, questaoFinal, {
-        headers: { 'Content-Type': 'application/json' },
-      })
-      .then((res) => {
-        // Se o backend retornar o id criado, adiciona ao objeto antes de enviar
-        const created = { ...questaoFinal, id: res.data?.id || undefined };
-        // chama callback do pai para inserir a questão na prova
-        onSave?.(created);
-      })
-      .catch((err) => {
-        console.error('Erro ao enviar questão (inserir):', err);
         alert('Erro ao enviar questão para o servidor.');
       });
   };
@@ -400,15 +350,6 @@ export default function CriarQuestao({ onSave }: { onSave: (questao: any) => voi
           backgroundColor: 'background.paper',
         }}
       >
-        <Button
-          variant="outlined"
-          color="primary"
-          onClick={handleSaveAndInsert}
-          size="large"
-          sx={{ mr: 2 }}
-        >
-          Salvar e Inserir
-        </Button>
         <Button
           variant="contained"
           color="primary"

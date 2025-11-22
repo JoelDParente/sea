@@ -7,9 +7,13 @@ import ModalComponenteCurricular from '@/components/criar-prova/ModalDisciplina'
 import ConstrutorTabs from '@/components/criar-prova/ConstrutorTabs';
 import ListaQuestoes, { Question } from '@/components/criar-prova/ListaQuestoes';
 import QuestoesSelecionadas from '@/components/criar-prova/QuestoesSelecionadas';
+import { ArrowLeft } from '@phosphor-icons/react';
+import { useRouter } from 'next/navigation';
+import { paths } from '@/paths';
 import axios from 'axios';
 
 export default function Page() {
+  const router = useRouter();
   // Etapa 1: Nome e Série
   const [openNomeSerie, setOpenNomeSerie] = useState(false);
   const [prova, setProva] = useState<{ nome: string; serie: string } | null>(null);
@@ -118,6 +122,13 @@ export default function Page() {
       <Typography variant="h4" gutterBottom>
         Construtor de Provas
       </Typography>
+      <Button
+        startIcon={<ArrowLeft size={18} />}
+        onClick={() => router.push(paths.dashboard.criacao.root)}
+        sx={{ mb: 2 }}
+      >
+        Voltar para o Menu
+      </Button>
 
       <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
         <Box>

@@ -60,6 +60,13 @@ export default function DashboardPage() {
                     onClick={() => router.push(paths.dashboard.criacao.questao)}
                 />
 
+                <CardAcao
+                    title="Editar Questões"
+                    description="Edite as questões já criadas por você"
+                    icon={<Plus size={32} />}
+                    onClick={() => router.push(paths.dashboard.criacao.minhasQuestoes)}
+                />
+
             </Box>
 
             <ModalNomeSerie open={openNomeSerie} onClose={() => setOpenNomeSerie(false)} onConfirm={handleConfirmNomeSerie} />

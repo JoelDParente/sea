@@ -11,6 +11,7 @@ export const paths = {
       root: '/dashboard/criacao',
       prova: '/dashboard/criacao/prova',
       questao: '/dashboard/criacao/questao',
+      minhasQuestoes: '/dashboard/criacao/minhas-questoes',
     },
     settings: '/dashboard/settings',
   },

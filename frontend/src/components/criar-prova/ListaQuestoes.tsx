@@ -61,7 +61,7 @@ export default function ListaQuestoes({ id_disciplina, onSelect, selectedIds = [
       ) : (
         <Grid container spacing={2}>
           {questoes.map((q) => (
-            <Grid item xs={12} sm={6} md={6} key={q.id_questao}>
+            <Grid size={{xs:12, md:4, sm:6}} key={q.id_questao}>
               <Card sx={{ height: 260, display: 'flex', flexDirection: 'column' }}>
                 {q.imagem && (
                   <CardMedia component="img" image={q.imagem} alt={`imagem-${q.id_questao}`} sx={{ height: 120, objectFit: 'cover' }} />

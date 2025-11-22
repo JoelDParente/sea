@@ -148,6 +148,54 @@ switch ($metodo) {
                     }
                     break;
                 case 'questoes':
+                    // 🔹 FILTRAR POR PROFESSOR
+                    if (isset($_GET['id_professor'])) {
+                        try {
+                            $idProfessor = (int)$_GET['id_professor'];
+                            $conn = Database::getInstance()->getConnection();
+
+                            $sql = "
+            SELECT 
+                q.id_questao,
+                SUBSTRING(q.enunciado, 1, 100) AS titulo,
+                q.enunciado,
+                q.resposta_correta,
+                q.tipo,
+                q.publico,
+                q.data_criacao,
+                q.ultima_atualizacao,
+                q.id_assunto,
+                a.nome_assunto,
+                c.id_categoria,
+                c.nome_categoria,
+                d.id_disciplina,
+                d.nome_disciplina,
+                q.id_professor
+            FROM questao q
+            LEFT JOIN assunto a ON q.id_assunto = a.id_assunto
+            LEFT JOIN categoria c ON a.id_categoria = c.id_categoria
+            LEFT JOIN disciplina d ON c.id_disciplina = d.id_disciplina
+            WHERE q.id_professor = :id_professor
+            ORDER BY q.data_criacao DESC
+            ";
+
+                            $stmt = $conn->prepare($sql);
+                            $stmt->bindValue(':id_professor', $idProfessor, PDO::PARAM_INT);
+                            $stmt->execute();
+                            $questoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                            foreach ($questoes as &$q) {
+                                $q['alternativas'] = $alternativaDAO->getAlternativaByIdQuestao($q['id_questao']);
+                            }
+
+                            echo json_encode($questoes);
+                        } catch (Exception $e) {
+                            http_response_code(500);
+                            echo json_encode(['erro' => 'Erro ao obter questões do professor', 'mensagem' => $e->getMessage()]);
+                        }
+                        break;
+                    }
+
                     // 🔹 FILTRAR POR ASSUNTO
                     if (isset($_GET['id_assunto'])) {
                         try {
@@ -329,6 +377,98 @@ switch ($metodo) {
             }
             echo json_encode($questoes);
         }
+        break;
+
+    // 🔹 ATUALIZAR QUESTÃO E SUAS ALTERNATIVAS
+    case 'PUT':
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        if (!$data || !isset($data['id_questao'])) {
+            http_response_code(400);
+            echo json_encode(['erro' => 'JSON inválido ou id_questao ausente']);
+            exit;
+        }
+
+        $idQuestao = (int)$data['id_questao'];
+
+        // Atualiza dados da questão
+        $questao = new Questao();
+        $questao->setIdQuestao($idQuestao);
+        $questao->setIdAssunto($data['id_assunto'] ?? null);
+        $questao->setIdProfessor($data['id_professor'] ?? null);
+        $questao->setEnunciado($data['enunciado'] ?? '');
+        $questao->setRespostaCorreta($data['resposta_correta'] ?? '');
+        $questao->setTipo($data['tipo'] ?? 'objetiva');
+        $questao->setPublico($data['publico'] ?? 0);
+        $questao->setDataCriacao($data['data_criacao'] ?? date('Y-m-d H:i:s'));
+        $questao->setUltimaAtualizacao(date('Y-m-d H:i:s'));
+
+        $atualizado = $questaoDAO->atualizarQuestao($questao);
+
+        if (!$atualizado) {
+            http_response_code(500);
+            echo json_encode(['erro' => 'Falha ao atualizar questão']);
+            exit;
+        }
+
+        // Atualiza alternativas: remove existentes e recria (simplifica sincronização)
+        $alternativasExistentes = $alternativaDAO->listarPorQuestao($idQuestao);
+        if (!empty($alternativasExistentes)) {
+            foreach ($alternativasExistentes as $a) {
+                if (isset($a['id_alternativa'])) {
+                    $alternativaDAO->excluirAlternativa((int)$a['id_alternativa']);
+                }
+            }
+        }
+
+        if (!empty($data['alternativas']) && is_array($data['alternativas'])) {
+            foreach ($data['alternativas'] as $item) {
+                $alt = new Alternativa();
+                // Ao recriar, não definimos id_alternativa manualmente — deixa o banco gerar
+                $alt->setIdQuestao($idQuestao);
+                $alt->setTexto($item['texto'] ?? '');
+                $alternativaDAO->criarAlternativa($alt);
+            }
+        }
+
+        echo json_encode(['sucesso' => true, 'mensagem' => 'Questão atualizada com sucesso']);
+        break;
+
+    // 🔹 EXCLUIR QUESTÃO E SUAS ALTERNATIVAS
+    case 'DELETE':
+        // id pode vir via query string ou no body
+        $idQuestao = null;
+        if (isset($_GET['id_questao'])) {
+            $idQuestao = (int)$_GET['id_questao'];
+        } else {
+            $data = json_decode(file_get_contents('php://input'), true);
+            if (isset($data['id_questao'])) $idQuestao = (int)$data['id_questao'];
+        }
+
+        if (!$idQuestao) {
+            http_response_code(400);
+            echo json_encode(['erro' => 'id_questao ausente']);
+            exit;
+        }
+
+        // Remove alternativas associadas
+        $alternativasExistentes = $alternativaDAO->listarPorQuestao($idQuestao);
+        if (!empty($alternativasExistentes)) {
+            foreach ($alternativasExistentes as $a) {
+                if (isset($a['id_alternativa'])) {
+                    $alternativaDAO->excluirAlternativa((int)$a['id_alternativa']);
+                }
+            }
+        }
+
+        $removido = $questaoDAO->excluirQuestao($idQuestao);
+        if (!$removido) {
+            http_response_code(500);
+            echo json_encode(['erro' => 'Falha ao excluir questão']);
+            exit;
+        }
+
+        echo json_encode(['sucesso' => true, 'mensagem' => 'Questão excluída com sucesso']);
         break;
 
     default:
