@@ -13,7 +13,7 @@ import { AlunosFilters } from '@/components/dashboard/alunos/alunos-filters';
 import { AlunosTable } from '@/components/dashboard/alunos/alunos-table';
 import type { Alunos } from '@/components/dashboard/alunos/alunos-table';
 
-export const metadata = { title: `Alunos | Dashboard | ${config.site.name}` } satisfies Metadata;
+export const metadata = { title: `Alunos | ${config.site.name}` } satisfies Metadata;
 
 const alunos = [
   {
