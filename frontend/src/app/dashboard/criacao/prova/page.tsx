@@ -101,6 +101,18 @@ export default function Page() {
           }
           return null;
         })(),
+        nome_professor: (() => {
+          try {
+            const u = localStorage.getItem('user');
+            if (u) {
+              const parsed = JSON.parse(u);
+              return parsed?.name || parsed?.nome_professor || parsed?.nome_usuario || null;
+            }
+          } catch (e) {
+            // ignore
+          }
+          return null;
+        })(),
       };
 
       const res = await axios.post('http://localhost/sea/backend/controllers/gerarVersoesProvaController.php', payload);

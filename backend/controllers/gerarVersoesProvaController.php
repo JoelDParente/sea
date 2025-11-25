@@ -50,6 +50,7 @@ $serie = $input['serie'];
 $questoes = is_array($input['questoes']) ? $input['questoes'] : [];
 $versions_count = (int) $input['versions_count'];
 $id_professor = $input['id_professor'] ?? null;
+$nome_professor = $input['nome_professor'] ?? null;
 
 if ($versions_count < 1) $versions_count = 1;
 if ($versions_count > 4) $versions_count = 4; // limite
@@ -113,10 +114,18 @@ for ($i = 0; $i < $versions_count; $i++) {
         $versaoQuestoesDAO->adicionarQuestao($pvq);
     }
 
+    $pdfUrl = "http://localhost/sea/backend/controllers/gerarPdfVersaoController.php?id_versao={$id_versao}";
+    if (!empty($nome_professor)) {
+        $pdfUrl .= '&nome_professor=' . rawurlencode($nome_professor);
+    }
+    if (!empty($nome_prova)) {
+        $pdfUrl .= '&nome_prova=' . rawurlencode($nome_prova);
+    }
+
     $resultVersoes[] = [
         'id_versao' => $id_versao,
         'codigo_versao' => $codigo,
-        'url_pdf' => "http://localhost/sea/backend/controllers/gerarPdfVersaoController.php?id_versao={$id_versao}"
+        'url_pdf' => $pdfUrl
     ];
 }
 
