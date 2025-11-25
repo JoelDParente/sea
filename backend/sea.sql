@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 23/11/2025 às 18:36
+-- Tempo de geração: 25/11/2025 às 18:49
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -54,41 +54,6 @@ CREATE TABLE `alternativas` (
 --
 
 INSERT INTO `alternativas` (`id_alternativa`, `id_questao`, `texto`) VALUES
-(1, 1, 'y = 250x'),
-(2, 1, 'y = 500x'),
-(3, 1, 'y = 750x'),
-(4, 1, 'y = 250x + 500'),
-(5, 1, 'y = 500x + 250'),
-(6, 2, ' 8 250.'),
-(9, 2, ' 7 920.'),
-(10, 2, ' 6 545'),
-(12, 2, ' 5 500'),
-(14, 2, '5 280'),
-(16, 4, 'revelar a imposição de crenças religiosas a pessoas escravizadas.'),
-(17, 4, 'apontar a hipocrisia do discurso conservador na defesa da escravidão.'),
-(18, 4, 'sugerir práticas de violência física e moral em nome do progresso material.'),
-(19, 4, 'relacionar o declínio da produção agrícola e comercial a questões raciais.'),
-(20, 4, ' ironizar o comportamento dos proprietários de terra na exploração do trabalho.'),
-(21, 5, 'relação distanciada entre os interlocutores.'),
-(22, 5, ' articulação de vários núcleos narrativos.'),
-(23, 5, 'brevidade no tratamento da temática.'),
-(24, 5, 'descrição minuciosa dos personagens.'),
-(25, 5, 'público leitor exclusivo.'),
-(26, 6, 'ter mais de mil palavras conhecidas.'),
-(27, 6, 'ter palavras diferentes de uma linguagem secreta.'),
-(28, 6, 'ser consolidado por objetos formais de registro.'),
-(29, 6, 'ser utilizado por advogados em situações formais.'),
-(30, 6, 'ser comum em conversas no ambiente de trabalho.'),
-(31, 7, 'alternância das pessoas do discurso que determinam o foco narrativo.'),
-(32, 7, 'utilização de formas verbais que marcam tempos narrativos variados.'),
-(33, 7, 'indeterminação dos sujeitos de ações que caracterizam os eventos narrados.'),
-(34, 7, 'justaposição de frases que relacionam semanticamente os acontecimentos narrados.'),
-(35, 7, ' recorrência de expressões adverbiais que organizam temporalmente a narrativa.   Questão 6 (Enem/2018)  questão de intertextualidade enem ROSA, R. Grande sertão: veredas: adaptação da obra de João Guimarães Rosa. São Paulo: Globo, 2014 (adaptado) A imagem integra uma adaptação em quadrinhos da obra Grande sertão: veredas, de Guimarães Rosa. Na representação gráfica, a inter-relação de diferentes linguagens caracteriza-se por  a) romper com a linearidade das ações da narrativa literária. b) ilustrar de modo fidedigno passagens representativas da história. c) articular a tensão do romance à desproporcionalidade das formas. d) potencializar a dramaticidade do episódio com recursos das artes visuais. e) desconstruir a diagramação do texto literário pelo desequilíbrio da composição.   Questão 7 (Enem/2018)  Mais big do que bang  Conteúdo exclusivo para assinantes Toda Matéria+ Além de mais exercícios, tenha acesso a mais recursos para dar um up nos seus estudos. Corretor de Redação para o Enem Exercícios exclusivos Estude sem publicidade Assinar Toda Matéria+ Já é Toda Matéria+? Faça seu login Aprofunde os seus estudos para tirar a nota perfeita no ENEM:  Assuntos que mais caem no Enem Exercícios de interpretação de texto Exercícios de interpretação de texto nas tirinhas da Mafalda (ENEM) Os simulados são aliados poderosos nos estudos, especialmente para quem está se preparando para o Enem. Confira o que preparamos para você:  Simulado Enem (questões comentadas por especialistas)  Mini simulado de Linguagens, Códigos e suas tecnologias (Enem 2025)  Simulado ENEM (prova de Linguagens, Códigos e suas Tecnologias 2024)  Simulado de Linguagens, Códigos e suas Tecnologias (ENEM 2023)  Este conteúdo foi útil?simnão Márcia Fernandes Márcia Fernandes Professora, produz conteúdos educativos desde 2015. Licenciada em Letras pela Universidade Católica de Santos (habilitação para Ensino Fundamental II e Ensino Médio) e formada no Curso de Magistério (habilitação para Educação Infantil e Ensino Fundamental I). Como citar? Veja também Simulado Enem (questões comentadas por especialistas) Assuntos que mais caem no Enem Exercícios de interpretação de texto (com gabarito) Mini simulado de Linguagens, Códigos e suas tecnologias (Enem 2025) Português no Enem: o que mais cai na prova (2025) Exercícios de interpretação de texto nas tirinhas da Mafalda (ENEM) Simulado de Linguagens, Códigos e suas Tecnologias (ENEM 2024) Questões do Enem comentadas por especialistas'),
-(36, 8, 'fixação de táticas, que define a padronização para maior alcance popular.'),
-(37, 8, 'competitividade, que impulsiona o interesse pelo sucesso.'),
-(38, 8, 'refinamento técnico, que gera resultados satisfatórios.'),
-(39, 8, 'caráter lúdico, que permite experiências inusitadas.'),
-(40, 8, 'uso tecnológico, que amplia as opções de lazer.'),
 (41, 9, '“a singularidade”.'),
 (42, 9, '“tais vantagens”.'),
 (43, 9, '“os gabos”.'),
@@ -98,7 +63,17 @@ INSERT INTO `alternativas` (`id_alternativa`, `id_questao`, `texto`) VALUES
 (47, 10, 'enfatizar a probabilidade de que toda população brasileira esteja aprisionada às novas tecnologias.'),
 (48, 10, 'indicar, de forma clara, o ponto de vista de que hoje as pessoas são controladas pelas novas tecnologias.'),
 (49, 10, 'tornar o leitor copartícipe do ponto de vista de que ele manipula as novas tecnologias e por elas é manipulado.'),
-(50, 10, 'demonstrar ao leitor sua parcela de responsabilidade por deixar que as novas tecnologias controlem as pessoas. ');
+(50, 10, 'demonstrar ao leitor sua parcela de responsabilidade por deixar que as novas tecnologias controlem as pessoas. '),
+(56, 12, 'impessoalidade, na organização da objetividade das informações, como em “Este artigo tem por finalidade” e “Evidencia-se”.'),
+(57, 12, 'seleção lexical, no desenvolvimento sequencial do texto, como em “imaginário racista” e “estética do negro”.'),
+(58, 12, 'metaforização, relativa à construção dos sentidos figurados, como nas expressões “descolonização estética” e “discurso midiático-publicitário”.'),
+(59, 12, ' nominalização, produzida por meio de processos derivacionais na formação de palavras, como “inferiorização” e “desvalorização”'),
+(60, 12, 'adjetivação, organizada para criar uma terminologia antirracista, como em “ética da diversidade” e “descolonização estética”.'),
+(61, 13, 'reportagem, pois busca convencer o interlocutor da tese defendida ao longo do texto.'),
+(62, 13, 'resumo, pois promove o contato rápido do leitor com uma informação desconhecida.'),
+(63, 13, 'sinopse, pois sintetiza as informações relevantes de uma obra de modo impessoal.'),
+(64, 13, 'instrução, pois ensina algo por meio de explicações sobre uma obra específica.'),
+(65, 13, 'resenha, pois apresenta uma produção intelectual de forma crítica.');
 
 -- --------------------------------------------------------
 
@@ -378,7 +353,30 @@ INSERT INTO `prova` (`id_prova`, `id_professor`, `id_disciplina`, `titulo`, `ser
 (3, 6, NULL, 'teste', NULL, '1º ano', '2025-11-21 20:41:12', '2025-11-21 20:41:12'),
 (4, 6, NULL, 'teste', NULL, '1º ano', '2025-11-21 20:42:41', '2025-11-21 20:42:41'),
 (5, 6, NULL, 'Prova de Português', NULL, '1º ano', '2025-11-21 21:25:19', '2025-11-21 21:25:19'),
-(6, 6, NULL, 'Prova de Português', NULL, '1º ano', '2025-11-21 21:25:44', '2025-11-21 21:25:44');
+(6, 6, NULL, 'Prova de Português', NULL, '1º ano', '2025-11-21 21:25:44', '2025-11-21 21:25:44'),
+(7, 6, NULL, 'tese', NULL, '1º ano', '2025-11-25 18:42:13', '2025-11-25 18:42:13'),
+(8, 6, NULL, 'Teste', NULL, '1º ano', '2025-11-25 18:46:23', '2025-11-25 18:46:23'),
+(9, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 20:34:44', '2025-11-25 20:34:44'),
+(10, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 20:35:30', '2025-11-25 20:35:30'),
+(11, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 20:36:04', '2025-11-25 20:36:04'),
+(12, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 20:39:13', '2025-11-25 20:39:13'),
+(13, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 20:39:44', '2025-11-25 20:39:44'),
+(14, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 20:42:28', '2025-11-25 20:42:28'),
+(15, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 20:43:54', '2025-11-25 20:43:54'),
+(16, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 20:46:58', '2025-11-25 20:46:58'),
+(17, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 20:47:29', '2025-11-25 20:47:29'),
+(18, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 20:47:51', '2025-11-25 20:47:51'),
+(19, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 20:48:18', '2025-11-25 20:48:18'),
+(20, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 20:48:30', '2025-11-25 20:48:30'),
+(21, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 20:48:40', '2025-11-25 20:48:40'),
+(22, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 20:48:48', '2025-11-25 20:48:48'),
+(23, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 21:00:15', '2025-11-25 21:00:15'),
+(24, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 21:01:29', '2025-11-25 21:01:29'),
+(25, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 21:10:05', '2025-11-25 21:10:05'),
+(26, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 21:14:39', '2025-11-25 21:14:39'),
+(27, 6, NULL, 'Teste', NULL, '1º ano', '2025-11-25 21:15:26', '2025-11-25 21:15:26'),
+(28, 6, NULL, 'Teste 1', NULL, '1º ano', '2025-11-25 21:39:22', '2025-11-25 21:39:22'),
+(29, 6, NULL, 'Teste 3', NULL, '1º ano', '2025-11-25 21:43:02', '2025-11-25 21:43:02');
 
 -- --------------------------------------------------------
 
@@ -396,22 +394,55 @@ CREATE TABLE `provaquestao` (
 --
 
 INSERT INTO `provaquestao` (`id_questao`, `id_prova`) VALUES
-(2, 1),
-(1, 1),
-(2, 2),
-(1, 2),
-(2, 3),
-(1, 3),
-(2, 4),
-(1, 4),
-(7, 5),
-(6, 5),
-(5, 5),
-(4, 5),
-(7, 6),
-(6, 6),
-(5, 6),
-(4, 6);
+(9, 7),
+(10, 7),
+(10, 8),
+(9, 8),
+(10, 9),
+(9, 9),
+(10, 10),
+(9, 10),
+(10, 11),
+(9, 11),
+(10, 12),
+(9, 12),
+(10, 13),
+(9, 13),
+(10, 14),
+(9, 14),
+(10, 15),
+(9, 15),
+(10, 16),
+(9, 16),
+(10, 17),
+(9, 17),
+(10, 18),
+(9, 18),
+(10, 19),
+(9, 19),
+(10, 20),
+(9, 20),
+(10, 21),
+(9, 21),
+(10, 22),
+(9, 22),
+(10, 23),
+(9, 23),
+(10, 24),
+(9, 24),
+(10, 25),
+(9, 25),
+(10, 26),
+(9, 26),
+(10, 27),
+(9, 27),
+(12, 28),
+(10, 28),
+(9, 28),
+(13, 29),
+(9, 29),
+(12, 29),
+(10, 29);
 
 -- --------------------------------------------------------
 
@@ -431,15 +462,31 @@ CREATE TABLE `provas_versoes` (
 --
 
 INSERT INTO `provas_versoes` (`id_versao`, `id_prova`, `codigo_versao`, `data_criacao`) VALUES
-(1, 1, '', '2025-11-21 13:34:25'),
-(2, 2, '', '2025-11-21 13:38:34'),
-(3, 3, '', '2025-11-21 13:41:12'),
-(4, 4, '', '2025-11-21 13:42:41'),
-(5, 5, '', '2025-11-21 14:25:19'),
-(6, 5, '', '2025-11-21 14:25:19'),
-(7, 5, '', '2025-11-21 14:25:19'),
-(8, 5, '', '2025-11-21 14:25:19'),
-(9, 6, '', '2025-11-21 14:25:44');
+(10, 7, '', '2025-11-25 11:42:13'),
+(11, 8, '', '2025-11-25 11:46:23'),
+(12, 9, '', '2025-11-25 13:34:44'),
+(13, 10, '', '2025-11-25 13:35:30'),
+(14, 11, '', '2025-11-25 13:36:04'),
+(15, 12, '', '2025-11-25 13:39:13'),
+(16, 13, '', '2025-11-25 13:39:44'),
+(17, 14, '', '2025-11-25 13:42:28'),
+(18, 15, '', '2025-11-25 13:43:55'),
+(19, 16, '', '2025-11-25 13:46:58'),
+(20, 17, '', '2025-11-25 13:47:29'),
+(21, 18, '', '2025-11-25 13:47:51'),
+(22, 19, '', '2025-11-25 13:48:18'),
+(23, 20, '', '2025-11-25 13:48:30'),
+(24, 21, '', '2025-11-25 13:48:40'),
+(25, 22, '', '2025-11-25 13:48:48'),
+(26, 23, '', '2025-11-25 14:00:15'),
+(27, 24, '', '2025-11-25 14:01:29'),
+(28, 25, '', '2025-11-25 14:10:05'),
+(29, 26, '', '2025-11-25 14:14:39'),
+(30, 27, '', '2025-11-25 14:15:26'),
+(31, 28, '', '2025-11-25 14:39:22'),
+(32, 29, '', '2025-11-25 14:43:02'),
+(33, 29, '', '2025-11-25 14:43:02'),
+(34, 29, '', '2025-11-25 14:43:02');
 
 -- --------------------------------------------------------
 
@@ -459,34 +506,63 @@ CREATE TABLE `provas_versoes_questoes` (
 --
 
 INSERT INTO `provas_versoes_questoes` (`id_versao_questao`, `id_versao`, `id_questao`, `ordem`) VALUES
-(1, 1, 2, 1),
-(2, 1, 1, 2),
-(3, 2, 2, 1),
-(4, 2, 1, 2),
-(5, 3, 2, 1),
-(6, 3, 1, 2),
-(7, 4, 1, 1),
-(8, 4, 2, 2),
-(9, 5, 7, 1),
-(10, 5, 6, 2),
-(11, 5, 4, 3),
-(12, 5, 5, 4),
-(13, 6, 5, 1),
-(14, 6, 6, 2),
-(15, 6, 7, 3),
-(16, 6, 4, 4),
-(17, 7, 4, 1),
-(18, 7, 7, 2),
-(19, 7, 6, 3),
-(20, 7, 5, 4),
-(21, 8, 4, 1),
-(22, 8, 5, 2),
-(23, 8, 7, 3),
-(24, 8, 6, 4),
-(25, 9, 6, 1),
-(26, 9, 7, 2),
-(27, 9, 5, 3),
-(28, 9, 4, 4);
+(29, 10, 9, 1),
+(30, 10, 10, 2),
+(31, 11, 10, 1),
+(32, 11, 9, 2),
+(33, 12, 10, 1),
+(34, 12, 9, 2),
+(35, 13, 9, 1),
+(36, 13, 10, 2),
+(37, 14, 10, 1),
+(38, 14, 9, 2),
+(39, 15, 9, 1),
+(40, 15, 10, 2),
+(41, 16, 9, 1),
+(42, 16, 10, 2),
+(43, 17, 10, 1),
+(44, 17, 9, 2),
+(45, 18, 9, 1),
+(46, 18, 10, 2),
+(47, 19, 9, 1),
+(48, 19, 10, 2),
+(49, 20, 9, 1),
+(50, 20, 10, 2),
+(51, 21, 9, 1),
+(52, 21, 10, 2),
+(53, 22, 9, 1),
+(54, 22, 10, 2),
+(55, 23, 9, 1),
+(56, 23, 10, 2),
+(57, 24, 9, 1),
+(58, 24, 10, 2),
+(59, 25, 10, 1),
+(60, 25, 9, 2),
+(61, 26, 10, 1),
+(62, 26, 9, 2),
+(63, 27, 9, 1),
+(64, 27, 10, 2),
+(65, 28, 9, 1),
+(66, 28, 10, 2),
+(67, 29, 10, 1),
+(68, 29, 9, 2),
+(69, 30, 9, 1),
+(70, 30, 10, 2),
+(71, 31, 9, 1),
+(72, 31, 12, 2),
+(73, 31, 10, 3),
+(74, 32, 13, 1),
+(75, 32, 9, 2),
+(76, 32, 10, 3),
+(77, 32, 12, 4),
+(78, 33, 13, 1),
+(79, 33, 9, 2),
+(80, 33, 12, 3),
+(81, 33, 10, 4),
+(82, 34, 10, 1),
+(83, 34, 12, 2),
+(84, 34, 9, 3),
+(85, 34, 13, 4);
 
 -- --------------------------------------------------------
 
@@ -523,15 +599,10 @@ CREATE TABLE `questao` (
 --
 
 INSERT INTO `questao` (`id_questao`, `id_assunto`, `id_professor`, `serie`, `enunciado`, `resposta_correta`, `tipo`, `publico`, `data_criacao`, `ultima_atualizacao`) VALUES
-(1, 2, NULL, NULL, 'Para concretar a laje de sua residência, uma pessoa contratou uma construtora. Tal empresa informa que o preço y do concreto bombeado é composto de duas partes: uma fixa, chamada de taxa de bombeamento, e uma variável, que depende do volume x de concreto utilizado. Sabe-se que a taxa de bombeamento custa R$ 500,00 e que o metro cúbico do concreto bombeado é de R$ 250,00. A expressão que representa o preço y em função do volume x, em metro cúbico, é', 'A', 'objetiva', 0, '2025-11-11 22:38:40', '2025-11-11 22:38:40'),
-(2, 2, NULL, NULL, 'Uma piscina tem capacidade de 2 500 000 litros. Seu sistema de abastecimento foi regulado para ter uma vazão constante de 6 000 litros de água por minuto. O mesmo sistema foi instalado em uma segunda piscina, com capacidade de 2 750 000 litros, e regulado para ter uma vazão, também constante, capaz de enchê-la em um tempo 20% maior que o gasto para encher a primeira piscina. A vazão do sistema de abastecimento da segunda piscina, em litro por minuto, é', 'A', 'objetiva', 0, '2025-11-12 23:29:23', '2025-11-12 23:29:23'),
-(4, 45, NULL, NULL, 'A escrava— Admira-me —, disse uma senhora de sentimentos sinceramente abolicionistas —; faz-me até pasmar como se possa sentir, e expressar sentimentos escravocratas, no presente século, no século dezenove! A moral religiosa e a moral cívica aí se erguem, e falam bem alto esmagando a hidra que envenena a família no mais sagrado santuário seu, e desmoraliza, e avilta a nação inteira! Levantai os olhos ao Gólgota, ou percorrei-os em torno da sociedade, e dizei-me:— Para que se deu em sacrifício o Homem Deus, que ali exalou seu derradeiro alento? Ah! Então não é verdade que seu sangue era o resgate do homem! É então uma mentira abominável ter esse sangue comprado a liberdade!? E depois, olhai a sociedade... Não vedes o abutre que a corrói constantemente!… Não sentis a desmoralização que a enerva, o cancro que a destrói?Por qualquer modo que encaremos a escravidão, ela é, e será sempre um grande mal. Dela a decadência do comércio; porque o comércio e a lavoura caminham de mãos dadas, e o escravo não pode fazer florescer a lavoura; porque o seu trabalho é forçado.REIS, M. F. Úrsula e outras obras. Brasília: Câmara dos Deputados, 2018.Inscrito na estética romântica da literatura brasileira, o conto descortina aspectos da realidade nacional no século XIX ao', 'A', 'objetiva', 0, '2025-11-21 17:13:26', '2025-11-21 17:13:26'),
-(5, 45, NULL, NULL, 'Ser cronistaSei que não sou, mas tenho meditado ligeiramente no assunto.Crônica é um relato? É uma conversa? É um resumo de um estado de espírito? Não sei, pois antes de começar a escrever para o Jornal do Brasil, eu só tinha escrito romances e contos.E também sem perceber, à medida que escrevia para aqui, ia me tornando pessoal demais, correndo o risco de em breve publicar minha vida passada e presente, o que não pretendo. Outra coisa notei: basta eu saber que estou escrevendo para o jornal, isto é, para algo aberto facilmente por todo o mundo, e não para um livro, que só é aberto por quem realmente quer, para que, sem mesmo sentir, o modo de escrever se transforme. Não é que me desagrade mudar, pelo contrário. Mas queria que fossem mudanças mais profundas e interiores que não viessem a se refletir no escrever. Mas mudar só porque isso é uma coluna ou uma crônica? Ser mais leve só porque o leitor assim o quer? Divertir? Fazer passar uns minutos de leitura? E outra coisa: nos meus livros quero profundamente a comunicação profunda comigo e com o leitor. Aqui no jornal apenas falo com o leitor e agrada-me que ele fique agradado. Vou dizer a verdade: não estou contente.LISPECTOR, C. In: A descoberta do mundo. Rio de Janeiro: Rocco, 1999.No texto, ao refletir sobre a atividade de cronista, a autora questiona características do gênero crônica, como', 'C', 'objetiva', 0, '2025-11-21 17:17:11', '2025-11-21 17:17:11'),
-(6, 45, NULL, NULL, '“Acuenda o Pajubá”: conheça o “dialeto secreto” utilizado por gays e travestisCom origem no iorubá, linguagem foi adotada por travestis e ganhou a comunidade“Nhaí, amapô! Não faça a loka e pague meu acué, deixe de equê se não eu puxo teu picumã!” Entendeu as palavras dessa frase? Se sim, é porque você manja alguma coisa de pajubá, o “dialeto secreto” dos gays e travestis.Adepto do uso das expressões, mesmo nos ambientes mais formais, um advogado afirma: “É claro que eu não vou falar durante uma audiência ou uma reunião, mas na firma, com meus colegas de trabalho, eu falo de ‘acué’ o tempo inteiro”, brinca. “A gente tem que ter cuidado de falar outras palavras porque hoje o pessoal já entende, né? Tá na internet, tem até dicionário...”, comenta.O dicionário a que ele se refere é o Aurélia, a dicionária da língua afiada, lançado no ano de 2006 e escrito pelo jornalista Angelo Vip e por Fred Libi. Na obra, há mais de 1 300 verbetes revelando o significado das palavras do pajubá.Não se sabe ao certo quando essa linguagem surgiu, mas sabe-se que há claramente uma relação entre o pajubá e a cultura africana, numa costura iniciada ainda na época do Brasil colonial.Disponível em: www.midiamax.com.br. Acesso em: 4 abr. 2017 (adaptado).Da perspectiva do usuário, o pajubá ganha status de dialeto, caracterizando-se como elemento de patrimônio linguístico, especialmente por', 'C', 'objetiva', 0, '2025-11-21 17:21:04', '2025-11-21 17:21:04'),
-(7, 45, NULL, NULL, 'Certa vez minha mãe surrou-me com uma corda nodosa que me pintou as costas de manchas sangrentas. Moído, virando a cabeça com dificuldade, eu distinguia nas costelas grandes lanhos vermelhos. Deitaram-me, enrolaram-me em panos molhados com água de sal – e houve uma discussão na família. Minha avó, que nos visitava, condenou o procedimento da filha e esta afligiu-se. Irritada, ferira-me à toa, sem querer. Não guardei ódio a minha mãe: o culpado era o nó.RAMOS, G. Infância. Rio de Janeiro. Record, 1998.Num texto narrativo, a sequência dos fatos contribui para a progressão temática. No fragmento, esse processo é indicado pela', 'B', 'objetiva', 0, '2025-11-21 17:23:02', '2025-11-21 17:23:02'),
-(8, 45, NULL, NULL, 'O jogo é uma atividade ou ocupação voluntária, exercida dentro de certos e determinados limites de tempo e de espaço, segundo regras livremente consentidas, mas absolutamente obrigatórias, dotado de um fim em si mesmo, acompanhado de um sentimento de tensão e de alegria e de uma consciência de ser diferente da “vida quotidiana”.HUIZINGA, J. Homo ludens: o jogo como elemento da cultura. São Paulo: Perspectiva, 2004.Segundo o texto, o jogo comporta a possibilidade de fruição. Do ponto de vista das práticas corporais, essa fruição se estabelece por meio do(a)', 'A', 'objetiva', 0, '2025-11-22 12:11:14', '2025-11-22 12:11:14'),
 (9, 45, 6, NULL, '<p>Essas moças tinham o vezo de afirmar o contrário do que desejavam. Notei a singularidade quando principiaram a elogiar o meu paletó cor de macaco. Examinavam-no sérias, achavam o pano e os aviamentos de qualidade superior, o feitio admirável. Envaideci-me: nunca havia reparado em tais vantagens. Mas os gabas se prolongaram, trouxeram-me desconfiança. Percebi afinal que elas zombavam e não me susceptibilizei. Longe disso: achei curiosa aquela maneira de falar pelo avesso, diferente das grosserias a que me habituara. Em geral me diziam com franqueza que a roupa não me assentava no corpo, sobrava nos sovacos.</p><p>RAMOS, G. Infância. Rio de Janeiro: Record, 1994.</p><p>Por meio de recursos linguísticos, os textos mobilizam estratégias para introduzir e retomar ideias, promovendo a progressão do tema. No fragmento transcrito, um novo aspecto do tema é introduzido pela expressão</p>', 'A', 'objetiva', 0, '2025-11-22 12:24:00', '2025-11-22 13:19:46'),
-(10, 45, 6, NULL, '<p>Novas tecnologias</p><p>Atualmente, prevalece na mídia um discurso de exaltação das novas tecnologias, principalmente aquelas ligadas às atividades de telecomunicações. Expressões frequentes como “o futuro já chegou”, “maravilhas tecnológicas” e “conexão total com o mundo» «fetichizam” novos produtos, transformando-os em objetos do desejo, de consumo obrigatório. Por esse motivo carregamos hoje nos bolsos, bolsas e mochilas o “futuro” tão festejado. Todavia, não podemos reduzir-nos a meras vítimas de um aparelho midiático perverso, ou de um aparelho capitalista controlador. Há perversão, certamente, e controle, sem sombra de dúvida. Entretanto, desenvolvemos uma relação simbiótica de dependência mútua com os veículos de comunicação, que se estreita a cada imagem compartilhada e a cada dossiê pessoal transformado em objeto público de entretenimento. Não mais como aqueles acorrentados na caverna de Platão, somos livres para nos aprisionar, por espontânea vontade, a esta relação sadomasoquista com as estruturas midiáticas, na qual tanto controlamos quanto somos controlados.</p><p>SAMPAIO A. S. A microfísica do espetáculo. Disponível em: <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"http://observatoriodaimprensa.com\">http://observatoriodaimprensa.com</a>. br. Acesso em: 1 mar 2013 (adaptado).</p><p>Ao escrever um artigo de opinião, o produtor precisa criar uma base de orientação linguística que permita alcançar os leitores e convencê-los com relação ao ponto de vista defendido. Diante disso, nesse texto, a escolha das formas verbais em destaque objetiva</p>', 'A', 'objetiva', 0, '2025-11-22 13:15:19', '2025-11-22 13:19:28');
+(10, 45, 6, NULL, '<p>Novas tecnologias</p><p>Atualmente, prevalece na mídia um discurso de exaltação das novas tecnologias, principalmente aquelas ligadas às atividades de telecomunicações. Expressões frequentes como “o futuro já chegou”, “maravilhas tecnológicas” e “conexão total com o mundo» «fetichizam” novos produtos, transformando-os em objetos do desejo, de consumo obrigatório. Por esse motivo carregamos hoje nos bolsos, bolsas e mochilas o “futuro” tão festejado. Todavia, não podemos reduzir-nos a meras vítimas de um aparelho midiático perverso, ou de um aparelho capitalista controlador. Há perversão, certamente, e controle, sem sombra de dúvida. Entretanto, desenvolvemos uma relação simbiótica de dependência mútua com os veículos de comunicação, que se estreita a cada imagem compartilhada e a cada dossiê pessoal transformado em objeto público de entretenimento. Não mais como aqueles acorrentados na caverna de Platão, somos livres para nos aprisionar, por espontânea vontade, a esta relação sadomasoquista com as estruturas midiáticas, na qual tanto controlamos quanto somos controlados.</p><p>SAMPAIO A. S. A microfísica do espetáculo. Disponível em: <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"http://observatoriodaimprensa.com\">http://observatoriodaimprensa.com</a>. br. Acesso em: 1 mar 2013 (adaptado).</p><p>Ao escrever um artigo de opinião, o produtor precisa criar uma base de orientação linguística que permita alcançar os leitores e convencê-los com relação ao ponto de vista defendido. Diante disso, nesse texto, a escolha das formas verbais em destaque objetiva</p>', 'A', 'objetiva', 0, '2025-11-22 13:15:19', '2025-11-22 13:19:28'),
+(12, 45, 6, NULL, '<p style=\"text-align: center;\"><strong>A imagem da negra e do negro em produtos de beleza e a estética do racismo </strong></p><p><strong>Resumo</strong>: Este artigo tem por finalidade discutir a representação da população negra, especialmente da mulher negra, em imagens de produtos de beleza presentes em comércios do nordeste goiano. Evidencia-se que a presença de estereótipos negativos nessas imagens dissemina um imaginário racista apresentado sob a forma de uma estética racista que camufla a exclusão e normaliza a inferiorização sofrida pelos(as) negros(as) na sociedade brasileira. A análise do material imagético aponta a desvalorização estética do negro, especialmente da mulher negra, e a idealização da beleza e do branqueamento a serem alcançados por meio do uso dos produtos apresentados. O discurso midiático-publicitário dos produtos de beleza rememora e legitima a prática de uma ética racista construída e atuante no cotidiano. Frente a essa discussão, sugere-se que o trabalho antirracismo, feito nos diversos espaços sociais, considere o uso de estratégias para uma “descolonização estética” que empodere os sujeitos negros por meio de sua valorização estética e protagonismo na construção de uma ética da diversidade. </p><p>Palavras-chave: Estética, racismo, mídia, educação, diversidade. </p><p>SANT’ANA, J. A imagem da negra e do negro em produtos de beleza e a estética do racismo. Dossiê: trabalho e educação básica. Margens Interdisciplinar. Versão digital. Abaetetuba, n.16, jun. 2017 (adaptado). </p><p>O cumprimento da função referencial da linguagem é uma marca característica do gênero resumo de artigo acadêmico. Na estrutura desse texto, essa função é estabelecida pela</p>', 'A', 'objetiva', 0, '2025-11-25 17:38:56', '2025-11-25 17:38:56'),
+(13, 45, 6, NULL, '<p>A trajetória de Liesel Meminger é contada por uma narradora mórbida, surpreendentemente simpática. Ao perceber que a pequena ladra de livros lhe escapa, a Morte afeiçoa-se à menina e rastreia suas pegadas de 1939 a 1943. Traços de uma sobrevivente: a mãe comunista, perseguida pelo nazismo, envia Liesel e o irmão para o subúrbio pobre de uma cidade alemã, onde um casal se dispõe a adotá-los por dinheiro. O garoto morre no trajeto e é enterrado por um coveiro que deixa cair um livro na neve. É o primeiro de uma série que a menina vai surrupiar ao longo dos anos. O único vínculo com a família é esta obra, que ela ainda não sabe ler. A vida ao redor é a pseudorrealidade criada em torno do culto a Hitler na Segunda Guerra. Ela assiste à eufórica celebração do aniversário do Führer pela vizinhança. A Morte, perplexa diante da violência humana, dá um tom leve e divertido à narrativa deste duro confronto entre a infância perdida e a crueldade do mundo adulto, um sucesso absoluto – e raro – de crítica e público. </p><p>Disponível em: <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"http://www.odevoradordelivros.com\">www.odevoradordelivros.com</a>. Acesso em: 24 jun. 2014. </p><p>Os gêneros textuais podem ser caracterizados, dentre outros fatores, por seus objetivos. Esse fragmento é um(a)</p>', 'D', 'objetiva', 0, '2025-11-25 17:42:40', '2025-11-25 17:42:40');
 
 -- --------------------------------------------------------
 
@@ -754,7 +825,7 @@ ALTER TABLE `admingeral`
 -- AUTO_INCREMENT de tabela `alternativas`
 --
 ALTER TABLE `alternativas`
-  MODIFY `id_alternativa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id_alternativa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT de tabela `aluno`
@@ -796,25 +867,25 @@ ALTER TABLE `gabarito`
 -- AUTO_INCREMENT de tabela `prova`
 --
 ALTER TABLE `prova`
-  MODIFY `id_prova` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_prova` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT de tabela `provas_versoes`
 --
 ALTER TABLE `provas_versoes`
-  MODIFY `id_versao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_versao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT de tabela `provas_versoes_questoes`
 --
 ALTER TABLE `provas_versoes_questoes`
-  MODIFY `id_versao_questao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id_versao_questao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
 
 --
 -- AUTO_INCREMENT de tabela `questao`
 --
 ALTER TABLE `questao`
-  MODIFY `id_questao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_questao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de tabela `tags`
