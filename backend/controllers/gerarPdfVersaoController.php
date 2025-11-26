@@ -87,22 +87,131 @@ $pdf->SetFont('helvetica', '', 11);
 $nomeAval = $nome_prova && $nome_prova !== '' ? htmlspecialchars($nome_prova, ENT_QUOTES, 'UTF-8') : '&nbsp;';
 
 $htmlHeader = '
+<style>
+.header-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 10pt;
+            /* Estilo para simular a folha */
+            border: 1px solid #000;
+        }
+        .header-table td, .header-table th {
+            border: 1px solid #000;
+            padding: 5px;
+            text-align: center;
+            vertical-align: top;
+        }
+        .logo-cell {
+            width: 10%;
+            text-align: center;
+            vertical-align: middle;
+            padding: 0;
+            border-right: none; /* Remove a borda entre o logo e o nome da escola */
+        }
+        .school-name-cell {
+            width: 50%;
+            text-align: center;
+            font-weight: bold;
+            font-size: 12pt;
+            line-height: 1.2;
+            padding: 10px 5px;
+            border-left: none; /* Remove a borda entre o logo e o nome da escola */
+        }
+        .info-cell {
+            width: 40%;
+            text-align: left;
+            line-height: 1.5;
+        }
+        .info-cell span {
+            font-weight: bold;
+            display: inline-block;
+            min-width: 80px; 
+        }
+        .grade-cell {
+            width: 15%;
+            font-size: 24pt;
+            font-weight: bold;
+            padding: 15px 5px;
+            vertical-align: middle;
+        }
+        .discipline-row td {
+            font-size: 11pt;
+            font-weight: bold;
+            height: 30px;
+        }
+        .title-row td {
+            font-size: 14pt;
+            font-weight: bold;
+            padding: 10px;
+            background-color: #f0f0f0;
+        }
+        .student-data-cell {
+            text-align: left;
+            font-size: 10pt;
+            line-height: 1.5;
+        }
+        .student-data-cell span {
+             font-weight: bold;
+        }
+        .align-right {
+            text-align: right;
+        }
+        .align-center {
+            text-align: center;
+        }
+</style>
 
-<table border="1" cellpadding="6" style="font-size: 11px;">
-<tr>
-<td colspan="2" style="text-align: center;"><b> ' . $nomeAval . '</b></td>
-<td colspan="1"><b>Versão:</b>' . $codigoVersao . ' </td>
-</tr>
-<tr>
-<td colspan="1"><b>Data: </b> ____/____/_______ </td>
-<td colspan="2"><b>Nome: </b>_______________________________________________</td>
-</tr>
+<table class="header-table">
+    <tbody>
+        <tr>
+            <td class="logo-cell" rowspan="2">
+                <p style="font-size: 8pt;">EEEP OSMIRA EDUARDO DE CASTRO<br>EDUCAÇÃO PROFISSIONAL</p>
+                </td>
+            <td class="school-name-cell" colspan="4">
+                EEEP OSMIRA EDUARDO DE CASTRO
+            </td>
+            <td class="info-cell align-center" rowspan="2">
+                <span style="font-size: 16pt;">2025</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="student-data-cell">
+                <span>ALUNO(A):</span> Iago Damasceno Laurent
+            </td>
+            <td class="student-data-cell">
+                <span>TÉCNICO EM:</span> Informática
+            </td>
+            <td class="align-center">
+                <span>DATA:</span> 06 / 05
+            </td>
+            <td class="align-center">
+                <span>Nº:</span> 15
+            </td>
+        </tr>
+        <tr>
+            <td class="title-row" colspan="6">
+                AVALIAÇÃO BIMESTRAL
+            </td>
+        </tr>
+        <tr>
+            <td class="student-data-cell" colspan="3">
+                <span>PROFESSOR(A):</span> PEDRO ISMAEL ALMEIDA COELHO
+            </td>
+            <td class="discipline-row align-center" colspan="2">
+                SOCIOLOGIA *
+            </td>
+            <td class="grade-cell">
+                NOTA
+                <br>
+                9,2
+            </td>
+        </tr>
+    </tbody>
 </table>
-
 <br><br>
 ';
 
-$pdf->writeHTML($htmlHeader, false, false, false, false, '');
+$pdf->writeHTML($htmlHeader, true, false, true, false, '');
 
 $pdf->setEqualColumns(2, 88); // duas colunas de 95 mm
 $colunaAtual = 0;

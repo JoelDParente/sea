@@ -60,6 +60,11 @@ body,
   overflow: auto;
 }
 
+.simple-editor-content ::selection {
+  background: #b3d4fc !important; /* azul padrão do navegador */
+  color: inherit !important;
+}
+
 .simple-editor-content {
   width: 100%;
   height: 100%;
