@@ -14,17 +14,28 @@ require_once('../dao/ProvasVersoesQuestoesDAO.php');
 require_once('../dao/questaoDAO.php');
 require_once('../dao/alternativasDAO.php');
 require_once('../dao/usuarioDAO.php');
+require_once('../dao/disciplinaDAO.php');
 
 // DAOs
 $versaoDAO = new ProvasVersoesDAO();
 $versaoQuestoesDAO = new ProvasVersoesQuestoesDAO();
 $questaoDAO = new QuestaoDAO();
 $alternativaDAO = new AlternativaDAO();
+$disciplinaDAO = new DisciplinaDAO();
 
-// receber nome do professor via query param (opcional)
 $nome_professor = isset($_GET['nome_professor']) ? trim($_GET['nome_professor']) : null;
-// receber nome da prova via query param (opcional)
+$serie = isset($_GET['serie']) ? trim($_GET['serie']) : null;
+$id_disciplina = isset($_GET['id_disciplina']) ? (int)trim($_GET['id_disciplina']) : null;
 $nome_prova = isset($_GET['nome_prova']) ? trim($_GET['nome_prova']) : null;
+
+
+$nome_disciplina = '';
+if ($id_disciplina) {
+    $disciplina = $disciplinaDAO->getDisciplinaById($id_disciplina);
+    if ($disciplina) {
+        $nome_disciplina = $disciplina->getNomeDisciplina();
+    }
+}
 
 if (!isset($_GET['id_versao'])) {
     http_response_code(400);
@@ -58,19 +69,25 @@ if (!$questoes || count($questoes) === 0) {
 
 $pdf = new TCPDF();
 
+
 function coluna($pdf)
 {
-    $top = 45;
+    $top = 62;
     $bottom = 287;
     $x = 105;
     $pdf->Line($x, $top, $x, $bottom);
 }
 
+function novaPagina($pdf) {
+    $pdf->AddPage();
+    coluna($pdf); 
+}
+
+
 $pdf->SetAuthor($nome_professor && $nome_professor !== '' ? $nome_professor : 'SEA - Sistema Elaborador de Avaliações');
 $pdf->SetTitle("Prova Versão " . $versao['codigo_versao']);
 $pdf->SetMargins(15, 20, 15);
-$pdf->AddPage();
-coluna($pdf);
+novaPagina($pdf);
 
 $pdf->SetFont('helvetica', '', 11);
 
@@ -88,15 +105,54 @@ $nomeAval = $nome_prova && $nome_prova !== '' ? htmlspecialchars($nome_prova, EN
 
 $htmlHeader = '
 
-<table border="1" cellpadding="6" style="font-size: 11px;">
-<tr>
-<td colspan="2" style="text-align: center;"><b> ' . $nomeAval . '</b></td>
-<td colspan="1"><b>Versão:</b>' . $codigoVersao . ' </td>
-</tr>
-<tr>
-<td colspan="1"><b>Data: </b> ____/____/_______ </td>
-<td colspan="2"><b>Nome: </b>_______________________________________________</td>
-</tr>
+ <style>
+td {
+    font-size: 11px;
+}
+.titulo-escola {
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+}
+.caixa {
+    border: 1px solid #000;
+}
+</style>
+
+<table cellpadding="4" cellspacing="0" border="1" width="100%">
+    <tr>
+        <td rowspan="4" width="15%" style="text-align:center;">
+            <b>LOGO</b><br>(opcional)
+        </td>
+        <td width="70%" class="titulo-escola">
+            EEEP OSMIRA EDUARDO DE CASTRO
+        </td>
+        <td width="15%" style="text-align:center;">
+            <b>'.date('Y').'</b>
+        </td>
+    </tr>
+
+    <tr>
+        <td width="60%"><b>ALUNO(A):</b> ______________________________________ </td>
+        <td  width="10%"><b>Nº:</b>____</td>
+        <td style="text-align:center;"  width="15%"><b>NOTA</b></td>
+    </tr>
+    
+    <tr>
+        <td rowspan="2" width="10%" style="font-size: 30px; text-align: center;"><b>'.substr($serie, 0, 3).'</b></td>
+        <td  width="40%"><b>TÉCNICO EM:</b> <b></b></td>
+        <td width="20%"><b>DATA:         </b>__ /__  </td>
+        <td rowspan="3" width="15%"> </td>
+    </tr>
+    
+    <tr>
+        <td width="40%" style="text-align: center;"><b>'.$nomeAval.'</b></td>
+        <td rowspan="2" width="20%" style="text-align: center; vertical-align: center;"><b>'.mb_strtoupper($nome_disciplina, 'UTF-8').'</b></td>
+    </tr>
+
+    <tr>
+        <td width="65%"><b>PROFESSOR(A): '.$nome_professor.'</b></td>
+    </tr>
 </table>
 
 <br><br>
@@ -119,8 +175,7 @@ foreach ($questoes as $index => $q) {
 
         // troca de coluna ou cria nova página
         if ($colunaAtual >= 2) {
-            $pdf->AddPage();
-            coluna($pdf);
+            novaPagina($pdf);
             $colunaAtual = 0;
         }
 
@@ -155,7 +210,7 @@ foreach ($questoes as $index => $q) {
 $htmlAlt = '
     <p>
         <b>'.$letras[$i].')</b> '.$alt['texto'].'
-    </p>
+    </p> 
 ';
 $pdf->writeHTML($htmlAlt, true, false, true, false, '');
 

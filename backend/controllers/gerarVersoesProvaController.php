@@ -46,6 +46,7 @@ foreach ($required as $r) {
 }
 
 $nome_prova = $input['nome_prova'];
+$id_disciplina = $input['id_disciplina'];
 $serie = $input['serie'];
 $questoes = is_array($input['questoes']) ? $input['questoes'] : [];
 $versions_count = (int) $input['versions_count'];
@@ -69,6 +70,7 @@ $versaoQuestoesDAO = new ProvasVersoesQuestoesDAO();
 // criar prova
 $prova = new Prova();
 $prova->setIdProfessor($id_professor ?? 0);
+$prova->setIdDisciplina($id_disciplina ?? 0);
 $prova->setTitulo($nome_prova);
 $prova->setVersao($serie);
 $now = date('Y-m-d H:i:s');
@@ -115,6 +117,12 @@ for ($i = 0; $i < $versions_count; $i++) {
     }
 
     $pdfUrl = "http://localhost/sea/backend/controllers/gerarPdfVersaoController.php?id_versao={$id_versao}";
+    if (!empty($id_disciplina)) {
+        $pdfUrl .= '&id_disciplina=' . rawurlencode($id_disciplina);
+    }
+    if (!empty($serie)) {
+        $pdfUrl .= '&serie=' . rawurlencode($serie);
+    }
     if (!empty($nome_professor)) {
         $pdfUrl .= '&nome_professor=' . rawurlencode($nome_professor);
     }

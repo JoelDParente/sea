@@ -5,6 +5,7 @@ namespace Models;
 class Prova{
     private $idProva;
     private $idProfessor;
+    private $idDisciplina;
     private $titulo;
     private $versao;
     private $dataCriacao;
@@ -46,6 +47,26 @@ class Prova{
     public function setIdProfessor($idProfessor)
     {
         $this->idProfessor = $idProfessor;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of idDisciplina
+     */ 
+    public function getIdDisciplina()
+    {
+        return $this->idDisciplina;
+    }
+
+    /**
+     * Set the value of idDisciplina
+     *
+     * @return  self
+     */ 
+    public function setIdDisciplina($idDisciplina)
+    {
+        $this->idDisciplina = $idDisciplina;
 
         return $this;
     }

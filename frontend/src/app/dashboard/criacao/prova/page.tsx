@@ -42,13 +42,10 @@ export default function Page() {
         if (parsed?.turma) {
           setComponenteSelecionado(parsed.turma);
         }
-        // limpar para não reutilizar
         sessionStorage.removeItem('criarProvaInit');
-        // garantir que o fluxo não reabra o modal
         setOpenNomeSerie(false);
         setOpenComponente(false);
       } else {
-        // se não há inicialização, forçar o modal obrigatório
         setOpenNomeSerie(true);
       }
     } catch (e) {
@@ -106,7 +103,7 @@ export default function Page() {
             const u = localStorage.getItem('user');
             if (u) {
               const parsed = JSON.parse(u);
-              return parsed?.name || parsed?.nome_professor || parsed?.nome_usuario || null;
+              return parsed?.nome || parsed?.nome_professor || parsed?.nome_usuario || null;
             }
           } catch (e) {
             // ignore
@@ -115,6 +112,9 @@ export default function Page() {
         })(),
       };
 
+      console.log(payload);
+      
+      
       const res = await axios.post('http://localhost/sea/backend/controllers/gerarVersoesProvaController.php', payload);
       if (res.data?.sucesso && Array.isArray(res.data.versoes)) {
         // abrir cada PDF em nova aba
@@ -145,7 +145,6 @@ export default function Page() {
       <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
         <Box>
           <Typography variant="subtitle1">{prova ? `${prova.nome} — ${prova.serie}` : 'Nome e série não definidos'}</Typography>
-          <Typography variant="caption">Disciplina: {componenteSelecionado?.nome_disciplina || 'Nenhuma'}</Typography>
         </Box>
         <Box>
           <Button variant="outlined" onClick={() => setOpenNomeSerie(true)} sx={{ mr: 1 }}>
