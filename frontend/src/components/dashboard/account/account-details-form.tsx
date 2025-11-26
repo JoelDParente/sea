@@ -10,18 +10,21 @@ import Divider from '@mui/material/Divider';
 import FormControl from '@mui/material/FormControl';
 import Grid from '@mui/material/Grid';
 import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
 import OutlinedInput from '@mui/material/OutlinedInput';
-import Select from '@mui/material/Select';
+import { useUser } from '@/hooks/use-user';
 
-const states = [
-  { value: 'alabama', label: 'Alabama' },
-  { value: 'new-york', label: 'New York' },
-  { value: 'san-francisco', label: 'San Francisco' },
-  { value: 'los-angeles', label: 'Los Angeles' },
-] as const;
 
 export function AccountDetailsForm(): React.JSX.Element {
+    const { user } = useUser();  // ← dados do JWT
+
+  const fullName = String(user?.nome ?? user?.name ?? '');
+  const nameParts = fullName.trim() === '' ? [] : fullName.trim().split(/\s+/);
+  const firstName = nameParts.length > 0 ? nameParts[0] : '';
+  const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
+  const email = String(user?.email ?? '');
+  const phone = String(user?.telefone ?? user?.phone ?? '');
+  const city = String(user?.cidade ?? user?.city ?? '');
+
   return (
     <form
       onSubmit={(event) => {
@@ -29,7 +32,7 @@ export function AccountDetailsForm(): React.JSX.Element {
       }}
     >
       <Card>
-        <CardHeader subheader="The information can be edited" title="Profile" />
+        <CardHeader subheader="As informações podem ser editadas" title="Perfil" />
         <Divider />
         <CardContent>
           <Grid container spacing={3}>
@@ -40,8 +43,8 @@ export function AccountDetailsForm(): React.JSX.Element {
               }}
             >
               <FormControl fullWidth required>
-                <InputLabel>First name</InputLabel>
-                <OutlinedInput defaultValue="Sofia" label="First name" name="firstName" />
+                <InputLabel>Primeiro Nome</InputLabel>
+                <OutlinedInput defaultValue={firstName} label="Primeiro Nome" name="firstName" />
               </FormControl>
             </Grid>
             <Grid
@@ -51,8 +54,8 @@ export function AccountDetailsForm(): React.JSX.Element {
               }}
             >
               <FormControl fullWidth required>
-                <InputLabel>Last name</InputLabel>
-                <OutlinedInput defaultValue="Rivers" label="Last name" name="lastName" />
+                <InputLabel>Sobrenome</InputLabel>
+                <OutlinedInput defaultValue={lastName} label="Sobrenome" name="lastName" />
               </FormControl>
             </Grid>
             <Grid
@@ -62,8 +65,8 @@ export function AccountDetailsForm(): React.JSX.Element {
               }}
             >
               <FormControl fullWidth required>
-                <InputLabel>Email address</InputLabel>
-                <OutlinedInput defaultValue="sofia@devias.io" label="Email address" name="email" />
+                <InputLabel>Email</InputLabel>
+                <OutlinedInput defaultValue={email} label="Email" name="email" />
               </FormControl>
             </Grid>
             <Grid
@@ -73,8 +76,8 @@ export function AccountDetailsForm(): React.JSX.Element {
               }}
             >
               <FormControl fullWidth>
-                <InputLabel>Phone number</InputLabel>
-                <OutlinedInput label="Phone number" name="phone" type="tel" />
+                <InputLabel>Telefone</InputLabel>
+                <OutlinedInput defaultValue={phone} label="Telefone" name="phone" type="tel" />
               </FormControl>
             </Grid>
             <Grid
@@ -83,16 +86,6 @@ export function AccountDetailsForm(): React.JSX.Element {
                 xs: 12,
               }}
             >
-              <FormControl fullWidth>
-                <InputLabel>State</InputLabel>
-                <Select defaultValue="New York" label="State" name="state" variant="outlined">
-                  {states.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
             </Grid>
             <Grid
               size={{
@@ -102,14 +95,14 @@ export function AccountDetailsForm(): React.JSX.Element {
             >
               <FormControl fullWidth>
                 <InputLabel>City</InputLabel>
-                <OutlinedInput label="City" />
+                <OutlinedInput defaultValue={city} label="City" />
               </FormControl>
             </Grid>
           </Grid>
         </CardContent>
         <Divider />
         <CardActions sx={{ justifyContent: 'flex-end' }}>
-          <Button variant="contained">Save details</Button>
+          <Button variant="contained">Salvar detalhes</Button>
         </CardActions>
       </Card>
     </form>
