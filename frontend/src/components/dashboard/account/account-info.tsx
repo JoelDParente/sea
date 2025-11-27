@@ -10,44 +10,53 @@ import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useUser } from '@/hooks/use-user';
+import ModalUploadFoto from './modal-upload-foto';
 
 export function AccountInfo(): React.JSX.Element {
   const { user } = useUser();
 
-  const name = user?.nome ?? 'Usuário';
-  const email = user?.email ?? name;
+  const [openModal, setOpenModal] = React.useState(false);
 
-  // Foto real se existir no JWT (Google, Microsoft, etc)
-  const realPhoto = user?.photoURL;
+  const avatar = user?.foto ?? '../assets/avatar.png';
 
-  // Avatar automático da Dicebear baseado no e-mail ou nome
-  const fallbackAvatar = `../assets/avatar.png`;
+  function handleUpload(file: File) {
+    console.log('Arquivo recebido:', file);
+  }
 
   return (
-    <Card>
-      <CardContent>
-        <Stack spacing={2} sx={{ alignItems: 'center' }}>
-          <Avatar
-            src={fallbackAvatar}
-            sx={{ height: '80px', width: '80px' }}
-          />
+    <>
+      <Card>
+        <CardContent>
+          <Stack spacing={2} sx={{ alignItems: 'center' }}>
+            <Avatar src={String(avatar)} sx={{ height: 80, width: 80 }} />
 
-          <Stack spacing={1} sx={{ textAlign: 'center' }}>
-            <Typography variant="h5">{String(user?.nome ?? '')}</Typography>
-            <Typography color="text.secondary" variant="body2">
-              {String(user?.tipo ?? '')}
-            </Typography>
+            <Stack spacing={1} sx={{ textAlign: 'center' }}>
+              <Typography variant="h5">{String(user?.nome ?? '')}</Typography>
+              <Typography color="text.secondary" variant="body2">
+                {String(user?.tipo ?? '')}
+              </Typography>
+            </Stack>
           </Stack>
-        </Stack>
-      </CardContent>
+        </CardContent>
 
-      <Divider />
+        <Divider />
 
-      <CardActions>
-        <Button fullWidth variant="text">
-          Mudar foto
-        </Button>
-      </CardActions>
-    </Card>
+        <CardActions>
+          <Button
+            fullWidth
+            variant="text"
+            onClick={() => setOpenModal(true)}
+          >
+            Mudar foto
+          </Button>
+        </CardActions>
+      </Card>
+
+      <ModalUploadFoto
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        onUpload={handleUpload}
+      />
+    </>
   );
 }

@@ -8,6 +8,7 @@ export interface DecodedToken {
   id?: string;
   name?: string;
   email?: string;
+  foto?: string;
   exp?: number;
   iat?: number;
   [key: string]: any;

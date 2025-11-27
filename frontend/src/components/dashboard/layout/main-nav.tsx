@@ -2,15 +2,11 @@
 
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
-import Badge from '@mui/material/Badge';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
-import Tooltip from '@mui/material/Tooltip';
-import { BellIcon } from '@phosphor-icons/react/dist/ssr/Bell';
 import { ListIcon } from '@phosphor-icons/react/dist/ssr/List';
-import { MagnifyingGlassIcon } from '@phosphor-icons/react/dist/ssr/MagnifyingGlass';
-import { UsersIcon } from '@phosphor-icons/react/dist/ssr/Users';
+import { useUser } from '@/hooks/use-user';
 
 import { usePopover } from '@/hooks/use-popover';
 
@@ -19,6 +15,8 @@ import { UserPopover } from './user-popover';
 
 export function MainNav(): React.JSX.Element {
   const [openNav, setOpenNav] = React.useState<boolean>(false);
+  const { user } = useUser();
+  const avatar = user?.foto ?? '../assets/avatar.png';
 
   const userPopover = usePopover<HTMLDivElement>();
 
@@ -54,7 +52,7 @@ export function MainNav(): React.JSX.Element {
             <Avatar
               onClick={userPopover.handleOpen}
               ref={userPopover.anchorRef}
-              src="/assets/avatar.png"
+              src={String(avatar)}
               sx={{ cursor: 'pointer' }}
             />
           </Stack>

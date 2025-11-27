@@ -8,6 +8,7 @@ class Usuario{
     private $nome;
     private $email;
     private $senha;
+    private $foto;
     private $tipo;
     private $ativo;
     private $dataCadastro;
@@ -189,6 +190,26 @@ class Usuario{
     public function setTipo($tipo)
     {
         $this->tipo = $tipo;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of foto
+     */ 
+    public function getFoto()
+    {
+        return $this->foto;
+    }
+
+    /**
+     * Set the value of foto
+     *
+     * @return  self
+     */ 
+    public function setFoto($foto)
+    {
+        $this->foto = $foto;
 
         return $this;
     }

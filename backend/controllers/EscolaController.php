@@ -50,6 +50,7 @@ switch ($metodo) {
         $usuario = new Usuario();
         $usuario->setNome($data['nome'] ?? '');
         $usuario->setEmail($data['email_gestor'] ?? '');
+        $usuario->setFoto($data['foto'] ?? '../assets/avatar.png');
         $usuario->setSenha(password_hash($data['senha'] ?? '', PASSWORD_DEFAULT));
         $usuario->setTipo('gestor');
         $usuario->setAtivo($data['ativo'] ?? 1);

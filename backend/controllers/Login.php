@@ -53,6 +53,7 @@ try {
             "id_usuario" => $usuario["id_usuario"],
             "nome" => $usuario["nome"],
             "email" => $usuario["email"],
+            "foto" => $usuario["foto"],
             "tipo" => $usuario["tipo"]
         ]
     ]);

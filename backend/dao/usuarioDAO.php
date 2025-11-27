@@ -17,12 +17,13 @@ class UsuarioDAO
     // CREATE
     public function criarUsuario(Usuario $usuario): int
     {
-        $sql = "INSERT INTO usuario (id_escola, nome, email, senha, telefone, tipo, ativo)
-                VALUES (:id_escola, :nome, :email, :senha, :telefone, :tipo, :ativo)";
+        $sql = "INSERT INTO usuario (id_escola, nome, email, foto, senha, telefone, tipo, ativo)
+                VALUES (:id_escola, :nome, :email, :foto, :senha, :telefone, :tipo, :ativo)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id_escola', $usuario->getIdEscola(), PDO::PARAM_INT);
         $stmt->bindValue(':nome', $usuario->getNome(), PDO::PARAM_STR);
         $stmt->bindValue(':email', $usuario->getEmail(), PDO::PARAM_STR);
+        $stmt->bindValue(':foto', $usuario->getFoto(), PDO::PARAM_STR);
         $stmt->bindValue(':senha', $usuario->getSenha(), PDO::PARAM_STR);
         $stmt->bindValue(':telefone', $usuario->getTelefone(), PDO::PARAM_STR);
         $stmt->bindValue(':tipo', $usuario->getTipo() ?? 'professor', PDO::PARAM_STR);
@@ -61,12 +62,13 @@ class UsuarioDAO
     public function atualizarUsuario(Usuario $usuario): bool
     {
         $sql = "UPDATE usuario SET id_escola = :id_escola, nome = :nome, email = :email,
-                senha = :senha, telefone = :telefone, tipo = :tipo, ativo = :ativo
+                foto = :foto, senha = :senha, telefone = :telefone, tipo = :tipo, ativo = :ativo
                 WHERE uid = :uid";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id_escola', $usuario->getIdEscola(), PDO::PARAM_INT);
         $stmt->bindValue(':nome', $usuario->getNome(), PDO::PARAM_STR);
         $stmt->bindValue(':email', $usuario->getEmail(), PDO::PARAM_STR);
+        $stmt->bindValue(':foto', $usuario->getFoto(), PDO::PARAM_STR);
         $stmt->bindValue(':senha', $usuario->getSenha(), PDO::PARAM_STR);
         $stmt->bindValue(':telefone', $usuario->getTelefone(), PDO::PARAM_STR);
         $stmt->bindValue(':tipo', $usuario->getTipo(), PDO::PARAM_STR);
@@ -88,7 +90,7 @@ class UsuarioDAO
     public function buscarPorEmail(string $email): ?array
     {
         try {
-            $sql = "SELECT id_usuario, id_escola, nome, email, senha, tipo, ativo 
+            $sql = "SELECT id_usuario, id_escola, nome, foto, email, senha, tipo, ativo 
                     FROM usuario 
                     WHERE email = :email 
                     LIMIT 1";
@@ -106,6 +108,16 @@ class UsuarioDAO
         }
     }
 
+    public function atualizarFoto(int $uid, string $foto): bool
+    {
+        $sql = "UPDATE usuario SET foto = :foto WHERE id_usuario = :id_usuario";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':foto', $foto, PDO::PARAM_STR);
+        $stmt->bindValue(':id_usuario', $uid, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
     private function mapRowToUsuario(array $row): Usuario
     {
         $usuario = new Usuario();
@@ -113,6 +125,7 @@ class UsuarioDAO
             ->setIdEscola($row['id_escola'])
             ->setNome($row['nome'])
             ->setEmail($row['email'])
+            ->setFoto($row['foto'])
             ->setSenha($row['senha'])
             ->setTelefone($row['telefone'])
             ->setAtivo($row['ativo'])

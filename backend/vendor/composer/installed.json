@@ -40,7 +40,7 @@
             },
             "time": "2025-10-29T12:43:30+00:00",
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Dompdf\\": "src/"
@@ -91,7 +91,7 @@
             },
             "time": "2024-12-02T14:37:59+00:00",
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "FontLib\\": "src/FontLib"
@@ -140,7 +140,7 @@
             },
             "time": "2024-04-29T13:26:35+00:00",
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Svg\\": "src/Svg"
@@ -196,7 +196,7 @@
             },
             "time": "2025-04-09T20:32:01+00:00",
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Firebase\\JWT\\": "src"
@@ -254,7 +254,7 @@
             },
             "time": "2024-07-20T21:45:45+00:00",
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "GrahamCampbell\\ResultType\\": "src/"
@@ -324,7 +324,7 @@
                     "dev-master": "2.7-dev"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Masterminds\\": "src"
@@ -398,7 +398,7 @@
                     "dev-master": "1.9-dev"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "PhpOption\\": "src/PhpOption/"
@@ -476,7 +476,7 @@
                     "dev-main": "9.0.x-dev"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Sabberworm\\CSS\\": "src/"
@@ -544,7 +544,7 @@
                     "name": "symfony/polyfill"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "files": [
                     "bootstrap.php"
@@ -631,7 +631,7 @@
                     "name": "symfony/polyfill"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "files": [
                     "bootstrap.php"
@@ -712,7 +712,7 @@
                     "name": "symfony/polyfill"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "files": [
                     "bootstrap.php"
@@ -804,7 +804,7 @@
             },
             "time": "2025-06-06T11:35:02+00:00",
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Com\\Tecnick\\Barcode\\": "src"
@@ -903,7 +903,7 @@
             },
             "time": "2025-06-06T11:33:19+00:00",
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Com\\Tecnick\\Color\\": "src"
@@ -976,7 +976,7 @@
             },
             "time": "2025-06-06T11:33:32+00:00",
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Com\\Tecnick\\File\\": "src"
@@ -1055,7 +1055,7 @@
             },
             "time": "2025-06-21T09:05:48+00:00",
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Com\\Tecnick\\Pdf\\": "src"
@@ -1126,7 +1126,7 @@
             },
             "time": "2025-06-06T11:33:45+00:00",
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Com\\Tecnick\\Pdf\\Encrypt\\": "src"
@@ -1197,7 +1197,7 @@
             },
             "time": "2025-06-06T12:19:35+00:00",
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Com\\Tecnick\\Pdf\\Font\\": "src"
@@ -1266,7 +1266,7 @@
             },
             "time": "2025-06-06T12:18:34+00:00",
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Com\\Tecnick\\Pdf\\Graph\\": "src"
@@ -1335,7 +1335,7 @@
             },
             "time": "2025-06-06T12:18:48+00:00",
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Com\\Tecnick\\Pdf\\Image\\": "src"
@@ -1404,7 +1404,7 @@
             },
             "time": "2025-06-06T12:18:18+00:00",
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Com\\Tecnick\\Pdf\\Page\\": "src"
@@ -1470,7 +1470,7 @@
             },
             "time": "2025-06-06T12:18:03+00:00",
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Com\\Tecnick\\Unicode\\": "src"
@@ -1534,7 +1534,7 @@
             },
             "time": "2025-06-06T11:34:15+00:00",
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Com\\Tecnick\\Unicode\\Data\\": "src"
@@ -1593,7 +1593,7 @@
             },
             "time": "2025-11-21T10:58:21+00:00",
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "classmap": [
                     "config",
@@ -1689,7 +1689,7 @@
                     "dev-master": "5.6-dev"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Dotenv\\": "src/"
