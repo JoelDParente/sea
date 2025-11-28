@@ -6,7 +6,7 @@ header("Access-Control-Allow-Methods: GET");
 header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
 header("Access-Control-Allow-Credentials: true");
 
-require_once __DIR__ . '/../vendor/autoload.php'; // Carrega o Composer
+require_once __DIR__ . '/../vendor/autoload.php'; 
 
 require_once('../config/database.php');
 require_once('../dao/ProvasVersoesDAO.php');
@@ -102,6 +102,7 @@ $pdf->SetFont('helvetica', '', 11);
 
 // preparar nome da prova para exibição (sanitizar)
 $nomeAval = $nome_prova && $nome_prova !== '' ? htmlspecialchars($nome_prova, ENT_QUOTES, 'UTF-8') : '&nbsp;';
+$logoEscola = 'http://localhost/sea/backend/uploads/logos/logo-sea.png';
 
 $htmlHeader = '
 
@@ -122,7 +123,7 @@ td {
 <table cellpadding="4" cellspacing="0" border="1" width="100%">
     <tr>
         <td rowspan="4" width="15%" style="text-align:center;">
-            <b>LOGO</b><br>(opcional)
+            <b><img src="http://localhost/sea/backend/uploads/logos/logo-sea.png" alt="Logo não encontrada"></b>
         </td>
         <td width="70%" class="titulo-escola">
             EEEP OSMIRA EDUARDO DE CASTRO

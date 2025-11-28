@@ -36,7 +36,7 @@ if (!$input) {
     exit;
 }
 
-$required = ['nome_prova', 'serie', 'questoes', 'versions_count'];
+$required = ['nome_prova', 'serie', 'questoes', 'qtd_versoes'];
 foreach ($required as $r) {
     if (!isset($input[$r])) {
         http_response_code(400);
@@ -49,12 +49,17 @@ $nome_prova = $input['nome_prova'];
 $id_disciplina = $input['id_disciplina'];
 $serie = $input['serie'];
 $questoes = is_array($input['questoes']) ? $input['questoes'] : [];
-$versions_count = (int) $input['versions_count'];
+$qtd_versoes = (int) $input['qtd_versoes'];
 $id_professor = $input['id_professor'] ?? null;
 $nome_professor = $input['nome_professor'] ?? null;
 
-if ($versions_count < 1) $versions_count = 1;
-if ($versions_count > 4) $versions_count = 4; // limite
+if ($qtd_versoes < 1) $qtd_versoes = 1;
+
+$colors = ['Azul', 'Amarelo', 'Verde', 'Branco'];
+
+if ($qtd_versoes > count($colors)) {
+    $qtd_versoes = count($colors);
+}
 
 if (count($questoes) === 0) {
     http_response_code(400);
@@ -72,7 +77,8 @@ $prova = new Prova();
 $prova->setIdProfessor($id_professor ?? 0);
 $prova->setIdDisciplina($id_disciplina ?? 0);
 $prova->setTitulo($nome_prova);
-$prova->setVersao($serie);
+$prova->setSerie($serie);
+$prova->setVersao($colors[$qtd_versoes - 1]);
 $now = date('Y-m-d H:i:s');
 $prova->setDataCriacao($now);
 $prova->setUltimaAtualizacao($now);
@@ -92,11 +98,11 @@ foreach ($questoes as $q) {
     $provaQuestaoDAO->criarProvaQuestao($pq);
 }
 
-$letters = ['A','B','C','D'];
 $resultVersoes = [];
 
-for ($i = 0; $i < $versions_count; $i++) {
-    $codigo = $letters[$i] ?? ('V' . ($i+1));
+for ($i = 0; $i < $qtd_versoes; $i++) {
+    // usa o nome da cor como código da versão
+    $codigo = $colors[$i];
 
     // criar registro de versao
     $versao = new ProvasVersoes();
@@ -105,10 +111,10 @@ for ($i = 0; $i < $versions_count; $i++) {
     $id_versao = $versaoDAO->criarVersao($versao);
 
     // embaralhar questões e inserir na versao
-    $shuffled = $questoes;
-    shuffle($shuffled);
+    $embaralhado = $questoes;
+    shuffle($embaralhado);
     $ordem = 1;
-    foreach ($shuffled as $qid) {
+    foreach ($embaralhado as $qid) {
         $pvq = new ProvasVersoesQuestoes();
         $pvq->setIdVersao($id_versao);
         $pvq->setIdQuestao($qid);
@@ -116,6 +122,7 @@ for ($i = 0; $i < $versions_count; $i++) {
         $versaoQuestoesDAO->adicionarQuestao($pvq);
     }
 
+    // monta URL do PDF (gera via gerarPdfVersaoController.php)
     $pdfUrl = "http://localhost/sea/backend/controllers/gerarPdfVersaoController.php?id_versao={$id_versao}";
     if (!empty($id_disciplina)) {
         $pdfUrl .= '&id_disciplina=' . rawurlencode($id_disciplina);
@@ -137,7 +144,23 @@ for ($i = 0; $i < $versions_count; $i++) {
     ];
 }
 
-echo json_encode(['sucesso' => true, 'id_prova' => $id_prova, 'versoes' => $resultVersoes]);
+// Gerar URL para download do ZIP com todos os PDFs
+$urlDownloadZip = "http://localhost/sea/backend/controllers/downloadProvasZipController.php";
+
+echo json_encode([
+    'sucesso' => true, 
+    'id_prova' => $id_prova, 
+    'versoes' => $resultVersoes,
+    'url_download_zip' => $urlDownloadZip,
+    'payload_zip' => [
+        'id_prova' => $id_prova,
+        'nome_prova' => $nome_prova,
+        'id_disciplina' => $id_disciplina,
+        'serie' => $serie,
+        'nome_professor' => $nome_professor,
+        'versoes' => $resultVersoes
+    ]
+]);
 exit;
 
 ?>

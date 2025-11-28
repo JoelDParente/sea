@@ -11,6 +11,8 @@ import { ArrowLeft } from '@phosphor-icons/react';
 import { useRouter } from 'next/navigation';
 import { paths } from '@/paths';
 import axios from 'axios';
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
 
 export default function Page() {
   const router = useRouter();
@@ -84,8 +86,7 @@ export default function Page() {
         serie: prova.serie,
         id_disciplina: componenteSelecionado.id_disciplina,
         questoes: questoesSelecionadas.map((q) => q.id_questao),
-        versions_count: versionsCount,
-        // tentar extrair id do professor do localStorage (se disponível)
+        qtd_versoes: versionsCount,
         id_professor: (() => {
           try {
             const u = localStorage.getItem('user');
@@ -112,20 +113,55 @@ export default function Page() {
         })(),
       };
 
-      console.log(payload);
-      
+      console.log('Payload:', payload);
       
       const res = await axios.post('http://localhost/sea/backend/controllers/gerarVersoesProvaController.php', payload);
-      if (res.data?.sucesso && Array.isArray(res.data.versoes)) {
-        // abrir cada PDF em nova aba
-        res.data.versoes.forEach((v: any) => {
-          if (v.url_pdf) window.open(v.url_pdf, '_blank');
-        });
+      
+      if (res.data?.sucesso && Array.isArray(res.data.versoes) && res.data.versoes.length > 0) {
+        console.log('Versões criadas:', res.data.versoes);
+        
+        // Criar ZIP com jszip
+        const zip = new JSZip();
+        let pdfCount = 0;
+        
+        for (const versao of res.data.versoes) {
+          if (!versao.url_pdf) continue;
+          
+          try {
+            // Baixar PDF
+            const pdfRes = await axios.get(versao.url_pdf, {
+              responseType: 'arraybuffer',
+              timeout: 30000,
+            });
+            
+            // Adicionar ao ZIP
+            const fileName = `prova_versao_${versao.codigo_versao}.pdf`;
+            zip.file(fileName, pdfRes.data, { binary: true });
+            pdfCount++;
+            console.log(`✓ PDF adicionado ao ZIP: ${fileName}`);
+          } catch (pdfErr) {
+            console.error(`Erro ao baixar PDF da versão ${versao.codigo_versao}:`, pdfErr);
+          }
+        }
+        
+        if (pdfCount === 0) {
+          alert('Erro: Nenhum PDF foi baixado com sucesso');
+          return;
+        }
+        
+        // Gerar ZIP e disparar download
+        const zipBlob = await zip.generateAsync({ type: 'blob' });
+        const zipName = `${prova.nome.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.zip`;
+        saveAs(zipBlob, zipName);
+        
+        console.log(`✓ ZIP gerado e baixado: ${zipName} (${pdfCount} PDFs)`);
       } else {
-        console.error('Resposta inesperada ao gerar versões', res.data);
+        console.error('Resposta inesperada ao gerar versões:', res.data);
+        alert('Erro: Não foi possível gerar as versões de prova');
       }
     } catch (err) {
-      console.error('Erro ao gerar versões', err);
+      console.error('Erro ao gerar PDF:', err);
+      alert('Erro ao gerar PDF: ' + (err instanceof Error ? err.message : 'Desconhecido'));
     }
   };
 

@@ -13,12 +13,13 @@ class ProvaDAO {
     }
 
     public function criarProva(Prova $prova): int {
-        $sql = "INSERT INTO prova (id_professor, id_disciplina, titulo, versao, data_criacao, ultima_atualizacao)
-                VALUES (:id_professor, :id_disciplina, :titulo, :versao, :data_criacao, :ultima_atualizacao)";
+        $sql = "INSERT INTO prova (id_professor, id_disciplina, titulo, serie, versao, data_criacao, ultima_atualizacao)
+                VALUES (:id_professor, :id_disciplina, :titulo, :serie, :versao, :data_criacao, :ultima_atualizacao)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id_professor', $prova->getIdProfessor(), PDO::PARAM_INT);
         $stmt->bindValue(':id_disciplina', $prova->getIdDisciplina(), PDO::PARAM_INT);
         $stmt->bindValue(':titulo', $prova->getTitulo(), PDO::PARAM_STR);
+        $stmt->bindValue(':serie', $prova->getSerie(), PDO::PARAM_STR);
         $stmt->bindValue(':versao', $prova->getVersao(), PDO::PARAM_STR);
         $stmt->bindValue(':data_criacao', $prova->getDataCriacao(), PDO::PARAM_STR);
         $stmt->bindValue(':ultima_atualizacao', $prova->getUltimaAtualizacao(), PDO::PARAM_STR);
@@ -49,12 +50,13 @@ class ProvaDAO {
     }
 
     public function atualizarProva(Prova $prova): bool {
-        $sql = "UPDATE prova SET id_professor = :id_professor, id_disciplina = :id_disciplina, titulo = :titulo, versao = :versao, data_criacao = :data_criacao, ultima_atualizacao = :ultima_atualizacao
+        $sql = "UPDATE prova SET id_professor = :id_professor, id_disciplina = :id_disciplina, titulo = :titulo,serie = :serie, versao = :versao, data_criacao = :data_criacao, ultima_atualizacao = :ultima_atualizacao
                 WHERE id_prova = :id_prova";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id_professor', $prova->getIdProfessor(), PDO::PARAM_INT);
         $stmt->bindValue(':id_disciplina', $prova->getIdDisciplina(), PDO::PARAM_INT);
         $stmt->bindValue(':titulo', $prova->getTitulo(), PDO::PARAM_STR);
+        $stmt->bindValue(':serie', $prova->getSerie(), PDO::PARAM_STR);
         $stmt->bindValue(':versao', $prova->getVersao(), PDO::PARAM_STR);
         $stmt->bindValue(':data_criacao', $prova->getDataCriacao(), PDO::PARAM_STR);
         $stmt->bindValue(':ultima_atualizacao', $prova->getUltimaAtualizacao(), PDO::PARAM_STR);
@@ -64,9 +66,9 @@ class ProvaDAO {
     }
 
     public function excluirProva(int $uid): bool {
-        $sql = "DELETE FROM prova WHERE uid = :uid";
+        $sql = "DELETE FROM prova WHERE id_professor = :id_professor";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindValue(':uid', $uid, PDO::PARAM_INT);
+        $stmt->bindValue(':id_professor', $uid, PDO::PARAM_INT);
         return $stmt->execute();
     }
 
@@ -76,6 +78,7 @@ class ProvaDAO {
                 ->setIdProfessor($row['id_professor'])
                 ->setIdDisciplina($row['id_disciplina'])
                 ->setTitulo($row['titulo'])
+                ->setSerie($row['serie'])
                 ->setVersao($row['versao'])
                 ->setDataCriacao($row['data_criacao'])
                 ->setUltimaAtualizacao($row['ultima_atualizacao']);

@@ -98,7 +98,6 @@ export default function ModalComponenteCurricular({ open, onClose, onConfirm, pr
                 const res = await axios.get(`http://localhost/sea/backend/controllers/ProfessorDisciplinaController.php?id_professor=${id}`);
                 const raw = Array.isArray(res.data) ? res.data : Object.values(res.data || {});
 
-                // Normalizar diferentes formatos que a API pode retornar
                 const normalized = raw.map((it) => ({
                     id_disciplina: it.id_disciplina,
                     disciplina: it.nome_disciplina
@@ -106,7 +105,6 @@ export default function ModalComponenteCurricular({ open, onClose, onConfirm, pr
 
 
                 setTurmas(normalized);
-                // se não houver seleção, selecione a primeira turma retornada
                 if (!selected && normalized.length > 0) {
                     setSelected(String(normalized[0].id_disciplina));
                 }

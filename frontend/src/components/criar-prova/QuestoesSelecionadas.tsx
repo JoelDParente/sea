@@ -31,7 +31,7 @@ export default function QuestoesSelecionadas({ questoes, onRemove }: Props) {
     <>
       <Grid container spacing={2}>
         {questoes.map((q) => (
-          <Grid item xs={12} sm={6} md={4} key={q.id_questao}>
+          <Grid size={{xs:12, sm:6, md:4}} key={q.id_questao}>
             <Card sx={{ height: 180, display: 'flex', flexDirection: 'column' }}>
               <CardContent sx={{ flex: 1, overflow: 'hidden' }}>
                 <Typography
