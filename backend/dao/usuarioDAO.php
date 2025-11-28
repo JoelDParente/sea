@@ -90,7 +90,7 @@ class UsuarioDAO
     public function buscarPorEmail(string $email): ?array
     {
         try {
-            $sql = "SELECT id_usuario, id_escola, nome, foto, email, senha, tipo, ativo 
+            $sql = "SELECT id_usuario, id_escola, nome, foto, email, senha, telefone, tipo, ativo 
                     FROM usuario 
                     WHERE email = :email 
                     LIMIT 1";

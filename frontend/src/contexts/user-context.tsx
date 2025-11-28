@@ -11,7 +11,10 @@ export interface UserContextValue {
   user: User | null;
   error: string | null;
   isLoading: boolean;
+
   checkSession?: () => Promise<void>;
+
+  setUser?: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
 export const UserContext = React.createContext<UserContextValue | undefined>(undefined);
@@ -21,7 +24,11 @@ export interface UserProviderProps {
 }
 
 export function UserProvider({ children }: UserProviderProps): React.JSX.Element {
-  const [state, setState] = React.useState<{ user: User | null; error: string | null; isLoading: boolean }>({
+  const [state, setState] = React.useState<{
+    user: User | null;
+    error: string | null;
+    isLoading: boolean;
+  }>({
     user: null,
     error: null,
     isLoading: true,
@@ -33,26 +40,40 @@ export function UserProvider({ children }: UserProviderProps): React.JSX.Element
 
       if (error) {
         logger.error(error);
-        setState((prev) => ({ ...prev, user: null, error: 'Something went wrong', isLoading: false }));
+        setState(prev => ({ ...prev, user: null, error: 'Something went wrong', isLoading: false }));
         return;
       }
 
-      setState((prev) => ({ ...prev, user: data ?? null, error: null, isLoading: false }));
+      setState(prev => ({ ...prev, user: data ?? null, error: null, isLoading: false }));
     } catch (error) {
       logger.error(error);
-      setState((prev) => ({ ...prev, user: null, error: 'Something went wrong', isLoading: false }));
+      setState(prev => ({ ...prev, user: null, error: 'Something went wrong', isLoading: false }));
     }
   }, []);
 
-  React.useEffect(() => {
-    checkSession().catch((error) => {
-      logger.error(error);
-      // noop
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
+  const setUser = React.useCallback((value: React.SetStateAction<User | null>) => {
+    setState(prev => ({
+      ...prev,
+      user: typeof value === "function" ? value(prev.user) : value,
+    }));
   }, []);
 
-  return <UserContext.Provider value={{ ...state, token: null, checkSession }}>{children}</UserContext.Provider>;
+  React.useEffect(() => {
+    checkSession().catch(logger.error);
+  }, []);
+
+  return (
+    <UserContext.Provider
+      value={{
+        ...state,
+        token: null,
+        checkSession,
+        setUser,
+      }}
+    >
+      {children}
+    </UserContext.Provider>
+  );
 }
 
 export const UserConsumer = UserContext.Consumer;

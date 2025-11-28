@@ -93,10 +93,6 @@ export function AccountDetailsForm(): React.JSX.Element {
                 xs: 12,
               }}
             >
-              <FormControl fullWidth>
-                <InputLabel>City</InputLabel>
-                <OutlinedInput defaultValue={city} label="City" />
-              </FormControl>
             </Grid>
           </Grid>
         </CardContent>
