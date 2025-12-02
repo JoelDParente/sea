@@ -29,6 +29,9 @@ export default function ModalCadastroAluno({ open, onClose, idTurma, onSuccess }
         foto: fotoUrl
       };
 
+      console.log(payload);
+      
+
       await axios.post('http://localhost/sea/backend/controllers/AlunoController.php', payload, { headers: { 'Content-Type': 'application/json' } });
       onSuccess?.(payload);
       onClose();
