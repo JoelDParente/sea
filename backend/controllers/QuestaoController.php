@@ -67,6 +67,16 @@ switch ($metodo) {
                 $alt = new Alternativa();
                 $alt->setIdQuestao($idQuestao);
                 $alt->setTexto($item['texto']);
+                // Try to capture an image URL from the text (if user inserted an <img src="...">)
+                $caminhoImagem = null;
+                if (!empty($item['imagem_url'])) {
+                    $caminhoImagem = $item['imagem_url'];
+                } else {
+                    if (preg_match('/<img[^>]+src=["\']([^"\']+)["\']/i', $item['texto'], $m)) {
+                        $caminhoImagem = $m[1];
+                    }
+                }
+                $alt->setCaminhoImagem($caminhoImagem);
                 $alternativaDAO->criarAlternativa($alt);
             }
         }
@@ -427,6 +437,15 @@ switch ($metodo) {
                 // Ao recriar, não definimos id_alternativa manualmente — deixa o banco gerar
                 $alt->setIdQuestao($idQuestao);
                 $alt->setTexto($item['texto'] ?? '');
+                $caminhoImagem = null;
+                if (!empty($item['imagem_url'])) {
+                    $caminhoImagem = $item['imagem_url'];
+                } else {
+                    if (preg_match('/<img[^>]+src=["\']([^"\']+)["\']/i', $item['texto'] ?? '', $m)) {
+                        $caminhoImagem = $m[1];
+                    }
+                }
+                $alt->setCaminhoImagem($caminhoImagem);
                 $alternativaDAO->criarAlternativa($alt);
             }
         }

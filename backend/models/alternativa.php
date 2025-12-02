@@ -6,6 +6,7 @@ class Alternativa{
     private $idAlternativa;
     private $idQuestao;
     private $texto;
+    private $caminhoImagem;
     private $correta;
 
     /**
@@ -84,6 +85,26 @@ class Alternativa{
     public function setCorreta($correta)
     {
         $this->correta = $correta;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of caminhoImagem
+     */ 
+    public function getCaminhoImagem()
+    {
+        return $this->caminhoImagem;
+    }
+
+    /**
+     * Set the value of caminhoImagem
+     *
+     * @return  self
+     */ 
+    public function setCaminhoImagem($caminhoImagem)
+    {
+        $this->caminhoImagem = $caminhoImagem;
 
         return $this;
     }

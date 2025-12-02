@@ -369,17 +369,31 @@ export const handleImageUpload = async (
     )
   }
 
-  // For demo/testing: Simulate upload progress. In production, replace the following code
-  // with your own upload implementation.
-  for (let progress = 0; progress <= 100; progress += 10) {
-    if (abortSignal?.aborted) {
-      throw new Error("Upload cancelled")
-    }
-    await new Promise((resolve) => setTimeout(resolve, 500))
-    onProgress?.({ progress })
-  }
+  // Actual upload to backend endpoint
+  try {
+    const formData = new FormData()
+    formData.append("imagem", file)
 
-  return "/images/tiptap-ui-placeholder-image.jpg"
+    const res = await fetch("http://localhost/sea/backend/controllers/uploadAlternativaImagem.php", {
+      method: "POST",
+      body: formData,
+      credentials: "include",
+      signal: abortSignal,
+    })
+
+    if (!res.ok) {
+      throw new Error(`Upload falhou com status ${res.status}`)
+    }
+
+    const json = await res.json()
+    if (json && json.url) {
+      onProgress?.({ progress: 100 })
+      return json.url
+    }
+    throw new Error("Upload respondeu sem URL")
+  } catch (err) {
+    throw err
+  }
 }
 
 type ProtocolOptions = {

@@ -8,6 +8,7 @@ class Aluno {
     private $nome;
     private $email;
     private $matricula;
+    private $foto;
 
 
 
@@ -47,6 +48,26 @@ class Aluno {
     public function setEmail($email)
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of foto
+     */ 
+    public function getFoto()
+    {
+        return $this->foto;
+    }
+
+    /**
+     * Set the value of foto
+     *
+     * @return  self
+     */ 
+    public function setFoto($foto)
+    {
+        $this->foto = $foto;
 
         return $this;
     }

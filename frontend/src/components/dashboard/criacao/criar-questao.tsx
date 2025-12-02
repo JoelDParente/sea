@@ -16,10 +16,10 @@ export default function CriarQuestao({ onSave }: { onSave: (questao: any) => voi
 	const [modalOpen, setModalOpen] = useState(false);
 
 	const getInitialAlternatives = () => [
-		{ id: crypto.randomUUID(), texto: "", correta: true },
-		{ id: crypto.randomUUID(), texto: "", correta: false },
-		{ id: crypto.randomUUID(), texto: "", correta: false },
-		{ id: crypto.randomUUID(), texto: "", correta: false },
+		{ id: crypto.randomUUID(), texto: "", correta: true, imagemUrl: null },
+		{ id: crypto.randomUUID(), texto: "", correta: false, imagemUrl: null },
+		{ id: crypto.randomUUID(), texto: "", correta: false, imagemUrl: null },
+		{ id: crypto.randomUUID(), texto: "", correta: false, imagemUrl: null },
 	];
 
 	// conteúdo HTML vindo do editor Tiptap
@@ -40,7 +40,6 @@ export default function CriarQuestao({ onSave }: { onSave: (questao: any) => voi
 
 	const [alternativas, setAlternativas] = useState<Alternativa[]>(getInitialAlternatives());
 
-	// Buscar disciplinas ao montar o componente
 	useEffect(() => {
 		const storedUser = localStorage.getItem("user");
 		if (storedUser) {
@@ -55,7 +54,6 @@ export default function CriarQuestao({ onSave }: { onSave: (questao: any) => voi
 				setLoadingDados(true);
 				const resDisciplinas = await axios.get(`${API_BASE}/QuestaoController.php?tipo=disciplinas`);
 				const dataDisc = resDisciplinas.data;
-				// normaliza para array (quando backend devolver objeto associativo)
 				const arrDisc = Array.isArray(dataDisc) ? dataDisc : Object.values(dataDisc || {});
 				setDisciplinas(arrDisc);
 
@@ -63,7 +61,6 @@ export default function CriarQuestao({ onSave }: { onSave: (questao: any) => voi
 					const primeiraDisciplina = resDisciplinas.data[0];
 					setDisciplinaSelecionada(primeiraDisciplina.id_disciplina);
 
-					// Buscar categorias da primeira disciplina
 					buscarCategorias(primeiraDisciplina.id_disciplina);
 				}
 			} catch (err) {
@@ -170,6 +167,13 @@ export default function CriarQuestao({ onSave }: { onSave: (questao: any) => voi
 		const alternativaCorreta = alternativas.find((alt) => alt.correta);
 		const respostaCorreta = alternativaCorreta ? alternativaCorreta.texto : "";
 
+		const extractFirstImageUrl = (html:string) => {
+			const div = document.createElement('div');
+			div.innerHTML = html || '';
+			const img = div.querySelector('img');
+			return img ? img.getAttribute('src') : null;
+		}
+
 		const questaoFinal = {
 			titulo,
 			enunciado: editorContent, // <-- preserva o HTML
@@ -180,6 +184,7 @@ export default function CriarQuestao({ onSave }: { onSave: (questao: any) => voi
 			imagem,
 			alternativas: alternativas.map((alt) => ({
 				texto: alt.texto,
+				imagem_url: extractFirstImageUrl(alt.texto)
 			})),
 			id_professor: idUsuario,
 		};
@@ -296,6 +301,15 @@ export default function CriarQuestao({ onSave }: { onSave: (questao: any) => voi
 									</MenuItem>
 								))}
 							</TextField>
+
+							<Button onClick={() => setModalOpen(true)}>Adicionar imagem principal</Button>
+							{imagem && (
+								<Box>
+									<img src={imagem} style={{ width: "100%", maxHeight: 200 }} />
+									<Button color="error" onClick={() => setImagem(null)}>Remover</Button>
+								</Box>
+							)}
+
 						</Box>
 					)}
 

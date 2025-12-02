@@ -3,9 +3,13 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 25/11/2025 às 18:49
+-- Tempo de geração: 02/12/2025 às 01:44
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
+
+CREATE DATABASE sea;
+
+USE sea;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -46,34 +50,39 @@ CREATE TABLE `admingeral` (
 CREATE TABLE `alternativas` (
   `id_alternativa` int(11) NOT NULL,
   `id_questao` int(11) DEFAULT NULL,
-  `texto` text DEFAULT NULL
+  `texto` text DEFAULT NULL,
+  `caminho_imagem` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `alternativas`
 --
 
-INSERT INTO `alternativas` (`id_alternativa`, `id_questao`, `texto`) VALUES
-(41, 9, '“a singularidade”.'),
-(42, 9, '“tais vantagens”.'),
-(43, 9, '“os gabos”.'),
-(44, 9, '“Longe disso”.'),
-(45, 9, '“Em geral”.'),
-(46, 10, ' criar relação de subordinação entre leitor e autor, já que ambos usam as novas tecnologias.'),
-(47, 10, 'enfatizar a probabilidade de que toda população brasileira esteja aprisionada às novas tecnologias.'),
-(48, 10, 'indicar, de forma clara, o ponto de vista de que hoje as pessoas são controladas pelas novas tecnologias.'),
-(49, 10, 'tornar o leitor copartícipe do ponto de vista de que ele manipula as novas tecnologias e por elas é manipulado.'),
-(50, 10, 'demonstrar ao leitor sua parcela de responsabilidade por deixar que as novas tecnologias controlem as pessoas. '),
-(56, 12, 'impessoalidade, na organização da objetividade das informações, como em “Este artigo tem por finalidade” e “Evidencia-se”.'),
-(57, 12, 'seleção lexical, no desenvolvimento sequencial do texto, como em “imaginário racista” e “estética do negro”.'),
-(58, 12, 'metaforização, relativa à construção dos sentidos figurados, como nas expressões “descolonização estética” e “discurso midiático-publicitário”.'),
-(59, 12, ' nominalização, produzida por meio de processos derivacionais na formação de palavras, como “inferiorização” e “desvalorização”'),
-(60, 12, 'adjetivação, organizada para criar uma terminologia antirracista, como em “ética da diversidade” e “descolonização estética”.'),
-(61, 13, 'reportagem, pois busca convencer o interlocutor da tese defendida ao longo do texto.'),
-(62, 13, 'resumo, pois promove o contato rápido do leitor com uma informação desconhecida.'),
-(63, 13, 'sinopse, pois sintetiza as informações relevantes de uma obra de modo impessoal.'),
-(64, 13, 'instrução, pois ensina algo por meio de explicações sobre uma obra específica.'),
-(65, 13, 'resenha, pois apresenta uma produção intelectual de forma crítica.');
+INSERT INTO `alternativas` (`id_alternativa`, `id_questao`, `texto`, `caminho_imagem`) VALUES
+(41, 9, '“a singularidade”.', NULL),
+(42, 9, '“tais vantagens”.', NULL),
+(43, 9, '“os gabos”.', NULL),
+(44, 9, '“Longe disso”.', NULL),
+(45, 9, '“Em geral”.', NULL),
+(46, 10, ' criar relação de subordinação entre leitor e autor, já que ambos usam as novas tecnologias.', NULL),
+(47, 10, 'enfatizar a probabilidade de que toda população brasileira esteja aprisionada às novas tecnologias.', NULL),
+(48, 10, 'indicar, de forma clara, o ponto de vista de que hoje as pessoas são controladas pelas novas tecnologias.', NULL),
+(49, 10, 'tornar o leitor copartícipe do ponto de vista de que ele manipula as novas tecnologias e por elas é manipulado.', NULL),
+(50, 10, 'demonstrar ao leitor sua parcela de responsabilidade por deixar que as novas tecnologias controlem as pessoas. ', NULL),
+(56, 12, 'impessoalidade, na organização da objetividade das informações, como em “Este artigo tem por finalidade” e “Evidencia-se”.', NULL),
+(57, 12, 'seleção lexical, no desenvolvimento sequencial do texto, como em “imaginário racista” e “estética do negro”.', NULL),
+(58, 12, 'metaforização, relativa à construção dos sentidos figurados, como nas expressões “descolonização estética” e “discurso midiático-publicitário”.', NULL),
+(59, 12, ' nominalização, produzida por meio de processos derivacionais na formação de palavras, como “inferiorização” e “desvalorização”', NULL),
+(60, 12, 'adjetivação, organizada para criar uma terminologia antirracista, como em “ética da diversidade” e “descolonização estética”.', NULL),
+(61, 13, 'reportagem, pois busca convencer o interlocutor da tese defendida ao longo do texto.', NULL),
+(62, 13, 'resumo, pois promove o contato rápido do leitor com uma informação desconhecida.', NULL),
+(63, 13, 'sinopse, pois sintetiza as informações relevantes de uma obra de modo impessoal.', NULL),
+(64, 13, 'instrução, pois ensina algo por meio de explicações sobre uma obra específica.', NULL),
+(65, 13, 'resenha, pois apresenta uma produção intelectual de forma crítica.', NULL),
+(66, 14, '<img src=\"http://localhost/sea/backend/uploads/alternativas/7296dfc4-0cb8-422e-9eef-0894081ed5f2.jpg\"><p></p>', 'http://localhost/sea/backend/uploads/alternativas/7296dfc4-0cb8-422e-9eef-0894081ed5f2.jpg'),
+(67, 14, '<img src=\"http://localhost/sea/backend/uploads/alternativas/afbaa499-3275-4423-ba04-7f88952cd213.png\"><p></p>', 'http://localhost/sea/backend/uploads/alternativas/afbaa499-3275-4423-ba04-7f88952cd213.png'),
+(68, 14, '<img src=\"http://localhost/sea/backend/uploads/alternativas/ca3d7615-27c0-4c08-b727-a1045cf025e3.png\"><p></p>', 'http://localhost/sea/backend/uploads/alternativas/ca3d7615-27c0-4c08-b727-a1045cf025e3.png'),
+(69, 14, '<img src=\"http://localhost/sea/backend/uploads/alternativas/f17b7b8c-2048-4b80-8da8-d99e7a0a4286.png\"><p></p>', 'http://localhost/sea/backend/uploads/alternativas/f17b7b8c-2048-4b80-8da8-d99e7a0a4286.png');
 
 -- --------------------------------------------------------
 
@@ -86,6 +95,7 @@ CREATE TABLE `aluno` (
   `id_turma` int(11) DEFAULT NULL,
   `matricula` varchar(7) DEFAULT NULL,
   `nome` varchar(100) DEFAULT NULL,
+  `foto` varchar(500) DEFAULT NULL,
   `email` varchar(320) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -348,12 +358,6 @@ CREATE TABLE `prova` (
 --
 
 INSERT INTO `prova` (`id_prova`, `id_professor`, `id_disciplina`, `titulo`, `serie`, `versao`, `data_criacao`, `ultima_atualizacao`) VALUES
-(1, 6, NULL, 'teste', NULL, '1º ano', '2025-11-21 20:34:25', '2025-11-21 20:34:25'),
-(2, 6, NULL, 'teste', NULL, '1º ano', '2025-11-21 20:38:34', '2025-11-21 20:38:34'),
-(3, 6, NULL, 'teste', NULL, '1º ano', '2025-11-21 20:41:12', '2025-11-21 20:41:12'),
-(4, 6, NULL, 'teste', NULL, '1º ano', '2025-11-21 20:42:41', '2025-11-21 20:42:41'),
-(5, 6, NULL, 'Prova de Português', NULL, '1º ano', '2025-11-21 21:25:19', '2025-11-21 21:25:19'),
-(6, 6, NULL, 'Prova de Português', NULL, '1º ano', '2025-11-21 21:25:44', '2025-11-21 21:25:44'),
 (7, 6, NULL, 'tese', NULL, '1º ano', '2025-11-25 18:42:13', '2025-11-25 18:42:13'),
 (8, 6, NULL, 'Teste', NULL, '1º ano', '2025-11-25 18:46:23', '2025-11-25 18:46:23'),
 (9, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 20:34:44', '2025-11-25 20:34:44'),
@@ -376,7 +380,11 @@ INSERT INTO `prova` (`id_prova`, `id_professor`, `id_disciplina`, `titulo`, `ser
 (26, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 21:14:39', '2025-11-25 21:14:39'),
 (27, 6, NULL, 'Teste', NULL, '1º ano', '2025-11-25 21:15:26', '2025-11-25 21:15:26'),
 (28, 6, NULL, 'Teste 1', NULL, '1º ano', '2025-11-25 21:39:22', '2025-11-25 21:39:22'),
-(29, 6, NULL, 'Teste 3', NULL, '1º ano', '2025-11-25 21:43:02', '2025-11-25 21:43:02');
+(29, 6, NULL, 'Teste 3', NULL, '1º ano', '2025-11-25 21:43:02', '2025-11-25 21:43:02'),
+(30, 6, NULL, 'Teste', NULL, '1º ano', '2025-11-26 03:41:53', '2025-11-26 03:41:53'),
+(31, 6, 2, 'Avaliação de Teste', NULL, '2º ano', '2025-11-27 03:28:24', '2025-11-27 03:28:24'),
+(32, 6, 2, 'Teste', NULL, '2º ano', '2025-11-28 04:40:20', '2025-11-28 04:40:20'),
+(33, 6, 1, 'teste', '2º ano', 'Azul', '2025-11-29 04:33:54', '2025-11-29 04:33:54');
 
 -- --------------------------------------------------------
 
@@ -442,7 +450,20 @@ INSERT INTO `provaquestao` (`id_questao`, `id_prova`) VALUES
 (13, 29),
 (9, 29),
 (12, 29),
-(10, 29);
+(10, 29),
+(13, 30),
+(12, 30),
+(10, 30),
+(9, 30),
+(13, 31),
+(9, 31),
+(12, 31),
+(10, 31),
+(13, 32),
+(9, 32),
+(12, 32),
+(10, 32),
+(14, 33);
 
 -- --------------------------------------------------------
 
@@ -486,7 +507,11 @@ INSERT INTO `provas_versoes` (`id_versao`, `id_prova`, `codigo_versao`, `data_cr
 (31, 28, '', '2025-11-25 14:39:22'),
 (32, 29, '', '2025-11-25 14:43:02'),
 (33, 29, '', '2025-11-25 14:43:02'),
-(34, 29, '', '2025-11-25 14:43:02');
+(34, 29, '', '2025-11-25 14:43:02'),
+(35, 30, '', '2025-11-25 20:41:53'),
+(36, 31, '', '2025-11-26 20:28:24'),
+(37, 32, '', '2025-11-27 21:40:20'),
+(38, 33, 'Azul', '2025-11-28 21:33:55');
 
 -- --------------------------------------------------------
 
@@ -562,7 +587,20 @@ INSERT INTO `provas_versoes_questoes` (`id_versao_questao`, `id_versao`, `id_que
 (82, 34, 10, 1),
 (83, 34, 12, 2),
 (84, 34, 9, 3),
-(85, 34, 13, 4);
+(85, 34, 13, 4),
+(86, 35, 13, 1),
+(87, 35, 12, 2),
+(88, 35, 9, 3),
+(89, 35, 10, 4),
+(90, 36, 10, 1),
+(91, 36, 9, 2),
+(92, 36, 12, 3),
+(93, 36, 13, 4),
+(94, 37, 12, 1),
+(95, 37, 13, 2),
+(96, 37, 10, 3),
+(97, 37, 9, 4),
+(98, 38, 14, 1);
 
 -- --------------------------------------------------------
 
@@ -602,7 +640,8 @@ INSERT INTO `questao` (`id_questao`, `id_assunto`, `id_professor`, `serie`, `enu
 (9, 45, 6, NULL, '<p>Essas moças tinham o vezo de afirmar o contrário do que desejavam. Notei a singularidade quando principiaram a elogiar o meu paletó cor de macaco. Examinavam-no sérias, achavam o pano e os aviamentos de qualidade superior, o feitio admirável. Envaideci-me: nunca havia reparado em tais vantagens. Mas os gabas se prolongaram, trouxeram-me desconfiança. Percebi afinal que elas zombavam e não me susceptibilizei. Longe disso: achei curiosa aquela maneira de falar pelo avesso, diferente das grosserias a que me habituara. Em geral me diziam com franqueza que a roupa não me assentava no corpo, sobrava nos sovacos.</p><p>RAMOS, G. Infância. Rio de Janeiro: Record, 1994.</p><p>Por meio de recursos linguísticos, os textos mobilizam estratégias para introduzir e retomar ideias, promovendo a progressão do tema. No fragmento transcrito, um novo aspecto do tema é introduzido pela expressão</p>', 'A', 'objetiva', 0, '2025-11-22 12:24:00', '2025-11-22 13:19:46'),
 (10, 45, 6, NULL, '<p>Novas tecnologias</p><p>Atualmente, prevalece na mídia um discurso de exaltação das novas tecnologias, principalmente aquelas ligadas às atividades de telecomunicações. Expressões frequentes como “o futuro já chegou”, “maravilhas tecnológicas” e “conexão total com o mundo» «fetichizam” novos produtos, transformando-os em objetos do desejo, de consumo obrigatório. Por esse motivo carregamos hoje nos bolsos, bolsas e mochilas o “futuro” tão festejado. Todavia, não podemos reduzir-nos a meras vítimas de um aparelho midiático perverso, ou de um aparelho capitalista controlador. Há perversão, certamente, e controle, sem sombra de dúvida. Entretanto, desenvolvemos uma relação simbiótica de dependência mútua com os veículos de comunicação, que se estreita a cada imagem compartilhada e a cada dossiê pessoal transformado em objeto público de entretenimento. Não mais como aqueles acorrentados na caverna de Platão, somos livres para nos aprisionar, por espontânea vontade, a esta relação sadomasoquista com as estruturas midiáticas, na qual tanto controlamos quanto somos controlados.</p><p>SAMPAIO A. S. A microfísica do espetáculo. Disponível em: <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"http://observatoriodaimprensa.com\">http://observatoriodaimprensa.com</a>. br. Acesso em: 1 mar 2013 (adaptado).</p><p>Ao escrever um artigo de opinião, o produtor precisa criar uma base de orientação linguística que permita alcançar os leitores e convencê-los com relação ao ponto de vista defendido. Diante disso, nesse texto, a escolha das formas verbais em destaque objetiva</p>', 'A', 'objetiva', 0, '2025-11-22 13:15:19', '2025-11-22 13:19:28'),
 (12, 45, 6, NULL, '<p style=\"text-align: center;\"><strong>A imagem da negra e do negro em produtos de beleza e a estética do racismo </strong></p><p><strong>Resumo</strong>: Este artigo tem por finalidade discutir a representação da população negra, especialmente da mulher negra, em imagens de produtos de beleza presentes em comércios do nordeste goiano. Evidencia-se que a presença de estereótipos negativos nessas imagens dissemina um imaginário racista apresentado sob a forma de uma estética racista que camufla a exclusão e normaliza a inferiorização sofrida pelos(as) negros(as) na sociedade brasileira. A análise do material imagético aponta a desvalorização estética do negro, especialmente da mulher negra, e a idealização da beleza e do branqueamento a serem alcançados por meio do uso dos produtos apresentados. O discurso midiático-publicitário dos produtos de beleza rememora e legitima a prática de uma ética racista construída e atuante no cotidiano. Frente a essa discussão, sugere-se que o trabalho antirracismo, feito nos diversos espaços sociais, considere o uso de estratégias para uma “descolonização estética” que empodere os sujeitos negros por meio de sua valorização estética e protagonismo na construção de uma ética da diversidade. </p><p>Palavras-chave: Estética, racismo, mídia, educação, diversidade. </p><p>SANT’ANA, J. A imagem da negra e do negro em produtos de beleza e a estética do racismo. Dossiê: trabalho e educação básica. Margens Interdisciplinar. Versão digital. Abaetetuba, n.16, jun. 2017 (adaptado). </p><p>O cumprimento da função referencial da linguagem é uma marca característica do gênero resumo de artigo acadêmico. Na estrutura desse texto, essa função é estabelecida pela</p>', 'A', 'objetiva', 0, '2025-11-25 17:38:56', '2025-11-25 17:38:56'),
-(13, 45, 6, NULL, '<p>A trajetória de Liesel Meminger é contada por uma narradora mórbida, surpreendentemente simpática. Ao perceber que a pequena ladra de livros lhe escapa, a Morte afeiçoa-se à menina e rastreia suas pegadas de 1939 a 1943. Traços de uma sobrevivente: a mãe comunista, perseguida pelo nazismo, envia Liesel e o irmão para o subúrbio pobre de uma cidade alemã, onde um casal se dispõe a adotá-los por dinheiro. O garoto morre no trajeto e é enterrado por um coveiro que deixa cair um livro na neve. É o primeiro de uma série que a menina vai surrupiar ao longo dos anos. O único vínculo com a família é esta obra, que ela ainda não sabe ler. A vida ao redor é a pseudorrealidade criada em torno do culto a Hitler na Segunda Guerra. Ela assiste à eufórica celebração do aniversário do Führer pela vizinhança. A Morte, perplexa diante da violência humana, dá um tom leve e divertido à narrativa deste duro confronto entre a infância perdida e a crueldade do mundo adulto, um sucesso absoluto – e raro – de crítica e público. </p><p>Disponível em: <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"http://www.odevoradordelivros.com\">www.odevoradordelivros.com</a>. Acesso em: 24 jun. 2014. </p><p>Os gêneros textuais podem ser caracterizados, dentre outros fatores, por seus objetivos. Esse fragmento é um(a)</p>', 'D', 'objetiva', 0, '2025-11-25 17:42:40', '2025-11-25 17:42:40');
+(13, 45, 6, NULL, '<p>A trajetória de Liesel Meminger é contada por uma narradora mórbida, surpreendentemente simpática. Ao perceber que a pequena ladra de livros lhe escapa, a Morte afeiçoa-se à menina e rastreia suas pegadas de 1939 a 1943. Traços de uma sobrevivente: a mãe comunista, perseguida pelo nazismo, envia Liesel e o irmão para o subúrbio pobre de uma cidade alemã, onde um casal se dispõe a adotá-los por dinheiro. O garoto morre no trajeto e é enterrado por um coveiro que deixa cair um livro na neve. É o primeiro de uma série que a menina vai surrupiar ao longo dos anos. O único vínculo com a família é esta obra, que ela ainda não sabe ler. A vida ao redor é a pseudorrealidade criada em torno do culto a Hitler na Segunda Guerra. Ela assiste à eufórica celebração do aniversário do Führer pela vizinhança. A Morte, perplexa diante da violência humana, dá um tom leve e divertido à narrativa deste duro confronto entre a infância perdida e a crueldade do mundo adulto, um sucesso absoluto – e raro – de crítica e público. </p><p>Disponível em: <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"http://www.odevoradordelivros.com\">www.odevoradordelivros.com</a>. Acesso em: 24 jun. 2014. </p><p>Os gêneros textuais podem ser caracterizados, dentre outros fatores, por seus objetivos. Esse fragmento é um(a)</p>', 'D', 'objetiva', 0, '2025-11-25 17:42:40', '2025-11-25 17:42:40'),
+(14, 2, 6, NULL, '<img src=\"http://localhost/sea/backend/uploads/alternativas/cde4bfea-1f01-490b-ac3e-0c7a089e5614.jpg\" alt=\"469595376_546231244907997_5305388839316232476_n\" title=\"469595376_546231244907997_5305388839316232476_n\"><p>Analise a imagem e marque a que achar adequado</p>', '<img src=\"http://localhost/sea/backend/uploads/alternativas/afbaa499-3275-4423-ba04-7f88952cd213.png\"><p></p>', 'objetiva', 0, '2025-11-29 00:21:03', '2025-11-29 00:21:03');
 
 -- --------------------------------------------------------
 
@@ -640,6 +679,7 @@ CREATE TABLE `usuario` (
   `id_escola` int(11) DEFAULT NULL,
   `nome` varchar(100) NOT NULL,
   `email` varchar(320) DEFAULT NULL,
+  `foto` varchar(500) DEFAULT NULL,
   `senha` varchar(255) DEFAULT NULL,
   `telefone` varchar(15) DEFAULT NULL,
   `tipo` varchar(9) DEFAULT NULL,
@@ -652,10 +692,10 @@ CREATE TABLE `usuario` (
 -- Despejando dados para a tabela `usuario`
 --
 
-INSERT INTO `usuario` (`id_usuario`, `id_escola`, `nome`, `email`, `senha`, `telefone`, `tipo`, `ativo`, `data_cadastro`, `ultima_atualizacao`) VALUES
-(6, 10, 'Joel Damasceno Parente', 'jo3ldamasceno@gmail.com', '$2y$10$wlPhXbc4hLilhs62wGwABeVcosuBR/SOnYKiB4oGs/EpuVvG7TjVy', '(85) 99125-9840', 'gestor', 1, '2025-11-08 14:52:15', '2025-11-08 14:52:15'),
-(7, 11, 'Ana Rebeca Damasceno Mastracusa', 'ana.mastracusa01@gmail.com', '$2y$10$eF8TVb.67eWJ17YHAVtnduDdujW.EfXDy/wUG4pnGakph22IsOHY6', '(85) 99971-5867', 'gestor', 1, '2025-11-08 16:28:38', '2025-11-08 16:28:38'),
-(8, 12, 'teste da escola', 'teste@gmail.com', '$2y$10$nTZ0K2p2.iDQOaLFQLnoVuqXzlOBd1zDjHUUnNQPkksMphUyes.3i', '(01) 23456-7890', 'gestor', 1, '2025-11-15 16:01:03', '2025-11-15 16:01:03');
+INSERT INTO `usuario` (`id_usuario`, `id_escola`, `nome`, `email`, `foto`, `senha`, `telefone`, `tipo`, `ativo`, `data_cadastro`, `ultima_atualizacao`) VALUES
+(6, 10, 'Joel Damasceno Parente', 'jo3ldamasceno@gmail.com', 'http://localhost/sea/backend/uploads/usuarios/user_6_1764286354.jpg', '$2y$10$wlPhXbc4hLilhs62wGwABeVcosuBR/SOnYKiB4oGs/EpuVvG7TjVy', '(85) 99125-9840', 'gestor', 1, '2025-11-08 14:52:15', '2025-11-27 23:32:34'),
+(7, 11, 'Ana Rebeca Damasceno Mastracusa', 'ana.mastracusa01@gmail.com', NULL, '$2y$10$eF8TVb.67eWJ17YHAVtnduDdujW.EfXDy/wUG4pnGakph22IsOHY6', '(85) 99971-5867', 'gestor', 1, '2025-11-08 16:28:38', '2025-11-08 16:28:38'),
+(8, 12, 'teste da escola', 'teste@gmail.com', NULL, '$2y$10$nTZ0K2p2.iDQOaLFQLnoVuqXzlOBd1zDjHUUnNQPkksMphUyes.3i', '(01) 23456-7890', 'gestor', 1, '2025-11-15 16:01:03', '2025-11-15 16:01:03');
 
 --
 -- Índices para tabelas despejadas
@@ -825,7 +865,7 @@ ALTER TABLE `admingeral`
 -- AUTO_INCREMENT de tabela `alternativas`
 --
 ALTER TABLE `alternativas`
-  MODIFY `id_alternativa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id_alternativa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT de tabela `aluno`
@@ -867,25 +907,25 @@ ALTER TABLE `gabarito`
 -- AUTO_INCREMENT de tabela `prova`
 --
 ALTER TABLE `prova`
-  MODIFY `id_prova` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id_prova` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT de tabela `provas_versoes`
 --
 ALTER TABLE `provas_versoes`
-  MODIFY `id_versao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id_versao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT de tabela `provas_versoes_questoes`
 --
 ALTER TABLE `provas_versoes_questoes`
-  MODIFY `id_versao_questao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `id_versao_questao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
 
 --
 -- AUTO_INCREMENT de tabela `questao`
 --
 ALTER TABLE `questao`
-  MODIFY `id_questao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_questao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de tabela `tags`
@@ -897,7 +937,7 @@ ALTER TABLE `tags`
 -- AUTO_INCREMENT de tabela `turma`
 --
 ALTER TABLE `turma`
-  MODIFY `id_turma` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_turma` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `usuario`

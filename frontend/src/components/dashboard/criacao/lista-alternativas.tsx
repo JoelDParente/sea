@@ -12,11 +12,13 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import MiniEditor from './mini-editor';
 
 export interface Alternativa {
   id: string;
   texto: string;
   correta: boolean;
+  imagemUrl?: string | null;
 }
 
 interface ListaAlternativasProps {
@@ -29,7 +31,14 @@ export default function ListaAlternativas({ alternativas, setAlternativas }: Lis
   const MIN_ALTERNATIVES = 2;
 
   const handleTextoChange = (id: string, novoTexto: string) => {
-    setAlternativas(alternativas.map(a => (a.id === id ? { ...a, texto: novoTexto } : a)));
+    const extractFirstImageUrl = (html: string) => {
+      const div = document.createElement('div');
+      div.innerHTML = html || '';
+      const img = div.querySelector('img');
+      return img ? img.getAttribute('src') : null;
+    }
+
+    setAlternativas(alternativas.map(a => (a.id === id ? { ...a, texto: novoTexto, imagemUrl: extractFirstImageUrl(novoTexto) } : a)));
   };
 
   const handleCorretaChange = (id: string) => {
@@ -43,7 +52,7 @@ export default function ListaAlternativas({ alternativas, setAlternativas }: Lis
     }
     setAlternativas([
       ...alternativas,
-      { id: crypto.randomUUID(), texto: '', correta: false },
+      { id: crypto.randomUUID(), texto: '', correta: false, imagemUrl: null },
     ]);
   };
 
@@ -66,69 +75,39 @@ export default function ListaAlternativas({ alternativas, setAlternativas }: Lis
 
           return (
             <Grid
-              key={alt.id}
+            key={alt.id}
               container
               alignItems="center"
               spacing={1}
               wrap="nowrap"
               sx={{
-                border: '1px solid',
-                borderColor: alt.correta ? 'success.light' : 'divider',
-                borderRadius: 1.5,
-                p: 1,
-                transition: '0.2s',
-                '&:hover': {
-                  backgroundColor: 'action.hover',
-                },
+                border: "1px solid #ccc",
+                borderRadius: 2,
+                p: 1.5,
+                mb: 1.5,
+                alignItems: "flex-start",
               }}
             >
               {/* Letra */}
-              <Grid >
-                <Typography
-                  sx={{
-                    width: 24,
-                    fontWeight: 'bold',
-                    textAlign: 'right',
-                    color: alt.correta ? 'success.main' : 'text.primary',
-                  }}
-                >
-                  {letra})
-                </Typography>
-              </Grid>
+              <Typography sx={{ fontWeight: "bold", mt: 1 }}>
+                {letra})
+              </Typography>
 
-              {/* Campo de texto */}
-              <Grid >
-                <TextField
-                  fullWidth
-                  size="small"
-                  variant="outlined"
+              {/* Mini Editor */}
+              <Box sx={{ flex: 1 }}>
+                <MiniEditor
                   value={alt.texto}
-                  onChange={(e) => handleTextoChange(alt.id, e.target.value)}
-                  placeholder={`Escreva a alternativa ${letra}`}
+                  onChange={(html) => handleTextoChange(alt.id, html)}
                 />
-              </Grid>
+              </Box>
 
               {/* Correta */}
-              <Grid >
-                <Checkbox
-                  checked={alt.correta}
-                  onChange={() => handleCorretaChange(alt.id)}
-                  color="success"
-                  title="Marcar como correta"
-                />
-              </Grid>
+              <Checkbox checked={alt.correta} onChange={() => handleCorretaChange(alt.id)} />
 
-              {/* Excluir */}
-              <Grid >
-                <IconButton
-                  color="error"
-                  onClick={() => handleRemover(alt.id)}
-                  disabled={alternativas.length <= MIN_ALTERNATIVES}
-                  title="Remover alternativa"
-                >
-                  <DeleteIcon fontSize="small" />
-                </IconButton>
-              </Grid>
+              {/* Deletar */}
+              <IconButton onClick={() => handleRemover(alt.id)}>
+                <DeleteIcon />
+              </IconButton>
             </Grid>
           );
         })}

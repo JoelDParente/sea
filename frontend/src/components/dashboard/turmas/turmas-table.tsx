@@ -1,11 +1,11 @@
 'use client';
 
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
+import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -14,6 +14,9 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import AddIcon from '@mui/icons-material/Add';
+import ModalCadastroAluno from './ModalCadastroAluno';
 import dayjs from 'dayjs';
 
 import { useSelection } from '@/hooks/use-selection';
@@ -22,31 +25,31 @@ function noop(): void {
   // do nothing
 }
 
-export interface Alunos {
+export interface Turmas {
   id: string;
-  avatar: string;
-  name: string;
+  foto: string;
+  nome: string;
   email: string;
-  address: { city: string; state: string; country: string; street: string };
-  phone: string;
+  matricula: string;
   createdAt: Date;
 }
 
-interface AlunosTableProps {
+
+interface TurmasTableProps {
   count?: number;
   page?: number;
-  rows?: Alunos[];
+  rows?: Turmas[];
   rowsPerPage?: number;
 }
 
-export function AlunosTable({
+export function TurmasTable({
   count = 0,
   rows = [],
   page = 0,
   rowsPerPage = 0,
-}: AlunosTableProps): React.JSX.Element {
+}: TurmasTableProps): React.JSX.Element {
   const rowIds = React.useMemo(() => {
-    return rows.map((alunos) => alunos.id);
+    return rows.map((turmas) => turmas.id);
   }, [rows]);
 
   const { selectAll, deselectAll, selectOne, deselectOne, selected } = useSelection(rowIds);
@@ -73,11 +76,11 @@ export function AlunosTable({
                   }}
                 />
               </TableCell>
-              <TableCell>Name</TableCell>
+              <TableCell>Nome</TableCell>
+              <TableCell>Foto</TableCell>
               <TableCell>Email</TableCell>
-              <TableCell>Location</TableCell>
-              <TableCell>Phone</TableCell>
-              <TableCell>Signed Up</TableCell>
+              <TableCell>Matricula</TableCell>
+              <TableCell>Ações</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -100,15 +103,22 @@ export function AlunosTable({
                   </TableCell>
                   <TableCell>
                     <Stack sx={{ alignItems: 'center' }} direction="row" spacing={2}>
-                      <Avatar src={row.avatar} />
-                      <Typography variant="subtitle2">{row.name}</Typography>
+                      <img src={row.foto} />
+                      <Typography variant="subtitle2">{row.nome}</Typography>
                     </Stack>
                   </TableCell>
                   <TableCell>{row.email}</TableCell>
+                  <TableCell>{row.matricula}</TableCell>
                   <TableCell>
-                    {row.address.city}, {row.address.state}, {row.address.country}
+                    <IconButton size="small" onClick={() => {
+                      // trigger add student modal per row
+                      // We will manage modal at parent, so emit custom event to open with id
+                      const evt = new CustomEvent('openAddAluno', { detail: { id_turma: row.id } });
+                      window.dispatchEvent(evt);
+                    }}>
+                      <AddIcon />
+                    </IconButton>
                   </TableCell>
-                  <TableCell>{row.phone}</TableCell>
                   <TableCell>{dayjs(row.createdAt).format('MMM D, YYYY')}</TableCell>
                 </TableRow>
               );
@@ -122,6 +132,7 @@ export function AlunosTable({
         count={count}
         onPageChange={noop}
         onRowsPerPageChange={noop}
+        labelRowsPerPage="Linhas por página"
         page={page}
         rowsPerPage={rowsPerPage}
         rowsPerPageOptions={[5, 10, 25]}

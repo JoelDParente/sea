@@ -51,6 +51,7 @@ try {
         "token" => $token,
         "user" => [
             "id_usuario" => $usuario["id_usuario"],
+            "id_escola" => $usuario["id_escola"],
             "nome" => $usuario["nome"],
             "email" => $usuario["email"],
             "foto" => $usuario["foto"],

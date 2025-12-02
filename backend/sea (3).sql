@@ -51,7 +51,8 @@ CREATE TABLE `admingeral` (
 CREATE TABLE `alternativas` (
   `id_alternativa` int(11) NOT NULL,
   `id_questao` int(11) DEFAULT NULL,
-  `texto` text DEFAULT NULL
+  `texto` text DEFAULT NULL,
+  `caminho_imagem` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

@@ -14,13 +14,14 @@ class AlunoDAO {
 
     // CREATE
     public function criarAluno(Aluno $aluno): int {
-        $sql = "INSERT INTO aluno (id_turma, matricula, nome, email)
-                VALUES (:id_turma, :matricula, :nome, :email)";
+        $sql = "INSERT INTO aluno (id_turma, matricula, nome, email, foto)
+            VALUES (:id_turma, :matricula, :nome, :email, :foto)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id_turma', $aluno->getIdTurma(), PDO::PARAM_INT);
         $stmt->bindValue(':matricula', $aluno->getMatricula(), PDO::PARAM_STR);
         $stmt->bindValue(':nome', $aluno->getNome(), PDO::PARAM_STR);
         $stmt->bindValue(':email', $aluno->getEmail(), PDO::PARAM_STR);
+        $stmt->bindValue(':foto', $aluno->getFoto() ?? null, PDO::PARAM_STR);
 
         $stmt->execute();
         return (int)$this->conn->lastInsertId();
@@ -78,6 +79,9 @@ class AlunoDAO {
                 ->setNome($row['nome'])
                 ->setEmail($row['email'])
                 ->setMatricula($row['matricula']);
+        if (isset($row['foto'])) {
+            $aluno->setFoto($row['foto']);
+        }
         return $aluno;
     }
 }

@@ -7,6 +7,14 @@ import ModalEditarQuestao from '@/components/criar-prova/ModalEditarQuestao';
 import { ArrowLeft } from '@phosphor-icons/react';
 import { useRouter } from 'next/navigation';
 import { paths } from '@/paths';
+import DOMPurify from "isomorphic-dompurify";
+
+function sanitizeHtml(html: string) {
+    return DOMPurify.sanitize(html, {
+        ALLOWED_TAGS: ["b", "strong", "i", "em", "u", "br", "p", "img"],
+        ALLOWED_ATTR: ["src", "alt", "style"],
+    });
+}
 
 type Alternativa = { texto: string };
 type Questao = {
@@ -113,8 +121,13 @@ export default function MinhasQuestoesPage() {
                         <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                             <CardContent sx={{ flex: 1 }}>
                                 <Typography variant="subtitle1" gutterBottom>
-                                    {q.titulo ?? (q.enunciado ? (q.enunciado.slice(0, 120) + (q.enunciado.length > 120 ? '...' : '')) : 'Sem enunciado')}
-                                </Typography>
+                                    <div
+                                        style={{
+                                            maxHeight: 150,
+                                            overflow: 'hidden',
+                                        }}
+                                        dangerouslySetInnerHTML={{ __html: sanitizeHtml(q.enunciado ?? "") }}
+                                    />                                </Typography>
                                 <Typography variant="caption" display="block">
                                     Disciplina: {q.nome_disciplina ?? '—'}
                                 </Typography>

@@ -144,7 +144,6 @@ for ($i = 0; $i < $qtd_versoes; $i++) {
     ];
 }
 
-// Gerar URL para download do ZIP com todos os PDFs
 $urlDownloadZip = "http://localhost/sea/backend/controllers/downloadProvasZipController.php";
 
 echo json_encode([
