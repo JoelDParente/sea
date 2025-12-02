@@ -1,19 +1,21 @@
 <?php
 // dao/AlunoDAO.php
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../models/aluno.php';
 
 use Models\Aluno;
 
-class AlunoDAO {
+class AlunoDAO
+{
     private $conn;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->conn = Database::getInstance()->getConnection();
     }
 
     // CREATE
-    public function criarAluno(Aluno $aluno): int {
+    public function criarAluno(Aluno $aluno): int
+    {
         $sql = "INSERT INTO aluno (id_turma, matricula, nome, email, foto)
             VALUES (:id_turma, :matricula, :nome, :email, :foto)";
         $stmt = $this->conn->prepare($sql);
@@ -28,7 +30,8 @@ class AlunoDAO {
     }
 
     // READ por ID
-    public function getAlunoById(int $idAluno): ?Aluno {
+    public function getAlunoById(int $idAluno): ?Aluno
+    {
         $sql = "SELECT * FROM aluno WHERE id_aluno = :id_aluno";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id_aluno', $idAluno, PDO::PARAM_INT);
@@ -39,8 +42,25 @@ class AlunoDAO {
         return $this->mapRowToAluno($row);
     }
 
+    public function AlunosPorTurma(int $turma): array
+    {
+        $sql = "SELECT * FROM aluno WHERE id_turma = :id_turma";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':id_turma', $turma, PDO::PARAM_INT);
+        $stmt->execute();
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $alunos = [];
+        foreach ($rows as $row) {
+            $alunos[] = $this->mapRowToAluno($row);
+        }
+
+        return $alunos;
+    }
+
     // READ todos
-    public function getAllAlunos(): array {
+    public function getAllAlunos(): array
+    {
         $sql = "SELECT * FROM aluno";
         $stmt = $this->conn->query($sql);
         $alunos = [];
@@ -51,7 +71,8 @@ class AlunoDAO {
     }
 
     // UPDATE
-    public function atualizarAluno(Aluno $aluno): bool {
+    public function atualizarAluno(Aluno $aluno): bool
+    {
         $sql = "UPDATE aluno SET id_turma = :id_turma, nome = :nome, email = :email,
                 matricula = :matricula
                 WHERE id_aluno = :id_aluno";
@@ -65,20 +86,22 @@ class AlunoDAO {
     }
 
     // DELETE
-    public function excluirAluno(int $idAluno): bool {
+    public function excluirAluno(int $idAluno): bool
+    {
         $sql = "DELETE FROM aluno WHERE id_aluno = :id_aluno";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id_aluno', $idAluno, PDO::PARAM_INT);
         return $stmt->execute();
     }
 
-    private function mapRowToAluno(array $row): Aluno {
+    private function mapRowToAluno(array $row): Aluno
+    {
         $aluno = new Aluno();
         $aluno->setIdAluno($row['id_aluno'])
-                ->setIdTurma($row['id_turma'])
-                ->setNome($row['nome'])
-                ->setEmail($row['email'])
-                ->setMatricula($row['matricula']);
+            ->setIdTurma($row['id_turma'])
+            ->setNome($row['nome'])
+            ->setEmail($row['email'])
+            ->setMatricula($row['matricula']);
         if (isset($row['foto'])) {
             $aluno->setFoto($row['foto']);
         }

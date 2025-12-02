@@ -132,4 +132,15 @@ class Aluno {
 
         return $this;
     }
+
+    public function toArray(): array {
+    return [
+        'id_aluno' => $this->idAluno,
+        'id_turma' => $this->idTurma,
+        'matricula' => $this->matricula,
+        'nome' => $this->nome,
+        'email' => $this->email,
+        'foto' => $this->foto
+    ];
+}
 }

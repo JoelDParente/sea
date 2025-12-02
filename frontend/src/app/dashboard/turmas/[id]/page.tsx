@@ -9,11 +9,11 @@ import axios from 'axios';
 
 export default function TurmaDetailPage(): React.JSX.Element {
   const router = useRouter();
-  const search = typeof window !== 'undefined' ? window.location.pathname : '';
-  const parts = search.split('/');
-  const id = Number(parts[parts.length - 1] ?? 0);
+  const params = useParams();
+  const id = Number(params.id);
 
   const [turma, setTurma] = React.useState<any | null>(null);
+
 
   React.useEffect(() => {
     if (!id) return;

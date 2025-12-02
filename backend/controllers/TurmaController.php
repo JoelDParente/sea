@@ -8,7 +8,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(200); exit();
 
 include('../config/database.php');
 include('../dao/turmaDAO.php');
-include('../models/turma.php');
 
 use Models\Turma;
 

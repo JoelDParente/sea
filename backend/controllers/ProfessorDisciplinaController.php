@@ -13,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 require_once('../config/database.php');
 require_once('../dao/professorDisciplinaDAO.php');
-require_once('../models/professorDisciplina.php');
 require_once('../dao/usuarioDAO.php');
 require_once('../dao/disciplinaDAO.php');
 
@@ -29,7 +28,6 @@ $disciplinaDAO = new DisciplinaDAO();
 
 switch ($metodo) {
 
-    // 🔹 CRIAR ASSOCIAÇÃO usuario ↔ DISCIPLINA
     case 'POST':
         $data = json_decode(file_get_contents('php://input'), true);
 
@@ -52,7 +50,6 @@ switch ($metodo) {
         }
         break;
 
-    // 🔹 LISTAR TODAS ASSOCIAÇÕES OU FILTRAR POR usuario/DISCIPLINA
     case 'GET':
         if(isset($_GET['id_professor'])) {
             $idProfessor = (int)$_GET['id_professor'];
@@ -69,7 +66,6 @@ switch ($metodo) {
         }
         break;
 
-    // 🔹 REMOVER ASSOCIAÇÃO usuario ↔ DISCIPLINA
     case 'DELETE':
         if (!isset($_GET['id_professor']) || !isset($_GET['id_disciplina'])) {
             http_response_code(400);
