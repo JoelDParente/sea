@@ -7,7 +7,8 @@ export const navItems = [
     matcher: { type: 'startsWith', href: paths.dashboard.criacao.root },
   },
   { key: 'correcao', title: 'Correção', href: paths.dashboard.correcao, icon: 'check-square' },
-  { key: 'turmas', title: 'Turmas', href: paths.dashboard.turmas, icon: 'users' },
+  { key: 'turmas', title: 'Turmas', href: paths.dashboard.turmas, icon: 'chalkboard' },
+  { key: 'professor', title: 'Professores', href: paths.dashboard.professor, icon: 'users' },
   { key: 'settings', title: 'Configurações', href: paths.dashboard.settings, icon: 'gear-six' },
   { key: 'account', title: 'Conta', href: paths.dashboard.account, icon: 'user' },
 ] satisfies NavItemConfig[];

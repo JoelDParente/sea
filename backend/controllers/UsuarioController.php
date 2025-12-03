@@ -1,13 +1,14 @@
 <?php
+header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
 
-use Models\Usuario;
-
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    exit; // Pré-flight CORS
+}
 
 include('../dao/usuarioDAO.php');
-require_once('../models/usuario.php');
+use Models\Usuario;
 
 $dao = new UsuarioDAO();
 
@@ -38,22 +39,17 @@ switch ($metodo) {
         echo json_encode(['sucesso' => true]);
         break;
 
-    case 'GET':
-        if (isset($_GET['id'])) {
-            $id = intval($_GET['id']);
-            $usuario = $dao->getUsuarioById($id);
+   case 'GET':
+    if (isset($_GET['id_escola'])) {
+        $id = intval($_GET['id_escola']);
+        $professores = $dao->ProfessoresPorEscola($id);
 
-            if ($usuario) {
-                echo json_encode($usuario);
-            } else {
-                http_response_code(404);
-                echo json_encode(['erro' => 'Usuário não encontrado']);
-            }
-        } else {
-            $lista = $dao->getAllUsuarios();
-            echo json_encode($lista);
-        }
-        break;
+        echo json_encode($professores);
+    } else {
+        $lista = $dao->getAllUsuarios();
+        echo json_encode($lista);
+    }
+    break;
 
     case 'PUT':
         parse_str(file_get_contents("php://input"), $data);

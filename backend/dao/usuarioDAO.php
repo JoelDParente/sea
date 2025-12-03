@@ -34,11 +34,11 @@ class UsuarioDAO
     }
 
     // READ por ID
-    public function getUsuarioById(int $uid): ?Usuario
+    public function getUsuarioById(int $id_usuario): ?Usuario
     {
-        $sql = "SELECT * FROM usuario WHERE uid = :uid";
+        $sql = "SELECT * FROM usuario WHERE id_usuario = :id_usuario";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindValue(':uid', $uid, PDO::PARAM_INT);
+        $stmt->bindValue(':id_usuario', $id_usuario, PDO::PARAM_INT);
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -63,7 +63,7 @@ class UsuarioDAO
     {
         $sql = "UPDATE usuario SET id_escola = :id_escola, nome = :nome, email = :email,
                 foto = :foto, senha = :senha, telefone = :telefone, tipo = :tipo, ativo = :ativo
-                WHERE uid = :uid";
+                WHERE id_usuario = :id_usuario";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id_escola', $usuario->getIdEscola(), PDO::PARAM_INT);
         $stmt->bindValue(':nome', $usuario->getNome(), PDO::PARAM_STR);
@@ -73,17 +73,17 @@ class UsuarioDAO
         $stmt->bindValue(':telefone', $usuario->getTelefone(), PDO::PARAM_STR);
         $stmt->bindValue(':tipo', $usuario->getTipo(), PDO::PARAM_STR);
         $stmt->bindValue(':ativo', $usuario->getAtivo(), PDO::PARAM_BOOL);
-        $stmt->bindValue(':uid', $usuario->getIdUsuario(), PDO::PARAM_INT);
+        $stmt->bindValue(':id_usuario', $usuario->getIdUsuario(), PDO::PARAM_INT);
 
         return $stmt->execute();
     }
 
     // DELETE
-    public function excluirUsuario(int $uid): bool
+    public function excluirUsuario(int $id_usuario): bool
     {
-        $sql = "DELETE FROM usuario WHERE uid = :uid";
+        $sql = "DELETE FROM usuario WHERE id_usuario = :id_usuario";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindValue(':uid', $uid, PDO::PARAM_INT);
+        $stmt->bindValue(':id_usuario', $id_usuario, PDO::PARAM_INT);
         return $stmt->execute();
     }
 
@@ -108,12 +108,24 @@ class UsuarioDAO
         }
     }
 
-    public function atualizarFoto(int $uid, string $foto): bool
+public function ProfessoresPorEscola(int $id_escola): array
+{
+    $sql = "SELECT * FROM usuario 
+            WHERE id_escola = :id_escola AND tipo = 'professor'";
+    
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindValue(':id_escola', $id_escola, PDO::PARAM_INT);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+    public function atualizarFoto(int $id_usuario, string $foto): bool
     {
         $sql = "UPDATE usuario SET foto = :foto WHERE id_usuario = :id_usuario";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':foto', $foto, PDO::PARAM_STR);
-        $stmt->bindValue(':id_usuario', $uid, PDO::PARAM_INT);
+        $stmt->bindValue(':id_usuario', $id_usuario, PDO::PARAM_INT);
 
         return $stmt->execute();
     }
@@ -121,7 +133,7 @@ class UsuarioDAO
     private function mapRowToUsuario(array $row): Usuario
     {
         $usuario = new Usuario();
-        $usuario->setIdUsuario($row['uid'])
+        $usuario->setIdUsuario($row['id_usuario'])
             ->setIdEscola($row['id_escola'])
             ->setNome($row['nome'])
             ->setEmail($row['email'])

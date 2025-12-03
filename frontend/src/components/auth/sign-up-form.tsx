@@ -73,10 +73,8 @@ export function SignUpForm(): React.JSX.Element {
   const onSubmit = React.useCallback(
     async (values: Values): Promise<void> => {
       try {
-        // Armazena os dados do gestor localmente
         localStorage.setItem('gestor_temp', JSON.stringify(values));
 
-        // Redireciona para o próximo passo
         router.push('/auth/sign-up/escola');
       } catch (error) {
         setErrorMsg("Erro ao salvar dados localmente.");

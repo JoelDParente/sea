@@ -5,6 +5,7 @@ export const paths = {
     overview: '/dashboard',
     account: '/dashboard/account',
     turmas: '/dashboard/turmas',
+    professor: '/dashboard/professores',
     correcao: '/dashboard/correcao',
     criacao: {
       root: '/dashboard/criacao',
