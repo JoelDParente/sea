@@ -47,6 +47,22 @@ class ProfessorTurmaDAO {
         return $lecionas;
     }
 
+    // READ turmas por professor
+    public function getTurmaByProfessorId(int $idProfessor): array {
+        $sql = "
+            SELECT t.id_turma, t.nome_turma, t.serie, t.turno
+            FROM professorturma pt
+            INNER JOIN turma t ON t.id_turma = pt.id_turma
+            WHERE pt.id_professor = :id_professor
+        ";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':id_professor', $idProfessor, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC); 
+    }
+
     // DELETE
     public function excluirProfessorTurma(int $idTurma, int $idProfessor): bool {
         $sql = "DELETE FROM professorturma 

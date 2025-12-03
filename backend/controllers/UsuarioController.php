@@ -29,7 +29,7 @@ switch ($metodo) {
         $usuario->setNome($data['nome'] ?? '');
         $usuario->setEmail($data['email'] ?? '');
         $usuario->setFoto($data['foto'] ?? '../assets/avatar.png');
-        $usuario->setSenha(hash('sha256', $data['senha'] ?? ''));
+        $usuario->setSenha(password_hash($data['senha'], PASSWORD_BCRYPT));
         $usuario->setTipo($data['tipo'] ?? 'professor');
         $usuario->setAtivo($data['ativo'] ?? 1);
         $usuario->setTelefone($data['telefone'] ?? null);

@@ -5,19 +5,30 @@ import { useRouter } from "next/navigation";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Box, Button, Card, CardContent, CardHeader, Stack, TextField } from "@mui/material";
 import { DataGrid, GridActionsCellItem, GridColDef } from "@mui/x-data-grid";
 import axios from "axios";
 
 import ModalCadastroProfessor from "./modal-cadastro-professor";
+import ModalEdicaoProfessor from "../../modals/modal-edicao-professor";
+
+interface Professor {
+	id_usuario: number;
+	nome: string;
+	email: string;
+	telefone: string;
+	foto?: string;
+	tipo: string;
+}
 
 export default function ListaProfessores(): React.JSX.Element {
 	const router = useRouter();
-	const [rows, setRows] = React.useState<any[]>([]);
+	const [rows, setRows] = React.useState<Professor[]>([]);
 	const [loading, setLoading] = React.useState(false);
 	const [search, setSearch] = React.useState("");
 	const [openCreate, setOpenCreate] = React.useState(false);
+	const [openEdit, setOpenEdit] = React.useState(false);
+	const [professorToEdit, setProfessorToEdit] = React.useState<Professor | null>(null);
 
    const storedUser = localStorage.getItem("user");
    const user = storedUser ? JSON.parse(storedUser) : null;
@@ -72,6 +83,15 @@ const fetchProfessores = React.useCallback(async () => {
 		}
 	};
 
+	const handleEdit = (professor: Professor) => {
+		setProfessorToEdit(professor);
+		setOpenEdit(true);
+	};
+
+	const handleEditSuccess = () => {
+		fetchProfessores();
+	};
+
 	const columns: GridColDef[] = [
 		{ field: "nome", headerName: "Nome", flex: 1 },
 		{ field: "email", headerName: "E-mail", width: 240 },
@@ -83,14 +103,9 @@ const fetchProfessores = React.useCallback(async () => {
 			width: 140,
 			getActions: (params) => [
 				<GridActionsCellItem
-					icon={<VisibilityIcon />}
-					label="Ver"
-					onClick={() => router.push(`/dashboard/turmas/${params.id}`)}
-				/>,
-				<GridActionsCellItem
 					icon={<EditIcon />}
 					label="Editar"
-					onClick={() => setOpenCreate(true)}
+					onClick={() => handleEdit(params.row as Professor)}
 					showInMenu={false}
 				/>,
 				<GridActionsCellItem
@@ -107,10 +122,10 @@ const fetchProfessores = React.useCallback(async () => {
 		if (!search) return true;
 		const s = search.toLowerCase();
 		return (
-			String(r.nome_turma || "")
+			String(r.nome || "")
 				.toLowerCase()
 				.includes(s) ||
-			String(r.serie || "")
+			String(r.email || "")
 				.toLowerCase()
 				.includes(s)
 		);
@@ -148,6 +163,12 @@ const fetchProfessores = React.useCallback(async () => {
 			</CardContent>
 
 			<ModalCadastroProfessor open={openCreate} onClose={() => setOpenCreate(false)} onSuccess={handleCreate} />
+			<ModalEdicaoProfessor 
+				open={openEdit} 
+				professor={professorToEdit} 
+				onClose={() => setOpenEdit(false)} 
+				onSuccess={handleEditSuccess}
+			/>
 		</Card>
 	);
 }
