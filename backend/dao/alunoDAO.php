@@ -94,6 +94,13 @@ class AlunoDAO
         return $stmt->execute();
     }
 
+    public function excluirAlunosDaTurma(int $idTurma): bool {
+    $sql = "DELETE FROM aluno WHERE id_turma = :id_turma";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindValue(':id_turma', $idTurma, PDO::PARAM_INT);
+    return $stmt->execute();
+}
+
     private function mapRowToAluno(array $row): Aluno
     {
         $aluno = new Aluno();

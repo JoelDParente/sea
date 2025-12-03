@@ -2,16 +2,21 @@
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/turma.php';
 
+require_once __DIR__ . '/alunoDAO.php';
+
 use Models\Turma;
 
-class TurmaDAO {
+class TurmaDAO
+{
     private $conn;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->conn = Database::getInstance()->getConnection();
     }
 
-    public function criarTurma(Turma $turma): int {
+    public function criarTurma(Turma $turma): int
+    {
         $sql = "INSERT INTO turma (id_escola, nome_turma, serie, turno) VALUES (:id_escola, :nome_turma, :serie, :turno)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id_escola', $turma->getIdEscola(), PDO::PARAM_INT);
@@ -22,7 +27,8 @@ class TurmaDAO {
         return (int)$this->conn->lastInsertId();
     }
 
-    public function listarPorEscola(int $idEscola): array {
+    public function listarPorEscola(int $idEscola): array
+    {
         $sql = "SELECT id_turma, id_escola, nome_turma, serie, turno FROM turma WHERE id_escola = :id_escola";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id_escola', $idEscola, PDO::PARAM_INT);
@@ -30,13 +36,15 @@ class TurmaDAO {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getAll(): array {
+    public function getAll(): array
+    {
         $sql = "SELECT id_turma, id_escola, nome_turma, serie, turno FROM turma";
         $stmt = $this->conn->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getTurmaById(int $id): ?Turma {
+    public function getTurmaById(int $id): ?Turma
+    {
         $sql = "SELECT * FROM turma WHERE id_turma = :id_turma";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id_turma', $id, PDO::PARAM_INT);
@@ -52,7 +60,8 @@ class TurmaDAO {
         return $turma;
     }
 
-    public function atualizarTurma(Turma $turma): bool {
+    public function atualizarTurma(Turma $turma): bool
+    {
         $sql = "UPDATE turma SET id_escola = :id_escola, nome_turma = :nome_turma, serie = :serie, turno = :turno WHERE id_turma = :id_turma";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id_escola', $turma->getIdEscola(), PDO::PARAM_INT);
@@ -63,7 +72,12 @@ class TurmaDAO {
         return $stmt->execute();
     }
 
-    public function excluirTurma(int $id): bool {
+    public function excluirTurma(int $id): bool
+    {
+
+        $alunoDAO = new AlunoDAO();
+        $alunoDAO->excluirAlunosDaTurma($id);
+
         $sql = "DELETE FROM turma WHERE id_turma = :id_turma";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id_turma', $id, PDO::PARAM_INT);

@@ -71,7 +71,6 @@ switch ($metodo) {
         break;
 
     case 'DELETE':
-        // id via query or body
         $id = null;
         if (isset($_GET['id_turma'])) $id = (int)$_GET['id_turma'];
         else {
