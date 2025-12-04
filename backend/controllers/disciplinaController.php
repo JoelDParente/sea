@@ -36,16 +36,27 @@ switch ($metodo) {
             break;
         }
 
+        // Normaliza a saída para um array associativo consistente
         echo json_encode([
             'id_disciplina' => $disciplina->getIdDisciplina(),
-            'nome' => $disciplina->getNomeDisciplina(),
+            'nome_disciplina' => $disciplina->getNomeDisciplina(),
+            'descricao' => $disciplina->getDescricao(),
         ]);
         break;
     }
 
     // Buscar todas as disciplinas
     $all = $dao->getAllDisciplinas();
-    echo json_encode($all);
+    // Converter objetos Disciplina em arrays associativos para garantir json_encode correto
+    $normalized = array_map(function($d) {
+        return [
+            'id_disciplina' => $d->getIdDisciplina(),
+            'nome_disciplina' => $d->getNomeDisciplina(),
+            'descricao' => $d->getDescricao(),
+        ];
+    }, $all ?: []);
+
+    echo json_encode($normalized);
     break;
 
 

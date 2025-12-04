@@ -81,14 +81,16 @@ export default function ModalEdicaoProfessor({ open, professor, onClose, onSucce
 		try {
 			const response = await axios.get("http://localhost/sea/backend/controllers/disciplinaController.php");
 
+			console.log("Response: ", response.data);
+
 			// Normaliza e filtra itens inválidos
 			const mapped = (response.data || [])
-				.filter((d: any) => d && d.id_disciplina && (d.nome || d.nome_disciplina))
+				.filter((d: any) => d && d.id_disciplina && d.nome_disciplina)
 				.map((d: any) => ({
 					id_disciplina: Number(d.id_disciplina),
-					nome_disciplina: d.nome ?? d.nome_disciplina,
+					nome_disciplina: d.nome_disciplina,
 				}));
-
+			console.log("MAPPED: ", mapped);
 			setDisciplinas(mapped);
 		} catch (err) {
 			console.error("Erro ao buscar disciplinas:", err);
@@ -132,6 +134,8 @@ export default function ModalEdicaoProfessor({ open, professor, onClose, onSucce
 				email: formData.email,
 				telefone: formData.telefone,
 			};
+
+			console.log("Update Payload:", updatePayload);
 
 			await axios.put("http://localhost/sea/backend/controllers/UsuarioController.php", updatePayload);
 

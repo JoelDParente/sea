@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Box, Card, CardHeader, CardContent, Button, Stack, IconButton } from '@mui/material';
+import { Box, Card, CardHeader, CardContent, Button, Stack, IconButton, Avatar } from '@mui/material';
 import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -36,6 +36,13 @@ export default function StudentsTable({ idTurma } : { idTurma: number }) : React
   };
 
   const columns: GridColDef[] = [
+    {
+      field: 'foto', headerName: 'Foto', width: 96, sortable: false,
+      renderCell: (params) => {
+        const src = params.value || '/assets/avatar.png';
+        return <Avatar src={String(src)} alt={String(params.row?.nome || '')} sx={{ width: 90, height: 90 }} />;
+      }
+    },
     { field: 'matricula', headerName: 'Matrícula', width: 140 },
     { field: 'nome', headerName: 'Nome', flex: 1 },
     { field: 'email', headerName: 'E-mail', width: 220 },

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 02/12/2025 às 18:52
+-- Tempo de geração: 04/12/2025 às 01:22
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -129,7 +129,46 @@ CREATE TABLE `aluno` (
 --
 
 INSERT INTO `aluno` (`id_aluno`, `id_turma`, `matricula`, `nome`, `foto`, `email`) VALUES
-(1, 11, '2844748', 'Joel Damasceno Parente', 'http://localhost/sea/backend/uploads/alunos/3ff5fa0e-3731-4be6-b831-39d0a05f2bcd.jpg', 'joel.parente@aluno.ce.gov.br');
+(3, 11, '2259897', 'ALBERICO CASTELO BRANCO NETO', 'http://localhost/sea/backend/uploads/alunos/682382fc-763d-434f-b6a8-9f0517077d7e.jpg', 'alberico.neto@aluno.ce.gov.br'),
+(4, 11, '2112602', 'ALEXANDRE BEZERRA DA SILVA', 'http://localhost/sea/backend/uploads/alunos/56759019-2b06-43d2-90fd-80c2c5b8448d.jpg', 'alexandre.silva@aluno.ce.gov.br'),
+(5, 11, '3384384', 'ANA ALICE SILVA DE SOUSA', 'http://localhost/sea/backend/uploads/alunos/afd0fbcf-8887-4225-a53e-019c8de3e1d3.jpg', 'ana.sousa@aluno.ce.gov.br'),
+(6, 11, '4687227', 'ARTHUR GIRAO TOMAS', 'http://localhost/sea/backend/uploads/alunos/ce640e1e-1e70-485d-b94e-629ce9ecc20b.jpg', 'arthur.tomas@aluno.ce.gov.br'),
+(7, 11, '3284864', 'CARLA INGRID DE SOUSA SILVA', 'http://localhost/sea/backend/uploads/alunos/e684a336-5a83-4a2c-b62b-429b628b96c0.jpg', 'carla.silva@aluno.ce.gov.br'),
+(8, 11, '1486846', 'CAUE SAMPAIO FREITAS', 'http://localhost/sea/backend/uploads/alunos/d8972826-6dc7-4127-adcd-ea803c1eff0a.jpg', 'caue.freitas@aluno.ce.gov.br'),
+(9, 11, '3552634', 'DEYVISON MENDES FELICIANO', 'http://localhost/sea/backend/uploads/alunos/6c2b8b76-4f34-40be-916e-410d16fa8484.jpg', 'deyvison.feliciano@aluno.ce.gov.br'),
+(10, 11, '2970363', 'EDER DAVI ANGELO MOISES', 'http://localhost/sea/backend/uploads/alunos/f9f0533f-9e02-4761-91a9-5e84e67625cf.jpg', 'eder.moises@aluno.ce.gov.br'),
+(11, 11, '1921011', 'FRANCISCO ALEX MILLER SILVA RABELO', 'http://localhost/sea/backend/uploads/alunos/3f1e5c13-6da2-4c83-b461-aece83b0a39b.jpg', 'francisco.rabelo@aluno.ce.gov.br'),
+(12, 11, '3289296', 'GISELE SILVA SOUSA', 'http://localhost/sea/backend/uploads/alunos/fcf9f6c6-cd97-4a4d-b844-986c03cdf75b.jpg', 'gisele.sousa@aluno.ce.gov.br'),
+(13, 11, '3407264', 'IGOR NOBRE TELES', 'http://localhost/sea/backend/uploads/alunos/fee88a0a-0407-457f-abf3-a5e112cc9a17.jpg', 'igor.teles@aluno.ce.gov.br'),
+(14, 11, '5245372', 'JARDSON BARRETO MUNIZ', 'http://localhost/sea/backend/uploads/alunos/fbb49081-3433-4bb3-a2db-634ea1d32170.jpg', 'jardson.muniz@aluno.ce.gov.br'),
+(15, 11, '3283839', 'JOAO GUILHERME DE OLIVEIRA MAIA', 'http://localhost/sea/backend/uploads/alunos/3504771a-e21a-44af-be44-f0c9f75f9684.jpg', 'joao.maia@auno.ce.gov.br'),
+(16, 11, '2877097', 'JOAO PEDRO DE OLIVEIRA CAVALCANTE', 'http://localhost/sea/backend/uploads/alunos/85b6487e-86bb-4bb5-9103-91ceaff006c8.jpg', 'joao.cavalcante@aluno.ce.gov.br'),
+(17, 11, '2844748', 'JOEL DAMASCENO PARENTE', 'http://localhost/sea/backend/uploads/alunos/9351134d-c6d8-4afd-9766-44b5491ec5cc.jpg', 'joel.parente@aluno.ce.gov.br'),
+(18, 11, '3406873', 'JOSE ARTHUR GOMES DA SILVA', 'http://localhost/sea/backend/uploads/alunos/318a6c16-239b-49c7-b7ed-66a30d678b4e.jpg', 'jose.silva@aluno.ce.gov.br'),
+(19, 11, '3388096', 'JOSE DARLISON ANDRADE DE OLIVEIRA', 'http://localhost/sea/backend/uploads/alunos/d66e20b3-629d-4d41-a7c3-c56fa74edc16.jpg', 'jose.oliveira@aluno.ce.gov.br'),
+(20, 11, 'foto304', 'KAILANNE GIRAO MAIA', 'http://localhost/sea/backend/uploads/alunos/58fb1b08-d53c-4252-934b-17b1e55ac5f3.jpg', 'kailanne.maia@aluno.ce.gov.br'),
+(21, 11, '3032157', 'KAIO GUSTAVO ALVES DOS REIS', 'http://localhost/sea/backend/uploads/alunos/30e40b4f-d584-4876-b3a9-6892fe53e811.jpg', 'kaio.reis@aluno.ce.gov.br'),
+(22, 11, '3406904', 'LAURA VITORIA MORAIS SILVA', 'http://localhost/sea/backend/uploads/alunos/33354db1-30db-4a3f-a759-1b94dab2807d.jpg', 'laura.silva@aluno.ce.gov.br'),
+(23, 11, '5244947', 'LAVINIA ANIBAL PINHEIRO', 'http://localhost/sea/backend/uploads/alunos/0a842532-9420-4df8-8656-9bcad3141cd9.jpg', 'lavinia.pinheiro@aluno.ce.gov.br'),
+(24, 11, '5245076', 'LOHANA KELLY RODRIGUES GIRAO', 'http://localhost/sea/backend/uploads/alunos/b880815b-5747-4ab9-88bb-2a43fbf66129.jpg', 'lohana.girao@aluno.ce.gov.br'),
+(25, 11, '3292435', 'LORRAN SILVA MOREIRA', 'http://localhost/sea/backend/uploads/alunos/b5cf171d-a504-4c8b-b9e1-864017d48eb3.jpg', 'lorran.moreira@aluno.ce.gov.br'),
+(26, 11, '2877129', 'LUIS OTAVIO DE MOURA PONTES', 'http://localhost/sea/backend/uploads/alunos/f4732a3e-0c1e-4f3a-b3ad-46165359bb55.jpg', 'luis.pontes@aluno.ce.gov.br'),
+(27, 11, '3052515', 'MARCOS ANDRE DE FREITAS FILHO', 'http://localhost/sea/backend/uploads/alunos/83ba42e3-8399-46d0-acc8-839bb9f7d78e.jpg', 'marcos.filho@aluno.ce.gov.br'),
+(28, 11, '3384865', 'MARIA RAQUELE FREITAS CARNEIRO', 'http://localhost/sea/backend/uploads/alunos/a7b628fe-fcd2-4795-ab2b-4a4e4c713352.jpg', 'maria.carneiro@aluno.ce.gov.br'),
+(29, 11, '4623042', 'MARIO LUIS SARAIVA CAVALCANTE', 'http://localhost/sea/backend/uploads/alunos/20fbcb6a-adce-418e-b398-45c03ab9969e.jpg', 'mario.cavalcante@aluno.ce.gov.br'),
+(30, 11, '4898839', 'MELISSA VICTORIA LIMA COSTA', 'http://localhost/sea/backend/uploads/alunos/28af4c50-20ba-4d99-8d6d-7169b4d9ed76.jpg', 'melissa.costa@aluno.ce.gov.br'),
+(31, 11, '3407382', 'MIKAEL YACE GOMES NOGUEIRA', NULL, 'mikael.nogueira@aluno.ce.gov.br'),
+(32, 11, '3407400', 'PALOMA NOGUEIRA CAVALCANTE', 'http://localhost/sea/backend/uploads/alunos/ff268952-263c-4cb5-ad06-2b58cecfd608.jpg', 'paloma.cavalcante@aluno.ce.gov.br'),
+(33, 11, '3612156', 'PAULO EDUARDO SANTOS DE JESUS', 'http://localhost/sea/backend/uploads/alunos/2346d7d5-8a9f-40be-af2c-2045df8784fe.jpg', 'paulo.jesus@aluno.ce.gov.br'),
+(34, 11, '3285555', 'PEDRO JORGE FREITAS DA SILVA', 'http://localhost/sea/backend/uploads/alunos/7ab26644-b8b4-47b1-8da8-7d3e183b3509.jpg', 'pedro.silva@aluno.ce.gov.br'),
+(35, 11, '2892251', 'PEDRO LUCAS DA SILVA LIMA', 'http://localhost/sea/backend/uploads/alunos/ce9699ee-9f1c-4f1d-94de-f29eb60ba611.jpg', 'pedro.lima@aluno.ce.gov.br'),
+(36, 11, '5245474', 'PEDRO LUCAS FREITAS DE OLIVEIRA', 'http://localhost/sea/backend/uploads/alunos/ba9fbe80-5465-4683-a75a-6878385a2119.jpg', 'pedro.oliveira@aluno.ce.gov.br'),
+(37, 11, '5252545', 'RENAN SILVA AGUIAR', 'http://localhost/sea/backend/uploads/alunos/ebfebee1-0aeb-4d76-889b-b19be380f4eb.jpg', 'renan.aguiar@aluno.ce.gov.br'),
+(38, 11, '3287571', 'RYANNA HELLEN DE SOUSA CASTRO', 'http://localhost/sea/backend/uploads/alunos/fde3259d-71d6-4eb4-b092-bdab6148e503.jpg', 'ryanna.castro@aluno.ce.gov.br'),
+(39, 11, '5245105', 'RYAN VIANA OLIVEIRA', NULL, 'ryan.oliveira@aluno.ce.gov.br'),
+(40, 11, '3033402', 'SAMUA HELEN MAIA PEREIRA', 'http://localhost/sea/backend/uploads/alunos/34e5cd9d-32bb-42eb-971a-a7f34a001a2c.jpg', 'samua.pereira'),
+(41, 11, '3375288', 'VICENTE ALEXANDRE LARANJEIRA SILVA COSTA', 'http://localhost/sea/backend/uploads/alunos/a952b65c-4dcd-475c-bba2-7bfb9a87e13f.jpg', 'vicente.costa@aluno.ce.gov.br'),
+(42, 11, '2295006', 'VITORIA EVELLY RUBENS DE SENA', 'http://localhost/sea/backend/uploads/alunos/1c61211d-bf88-4dac-bf66-af2b79a44af7.jpg', 'vitoria.sena@aluno.ce.gov.br');
 
 -- --------------------------------------------------------
 
@@ -297,7 +336,8 @@ INSERT INTO `escola` (`id_escola`, `inep`, `nome_escola`, `email`, `telefone`, `
 (9, '23236078', 'Osmira Eduardo de Castro', 'osmira@gmail.com', '(51) 91951-9619', NULL, 'CE', 'Morada No', '02 DE AGOSTO', 'RUA ALUIZIO GONZAGA LIMA', 'SN PREDIO', '2025-11-08 14:50:00'),
 (10, '23236078', 'Osmira Eduardo de Castro', 'osmira@gmail.com', '(51) 91951-9619', NULL, 'CE', 'Morada No', '02 DE AGOSTO', 'RUA ALUIZIO GONZAGA LIMA', 'SN PREDIO', '2025-11-08 14:52:15'),
 (11, '23060700', 'Paulo Sarasate EEF', 'paulo.sarasate@gmail.com', '(51) 91951-9619', NULL, 'CE', 'Cascavel ', 'CRISTAIS,', 'AV. SANTOS DUMONT- KM 92', '232', '2025-11-08 16:28:38'),
-(12, '12365478', 'EEEP Escola Teste', 'teste.escola@gmail.com', '(98) 76543-2103', NULL, 'CE', 'Cascavel ', 'CRISTAIS,', 'AV. SANTOS DUMONT- KM 92', '232', '2025-11-15 16:01:03');
+(12, '12365478', 'EEEP Escola Teste', 'teste.escola@gmail.com', '(98) 76543-2103', NULL, 'CE', 'Cascavel ', 'CRISTAIS,', 'AV. SANTOS DUMONT- KM 92', '232', '2025-11-15 16:01:03'),
+(13, '23565879', 'Vestido Florido', 'sofia@devias.io', '(85) 99125-9840', NULL, 'CE', 'Morada No', '2 de Agosto', 'ALUIZIO GONZAGA LIMA', 'SN PREDIO', '2025-12-03 16:30:27');
 
 -- --------------------------------------------------------
 
@@ -355,7 +395,8 @@ CREATE TABLE `professordisciplina` (
 
 INSERT INTO `professordisciplina` (`id_disciplina`, `id_professor`) VALUES
 (1, 6),
-(2, 6);
+(2, 6),
+(2, 20);
 
 -- --------------------------------------------------------
 
@@ -367,6 +408,13 @@ CREATE TABLE `professorturma` (
   `id_turma` int(11) DEFAULT NULL,
   `id_professor` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `professorturma`
+--
+
+INSERT INTO `professorturma` (`id_turma`, `id_professor`) VALUES
+(11, 20);
 
 -- --------------------------------------------------------
 
@@ -419,7 +467,8 @@ INSERT INTO `prova` (`id_prova`, `id_professor`, `id_disciplina`, `titulo`, `ser
 (33, 6, 1, 'teste', '2º ano', 'Azul', '2025-11-29 04:33:54', '2025-11-29 04:33:54'),
 (34, 6, 1, 'Prova de Matemática', '2º ano', 'Branco', '2025-12-02 20:36:38', '2025-12-02 20:36:38'),
 (35, 6, 2, 'Prova de Português', '2º ano', 'Branco', '2025-12-02 20:39:36', '2025-12-02 20:39:36'),
-(36, 6, 1, 'Matemática', '2º ano', 'Branco', '2025-12-02 20:40:45', '2025-12-02 20:40:45');
+(36, 6, 1, 'Matemática', '2º ano', 'Branco', '2025-12-02 20:40:45', '2025-12-02 20:40:45'),
+(37, 6, 2, 'Avaliação Bimestral', '2º ano', 'Branco', '2025-12-03 21:22:57', '2025-12-03 21:22:57');
 
 -- --------------------------------------------------------
 
@@ -510,7 +559,11 @@ INSERT INTO `provaquestao` (`id_questao`, `id_prova`) VALUES
 (18, 36),
 (15, 36),
 (17, 36),
-(16, 36);
+(16, 36),
+(13, 37),
+(9, 37),
+(12, 37),
+(10, 37);
 
 -- --------------------------------------------------------
 
@@ -570,7 +623,11 @@ INSERT INTO `provas_versoes` (`id_versao`, `id_prova`, `codigo_versao`, `data_cr
 (47, 36, 'Azul', '2025-12-02 13:40:45'),
 (48, 36, '', '2025-12-02 13:40:45'),
 (49, 36, 'Verde', '2025-12-02 13:40:45'),
-(50, 36, '', '2025-12-02 13:40:45');
+(50, 36, '', '2025-12-02 13:40:45'),
+(51, 37, 'Azul', '2025-12-03 14:22:57'),
+(52, 37, '', '2025-12-03 14:22:57'),
+(53, 37, 'Verde', '2025-12-03 14:22:57'),
+(54, 37, '', '2025-12-03 14:22:57');
 
 -- --------------------------------------------------------
 
@@ -707,7 +764,23 @@ INSERT INTO `provas_versoes_questoes` (`id_versao_questao`, `id_versao`, `id_que
 (143, 50, 15, 1),
 (144, 50, 16, 2),
 (145, 50, 17, 3),
-(146, 50, 18, 4);
+(146, 50, 18, 4),
+(147, 51, 9, 1),
+(148, 51, 13, 2),
+(149, 51, 10, 3),
+(150, 51, 12, 4),
+(151, 52, 10, 1),
+(152, 52, 12, 2),
+(153, 52, 9, 3),
+(154, 52, 13, 4),
+(155, 53, 12, 1),
+(156, 53, 10, 2),
+(157, 53, 9, 3),
+(158, 53, 13, 4),
+(159, 54, 9, 1),
+(160, 54, 13, 2),
+(161, 54, 10, 3),
+(162, 54, 12, 4);
 
 -- --------------------------------------------------------
 
@@ -785,8 +858,7 @@ CREATE TABLE `turma` (
 --
 
 INSERT INTO `turma` (`id_turma`, `id_escola`, `nome_turma`, `serie`, `turno`) VALUES
-(11, 10, 'Informática 2024', '2', 'integral'),
-(14, 10, 'Agroindustria 2024', '2', 'integral');
+(11, 10, 'Informática 2024', '2', 'integral');
 
 -- --------------------------------------------------------
 
@@ -814,8 +886,7 @@ CREATE TABLE `usuario` (
 
 INSERT INTO `usuario` (`id_usuario`, `id_escola`, `nome`, `email`, `foto`, `senha`, `telefone`, `tipo`, `ativo`, `data_cadastro`, `ultima_atualizacao`) VALUES
 (6, 10, 'Joel Damasceno Parente', 'jo3ldamasceno@gmail.com', 'http://localhost/sea/backend/uploads/usuarios/user_6_1764286354.jpg', '$2y$10$wlPhXbc4hLilhs62wGwABeVcosuBR/SOnYKiB4oGs/EpuVvG7TjVy', '(85) 99125-9840', 'gestor', 1, '2025-11-08 14:52:15', '2025-11-27 23:32:34'),
-(7, 11, 'Ana Rebeca Damasceno Mastracusa', 'ana.mastracusa01@gmail.com', NULL, '$2y$10$eF8TVb.67eWJ17YHAVtnduDdujW.EfXDy/wUG4pnGakph22IsOHY6', '(85) 99971-5867', 'gestor', 1, '2025-11-08 16:28:38', '2025-11-08 16:28:38'),
-(8, 12, 'teste da escola', 'teste@gmail.com', NULL, '$2y$10$nTZ0K2p2.iDQOaLFQLnoVuqXzlOBd1zDjHUUnNQPkksMphUyes.3i', '(01) 23456-7890', 'gestor', 1, '2025-11-15 16:01:03', '2025-11-15 16:01:03');
+(20, 10, 'Fernando Pessoa Oliveira de Sousa', 'fernandoufc2012@gmail.com', 'http://localhost/sea/backend/uploads/usuarios/user_20_1764781729.png', '$2y$10$S4YgLKc9zqUzapt08A62we2BxtKICJ1ey4aHF.AqBsU2OZG.Sjs5C', '(85) 99125-9840', 'professor', 1, '2025-12-03 17:03:00', '2025-12-03 17:08:49');
 
 --
 -- Índices para tabelas despejadas
@@ -991,7 +1062,7 @@ ALTER TABLE `alternativas`
 -- AUTO_INCREMENT de tabela `aluno`
 --
 ALTER TABLE `aluno`
-  MODIFY `id_aluno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_aluno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT de tabela `assunto`
@@ -1015,7 +1086,7 @@ ALTER TABLE `disciplina`
 -- AUTO_INCREMENT de tabela `escola`
 --
 ALTER TABLE `escola`
-  MODIFY `id_escola` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_escola` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de tabela `gabarito`
@@ -1027,19 +1098,19 @@ ALTER TABLE `gabarito`
 -- AUTO_INCREMENT de tabela `prova`
 --
 ALTER TABLE `prova`
-  MODIFY `id_prova` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id_prova` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT de tabela `provas_versoes`
 --
 ALTER TABLE `provas_versoes`
-  MODIFY `id_versao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id_versao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT de tabela `provas_versoes_questoes`
 --
 ALTER TABLE `provas_versoes_questoes`
-  MODIFY `id_versao_questao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=147;
+  MODIFY `id_versao_questao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=163;
 
 --
 -- AUTO_INCREMENT de tabela `questao`
@@ -1063,7 +1134,7 @@ ALTER TABLE `turma`
 -- AUTO_INCREMENT de tabela `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- Restrições para tabelas despejadas

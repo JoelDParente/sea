@@ -52,15 +52,15 @@ switch ($metodo) {
     break;
 
     case 'PUT':
-        parse_str(file_get_contents("php://input"), $data);
+        $data = json_decode(file_get_contents('php://input'), true);
 
-        if (!isset($data['id'])) {
+        if (!isset($data['id_usuario'])) {
             http_response_code(400);
             echo json_encode(['erro' => 'ID obrigatório']);
             exit;
         }
 
-        $usuarioAtual = $dao->getUsuarioById($data['id']);
+        $usuarioAtual = $dao->getUsuarioById($data['id_usuario']);
 
         if (!$usuarioAtual) {
             http_response_code(404);
@@ -69,7 +69,7 @@ switch ($metodo) {
         }
 
         $usuario = new Usuario();
-        $usuario->setIdUsuario($data['id']);
+        $usuario->setIdUsuario($data['id_usuario']);
         $usuario->setIdEscola($data['id_escola'] ?? $usuarioAtual['id_escola']);
         $usuario->setNome($data['nome'] ?? $usuarioAtual['nome']);
         $usuario->setEmail($data['email'] ?? $usuarioAtual['email']);
@@ -93,13 +93,13 @@ switch ($metodo) {
     case 'DELETE':
         parse_str(file_get_contents("php://input"), $data);
 
-        if (!isset($data['id'])) {
+        if (!isset($data['id_usuario'])) {
             http_response_code(400);
             echo json_encode(['erro' => 'ID obrigatório']);
             exit;
         }
 
-        $id = intval($data['id']);
+        $id = intval($data['id_usuario']);
 
         $usuario = $dao->getUsuarioById($id);
         if (!$usuario) {

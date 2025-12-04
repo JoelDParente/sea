@@ -10,7 +10,7 @@ import { DataGrid, GridActionsCellItem, GridColDef } from "@mui/x-data-grid";
 import axios from "axios";
 
 import ModalCadastroProfessor from "./modal-cadastro-professor";
-import ModalEdicaoProfessor from "../../modals/modal-edicao-professor";
+import ModalEdicaoProfessor from "../modals/modal-edicao-professor";
 
 interface Professor {
 	id_usuario: number;
