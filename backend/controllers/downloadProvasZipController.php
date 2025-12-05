@@ -18,6 +18,10 @@ require_once(__DIR__ . '/../dao/ProvasVersoesQuestoesDAO.php');
 require_once(__DIR__ . '/../dao/questaoDAO.php');
 require_once(__DIR__ . '/../dao/alternativasDAO.php');
 require_once(__DIR__ . '/../dao/disciplinaDAO.php');
+require_once(__DIR__ . '/../dao/TurmaDAO.php');
+require_once(__DIR__ . '/../dao/AlunoDAO.php');
+require_once(__DIR__ . '/../dao/GabaritoDAO.php');
+require_once(__DIR__ . '/../lib/GabaritoGenerator.php');
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -44,6 +48,7 @@ $nome_prova = $input['nome_prova'] ?? 'prova';
 $id_disciplina = $input['id_disciplina'] ?? null;
 $serie = $input['serie'] ?? null;
 $nome_professor = $input['nome_professor'] ?? null;
+$id_turma = (int)($input['id_turma'] ?? 0); // novo parâmetro para gabaritos
 
 if (count($versoes) === 0) {
     http_response_code(400);
@@ -57,6 +62,10 @@ $versaoQuestoesDAO = new ProvasVersoesQuestoesDAO();
 $questaoDAO = new QuestaoDAO();
 $alternativaDAO = new AlternativaDAO();
 $disciplinaDAO = new DisciplinaDAO();
+$turmaDAO = new TurmaDAO();
+$alunoDAO = new AlunoDAO();
+$gabaritoDAO = new GabaritoDAO();
+$gabaritoGenerator = new GabaritoGenerator();
 
 // Criar diretório temporário para os PDFs
 $tempDir = sys_get_temp_dir() . '/sea_provas_' . uniqid();
@@ -113,6 +122,52 @@ try {
         echo json_encode(['erro' => 'Nenhum PDF foi gerado']);
         exit;
     }
+
+    // Gerar gabaritos se id_turma foi fornecido
+    $gabaritoFiles = [];
+    if ($id_turma > 0) {
+        try {
+            $turma = $turmaDAO->getTurmaById($id_turma);
+            if ($turma) {
+                $alunos = $alunoDAO->AlunosPorTurma($id_turma);
+                $gabaritos = $gabaritoDAO->getGabaritoByProva($id_prova);
+
+                if (!empty($alunos) && !empty($gabaritos)) {
+                    // Criar subdiretório para gabaritos
+                    $gabaritoDir = $tempDir . '/gabaritos';
+                    if (!mkdir($gabaritoDir, 0777, true)) {
+                        error_log("Erro ao criar diretório de gabaritos");
+                    } else {
+                        foreach ($alunos as $aluno) {
+                            try {
+                                $dadosAluno = [
+                                    'nome' => $aluno->getNome(),
+                                    'matricula' => $aluno->getMatricula(),
+                                    'email' => $aluno->getEmail()
+                                ];
+
+                                $gabPdfPath = $gabaritoGenerator->gerarPDFGabarito(
+                                    $dadosAluno,
+                                    $gabaritos,
+                                    $nome_prova,
+                                    $aluno->getNome(),
+                                    $gabaritoDir
+                                );
+
+                                if ($gabPdfPath && file_exists($gabPdfPath)) {
+                                    $gabaritoFiles[] = $gabPdfPath;
+                                }
+                            } catch (Exception $e) {
+                                error_log("Erro ao gerar gabarito para aluno {$aluno->getId()}: " . $e->getMessage());
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception $e) {
+            error_log("Erro ao processar gabaritos: " . $e->getMessage());
+        }
+    }
     
     // Criar ZIP com os PDFs
     $zipFileName = sanitizeFilename($nome_prova) . '_' . date('Y-m-d_His') . '.zip';
@@ -130,7 +185,15 @@ try {
         $fileName = basename($filePath);
         $zip->addFile($filePath, $fileName);
     }
-    
+
+    // Adicionar gabaritos ao ZIP (em subpasta se existirem)
+    if (!empty($gabaritoFiles)) {
+        foreach ($gabaritoFiles as $filePath) {
+            $fileName = basename($filePath);
+            $zip->addFile($filePath, 'gabaritos/' . $fileName);
+        }
+    }
+
     $zip->close();
     
     // Verificar se o ZIP foi criado
@@ -142,15 +205,14 @@ try {
     
     // Retornar URL de download
     $downloadUrl = "http://localhost/sea/backend/controllers/downloadZipController.php?file=" . urlencode($zipFileName);
-    
+
     echo json_encode([
         'sucesso' => true,
         'url_download' => $downloadUrl,
         'arquivo' => $zipFileName,
-        'quantidade_pdfs' => count($pdfFiles)
-    ]);
-    
-} catch (Exception $e) {
+        'quantidade_pdfs' => count($pdfFiles),
+        'quantidade_gabaritos' => count($gabaritoFiles)
+    ]);} catch (Exception $e) {
     http_response_code(500);
     echo json_encode(['erro' => 'Erro ao processar: ' . $e->getMessage()]);
 } finally {

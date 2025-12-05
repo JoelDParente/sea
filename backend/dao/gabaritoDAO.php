@@ -47,6 +47,14 @@ class GabaritoDAO {
         return $gabaritos;
     }
 
+    public function getGabaritoByProva(int $id_prova): array {
+        $sql = "SELECT questao, alternativa, versao FROM gabarito WHERE id_prova = :id_prova ORDER BY questao ASC";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':id_prova', $id_prova, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function atualizarGabarito(Gabarito $gabarito): bool {
         $sql = "UPDATE gabarito SET id_gabarito = :id_gabarito, id_prova = :id_prova, questao = :questao, alternativa = :alternativa, versao = :versao
                 WHERE id_gabarito = :id_gabarito";
