@@ -16,9 +16,9 @@ import { saveAs } from 'file-saver';
 
 export default function Page() {
   const router = useRouter();
-  // Etapa 1: Nome e Série
+  // Etapa 1: Nome e Turmas
   const [openNomeSerie, setOpenNomeSerie] = useState(false);
-  const [prova, setProva] = useState<{ nome: string; serie: string } | null>(null);
+  const [prova, setProva] = useState<{ nome: string; turmas: any[] } | null>(null);
 
   // Etapa 2: Componente curricular
   const [openComponente, setOpenComponente] = useState(false);
@@ -31,6 +31,8 @@ export default function Page() {
   const [questoesSelecionadas, setQuestoesSelecionadas] = useState<Question[]>([]);
   // Quantidade de versões a gerar (1..4)
   const [versionsCount, setVersionsCount] = useState<number>(1);
+  // Estado para loading ao gerar gabaritos
+  const [loadingGabaritos, setLoadingGabaritos] = useState(false);
 
   // Ao montar, verificar se existe um payload de inicialização vindo do CardAcao (sessionStorage)
   useEffect(() => {
@@ -56,8 +58,8 @@ export default function Page() {
     }
   }, []);
 
-  // Abre o modal do componente ao confirmar nome/serie
-  const handleConfirmNomeSerie = (payload: { nome: string; serie: string }) => {
+  // Abre o modal do componente ao confirmar nome/turmas
+  const handleConfirmNomeSerie = (payload: { nome: string; turmas: any[] }) => {
     setProva(payload);
     setOpenNomeSerie(false);
     setOpenComponente(true);
@@ -78,13 +80,53 @@ export default function Page() {
     setQuestoesSelecionadas((s) => s.filter((q) => String(q.id_questao) !== String(id)));
   };
 
+  const handleGerarGabaritos = async () => {
+    if (!prova || !Array.isArray(prova.turmas) || prova.turmas.length === 0) {
+      alert('Selecione pelo menos uma turma');
+      return;
+    }
+
+    setLoadingGabaritos(true);
+    try {
+      // Gerar gabaritos para cada turma selecionada
+      for (const turma of prova.turmas) {
+        try {
+          const res = await axios.post(
+            'http://localhost/sea/backend/controllers/gerarGabaritoTurmaController.php',
+            {
+              id_turma: turma.id_turma,
+              id_prova: null,
+              nome_prova: prova.nome,
+            },
+            { responseType: 'blob' }
+          );
+
+          // Disparar download do PDF
+          const fileName = `gabaritos_${turma.nome_turma.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`;
+          saveAs(res.data, fileName);
+          console.log(`✓ Gabaritos da turma '${turma.nome_turma}' baixados`);
+        } catch (turmaErr) {
+          console.error(`Erro ao gerar gabaritos da turma ${turma.nome_turma}:`, turmaErr);
+          alert(`Erro ao gerar gabaritos da turma ${turma.nome_turma}`);
+        }
+      }
+    } catch (err) {
+      console.error('Erro ao gerar gabaritos:', err);
+      alert('Erro ao gerar gabaritos: ' + (err instanceof Error ? err.message : 'Desconhecido'));
+    } finally {
+      setLoadingGabaritos(false);
+    }
+  };
+
   const handleGerarPDF = async () => {
-    if (!prova || !componenteSelecionado) return;
+    if (!prova || !componenteSelecionado || !Array.isArray(prova.turmas) || prova.turmas.length === 0) return;
     try {
       const payload = {
         nome_prova: prova.nome,
-        serie: prova.serie,
+        // série principal: usar a série da primeira turma selecionada
+        serie: prova.turmas[0]?.serie ?? '',
         id_disciplina: componenteSelecionado.id_disciplina,
+        id_turmas: prova.turmas.map((t:any)=>t.id_turma),
         questoes: questoesSelecionadas.map((q) => q.id_questao),
         qtd_versoes: versionsCount,
         id_professor: (() => {
@@ -180,7 +222,7 @@ export default function Page() {
 
       <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
         <Box>
-          <Typography variant="subtitle1">{prova ? `${prova.nome} — ${prova.serie}` : 'Nome e série não definidos'}</Typography>
+          <Typography variant="subtitle1">{prova ? `${prova.nome} — ${prova.turmas?.map((t:any)=>t.nome_turma).join(', ')}` : 'Nome e turmas não definidos'}</Typography>
         </Box>
         <Box>
           <Button variant="outlined" onClick={() => setOpenNomeSerie(true)} sx={{ mr: 1 }}>
@@ -220,8 +262,16 @@ export default function Page() {
                 }}
                 sx={{ width: 100 }}
               />
-              <Button variant="contained" color="primary" onClick={handleGerarPDF} disabled={!prova || !componenteSelecionado || questoesSelecionadas.length === 0}>
-                Gerar PDF
+              <Button 
+                variant="outlined" 
+                color="secondary" 
+                onClick={handleGerarGabaritos} 
+                disabled={!prova || !(Array.isArray(prova?.turmas) && prova?.turmas.length>0) || loadingGabaritos}
+              >
+                {loadingGabaritos ? 'Gerando gabaritos...' : 'Gerar Gabaritos'}
+              </Button>
+              <Button variant="contained" color="primary" onClick={handleGerarPDF} disabled={!prova || !componenteSelecionado || questoesSelecionadas.length === 0 || !(Array.isArray(prova?.turmas) && prova?.turmas.length>0)}>
+                Gerar Provas
               </Button>
             </Box>
           </Box>

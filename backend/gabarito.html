@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <style>
+        td {
+            font-size: 11px;
+        }
+
+        .titulo-escola {
+            font-size: 11px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .caixa {
+            border: 1px solid #000;
+        }
+
+        .table-questoes td {
+            text-align: center;
+        }
+
+        .table-questoes th {
+            text-align: center;
+            font-weight: bold;
+            background: #f0f0f0;
+        }
+    </style>
+
+    <table cellpadding="4" cellspacing="0" border="1" width="100%">
+        <tr>
+            <td rowspan="4" width="15%" style="text-align:center;">
+                <img src="http://localhost/sea/backend/uploads/logos/logo-sea.png" alt="Logo">
+            </td>
+
+            <td width="70%" class="titulo-escola">
+                EEEP OSMIRA EDUARDO DE CASTRO
+            </td>
+
+            <td width="15%" style="text-align:center;">
+                <b>' . date("Y") . '</b>
+            </td>
+        </tr>
+
+        <tr>
+            <td width="60%"><b>ALUNO(A):</b> ' . $nome_aluno . '</td>
+            <td width="10%"><b>Nº:</b>____</td>
+            <td style="text-align:center;" width="15%"><b>NOTA</b></td>
+        </tr>
+
+        <tr>
+            <td rowspan="2" width="10%" style="font-size: 30px; text-align: center;">
+                <b>' . substr($serie, 0, 3) . '</b>
+            </td>
+
+            <td width="40%"><b>TÉCNICO EM:</b></td>
+            <td width="20%"><b>DATA: </b>__/__/____</td>
+            <td rowspan="3" width="15%"></td>
+        </tr>
+
+        <tr>
+            <td width="40%" style="text-align: center;"><b>' . $nome_prova . '</b></td>
+            <td rowspan="2" width="20%" style="text-align: center; vertical-align: middle;">
+                <b>' . mb_strtoupper($nome_disciplina, "UTF-8") . '</b>
+            </td>
+        </tr>
+
+        <tr>
+            <td width="65%"><b>PROFESSOR(A): ' . $nome_professor . '</b></td>
+        </tr>
+    </table>
+
+    <br><br>
+
+    <!-- TABELA DE QUESTÕES DO GABARITO -->
+    <table cellpadding="4" cellspacing="0" border="1" width="100%" class="table-questoes">
+        <tr>
+            <th width="8%">Nº</th>
+            <th width="18%">A</th>
+            <th width="18%">B</th>
+            <th width="18%">C</th>
+            <th width="18%">D</th>
+            <th width="20%">E</th>
+        </tr>
+</body>
+
+</html>
