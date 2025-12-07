@@ -1,356 +1,150 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Gabarito Ceará - A5 Otimizado</title>
-    <style>
-      /* Estilos Básicos da Folha A5 - PAISAGEM (Horizontal) */
-      body {
-        margin: 0;
-        padding: 0; /* Remove padding do body */
-        background: #eee;
-        font-family: Arial, Helvetica, sans-serif;
-      }
-      .folha {
-        /* A5 Paisagem: Largura 210mm x Altura 148mm */
-        width: 210mm;
-        height: 148mm;
-        margin: 10px auto; /* Centraliza na tela */
-        background: white;
-        padding: 5mm 5mm; /* Reduzindo padding da folha */
-        box-sizing: border-box;
+<head>
+  <meta charset="UTF-8">
+  <title>Gabarito SEA</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: Arial, Helvetica, sans-serif; font-size: 7pt; line-height:1.2; }
 
-        display: grid;
-        /* Coluna Esquerda flexível (1fr) | Coluna Direita fixa em 45mm */
-        grid-template-columns: 1fr 45mm;
-        gap: 0;
-        overflow: hidden; /* Garante que nada transborde */
-      }
+    .pagina {
+      width: 210mm;
+      height: 148mm;
+      position: relative;
+    }
 
-      /* ==================== LADO ESQUERDO (Questões) ==================== */
-      .esquerda {
-        border: 1px solid #000; /* Borda mais fina */
-        border-right: none;
-        padding: 5mm 3mm; /* Reduzindo padding */
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-      }
-      .cabecalho {
-        display: flex;
-        align-items: center;
-        text-align: center;
-        border-bottom: 1px solid #000; /* Borda mais fina */
-        padding-bottom: 2mm; /* Reduzindo padding */
-        margin-bottom: 2mm; /* Reduzindo margem */
-      }
-      .cabecalho img {
-        height: 12mm; /* Reduzindo altura do logo */
-        vertical-align: middle;
-        margin-right: 3mm;
-      }
-      .titulo {
-        font-size: 8pt; /* Reduzindo fonte */
-        font-weight: bold;
-        margin: 1mm 0;
-        flex-grow: 1;
-      }
+    table { border-collapse: collapse; width:100%; height:100%; }
+    td { vertical-align: top; }
 
-      /* --- INFORMAÇÕES ALINHADAS (Nome/Professor) --- */
-      .informacoes-alinhadas {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0;
-        margin-bottom: 2mm; /* Reduzindo margem */
-        height: 80px;
-      }
-      .informacoes-aluno,
-      .informacoes-professor {
-        padding: 0 3mm;
-        box-sizing: border-box;
-        border-bottom: 1px solid #000; /* Borda mais fina */
-      }
-      .informacoes-aluno {
-        border-right: 1px solid #000; /* Borda mais fina */
-      }
+    .borda { border: 0.35pt solid #000; }
+    .borda-dir { border-right: 0.35pt solid #000; }
+    .borda-baixo { border-bottom: 0.35pt solid #000; }
 
-      .nome,
-      .curso,
-      .codigo,
-      .professor-info {
-        font-weight: bold;
-        font-size: 6pt; /* Redução drástica da fonte */
-        line-height: 1.1;
-        margin: 1mm 0;
-      }
-      /* --- FIM INFORMAÇÕES ALINHADAS --- */
+    /* LADO ESQUERDO */
+    .esquerda { width: 165mm; padding: 3mm 2.5mm; }
+    .cabecalho img { height: 10mm; margin-right: 3mm; vertical-align: middle; }
+    .titulo { font-weight: bold; font-size: 8pt; text-align: center; }
 
-      .grade {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 0;
-        margin-top: 1mm; /* Reduzindo margem */
-        flex-grow: 1;
-      }
-      .coluna-questao {
-        padding: 1mm 1mm; /* Reduzindo padding */
-        border-right: 1px solid #000; /* Borda mais fina */
-      }
-      .coluna-questao:last-child {
-        border-right: none;
-      }
-      .questao {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 1mm; /* Reduzindo espaçamento */
-        margin-bottom: 1mm; /* Redução drástica da margem */
-      }
-      .num {
-        font-weight: bold;
-        font-size: 7pt; /* Reduzindo fonte */
-        width: 4mm;
-        text-align: right;
-      }
-      .bolas {
-        display: flex;
-        gap: 1mm; /* Reduzindo espaçamento */
-      }
-      .bola {
-        width: 3mm; /* Reduzindo tamanho */
-        height: 3mm;
-        border: 1px solid #000; /* Borda mais fina */
-        border-radius: 50%;
-        background: white;
-        font-size: 6pt; /* Reduzindo fonte */
-        line-height: 3mm;
-        text-align: center;
-      }
+    .info td { padding: 1.8mm 2.5mm; font-size: 6pt; }
+    .info .aluno { border-right: 0.35pt solid #000; }
 
-      /* ==================== LADO DIREITO (5ª COLUNA) ==================== */
-      .direita {
-        border: 1px solid #000;
-        background: #f8f8f8;
-        padding: 3mm; /* Reduzindo padding */
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
-        height: 100%;
-        box-sizing: border-box;
-        font-size: 7pt; /* Reduzindo fonte */
-      }
-      .numero-aluno {
-        text-align: center;
-        margin-bottom: 3mm;
-      }
-      .numero-aluno strong {
-        font-size: 8pt;
-        display: block;
-        margin-bottom: 2mm;
-      }
-      .numero-aluno .digitos {
-        display: inline-flex;
-        gap: 3mm;
-      }
-      .numero-aluno .digito {
-        width: 5mm; /* Reduzindo tamanho */
-        height: 8mm;
-        line-height: 8mm;
-        border: 1px solid #000;
-        font-size: 10pt; /* Reduzindo fonte */
-        font-weight: bold;
-        text-align: center;
-      }
-      .qr {
-        width: 18mm; /* Reduzindo tamanho */
-        height: 18mm;
-        background: #ccc;
-        border: 1px solid #000;
-        margin: 3mm 0;
-      }
-      .bloco {
-        width: 100%;
-        text-align: left;
-        margin: 3mm 0;
-        font-size: 7pt;
-        border: 1px solid #000; /* Removendo a borda de 1px */
-        padding: 0;
-      }
+    .grade td { padding: 0.5mm 0.8mm; width: 25%; }
+    .grade td:not(:last-child) { border-right: 0.35pt solid #000; }
 
-      .bloco.verificador {
-        padding: 0mm 0mm; /* Reduzindo padding */
-        border: none; /* Reduzindo padding */
-      }
+    .questao { margin-bottom: 0.65mm; text-align: center; white-space: nowrap; }
+    .num { display: inline-block; width: 5.5mm; text-align: right; font-weight: bold; font-size: 7pt; }
+    .bola {
+      display: inline-block;
+      width: 3.2mm; height: 3.2mm;
+      border: 0.35pt solid #000;
+      border-radius: 50%;
+      margin-left: 1.3mm;
+      background: white;
+    }
 
-      .bloco strong {
-        display: block;
-        margin-bottom: 1mm;
-        font-size: 8pt;
-      }
-      .instrucao {
-        margin-top: auto;
-        width: 100%;
-        text-align: center;
-        font-weight: bold;
-        font-size: 7pt;
-        border: 1px solid #000; /* Borda mais fina */
-        padding: 2mm 1mm; /* Reduzindo padding */
-        background: white;
-      }
-      .bloco label {
-        display: block; /* Garante que cada opção ocupe uma linha */
-        margin-bottom: 0.5mm;
-      }
+    /* LADO DIREITO */
+    .direita { width: 45mm; padding: 3mm 2mm; background: #f8f8f8; text-align: center; font-size: 7pt; }
+    .digito {
+      display: inline-block; width: 5.8mm; height: 8mm; line-height: 8mm;
+      border: 0.35pt solid #000; font-weight: bold; font-size: 10pt;
+      margin: 0 1.8mm;
+    }
+    .qr {
+      position: absolute;
+      top: 18mm;
+      left: 170mm;
+      width: 18mm;
+      height: 18mm;
+      background: #fff;
+      border: 0.35pt solid #000;
+    }
+    .bloco { margin: 4mm 0; }
+    .bloco strong { display: block; margin-bottom: 2mm; font-size: 8pt; }
+    .serie .bola { display: inline-block; width: 3.5mm; height: 3.5mm; border: 0.35pt solid #000; border-radius: 50%; margin-right: 3mm; }
+    .instrucao {
+      position: absolute; bottom: 4mm; left: 168mm; right: 3mm;
+      border: 0.35pt solid #000; padding: 2mm; background: white;
+      font-weight: bold; font-size: 7pt;
+    }
+  </style>
+</head>
+<body>
 
-      .bloco.serie {
-        /* Reduz a margem vertical do bloco inteiro */
-        margin: 5px 0;
-        padding: 0 5px; /* Ajusta o padding interno se houver */
-        font-size: 8pt;
-      }
+<div class="pagina">
+  <table>
+    <tr>
+      <!-- LADO ESQUERDO -->
+      <td class="esquerda borda">
+        <table width="100%" cellspacing="0" cellpadding="0" class="borda-baixo">
+          <tr>
+            <td width="1"><img src="uploads/logos/logo-sea.png" alt="Logo"></td>
+            <td class="titulo">TÍTULO DA PROVA AQUI</td>
+          </tr>
+        </table>
 
-      .bloco.serie strong {
-        /* Garante que o título Série: não crie margem excessiva */
-        margin-bottom: 2px;
-      }
+        <table width="100%" cellspacing="0" cellpadding="0" class="info borda-baixo">
+          <tr>
+            <td class="aluno">
+              <div class="nome">Nome do participante: NOME DO ALUNO</div>
+              <div class="curso">CURSO/SÉRIE/DISCIPLINA</div>
+            </td>
+            <td>
+              <div class="professor-info">Professor: NOME DO PROFESSOR</div>
+              <label><input type="checkbox"> Aluno ausente</label>&nbsp;&nbsp;
+              <label><input type="checkbox"> Aluno transferido</label>
+            </td>
+          </tr>
+        </table>
 
-      .bloco.serie label {
-        /* Garante que os labels estejam próximos verticalmente */
-        margin-bottom: 1px; /* Espaçamento mínimo entre os labels */
-        font-size: 7pt;
-      }
+        <table width="100%" cellspacing="0" cellpadding="0" class="grade">
+          <tr>
+            <!-- 60 questões (15 por coluna) -->
+            <?php for($col=0; $col<4; $col++): ?>
+            <td>
+              <?php for($i=1; $i<=15; $i++): $q = $col*15 + $i; ?>
+              <div class="questao">
+                <span class="num"><?= str_pad($q, 2, ' ', STR_PAD_LEFT) ?></span>
+                <span class="bola"></span><span class="bola"></span><span class="bola"></span><span class="bola"></span><span class="bola"></span>
+              </div>
+              <?php endfor; ?>
+            </td>
+            <?php endfor; ?>
+          </tr>
+        </table>
+      </td>
 
-      .bloco.serie label p {
-        /* CRÍTICO: Remove a margem padrão do navegador do parágrafo */
-        margin: 0;
-        padding-left: 2px; /* Espaçamento pequeno entre a bola e o texto "ano" */
-      }
+      <!-- LADO DIREITO -->
+      <td class="direita borda">
+        <strong>Número</strong><br>
+        <div class="digito">0</div><div class="digito">0</div>
 
-      label input[type="checkbox"] {
-        transform: scale(0.6); /* Reduzindo tamanho do radio button */
-        margin-right: 1mm;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="folha">
-      <div class="esquerda">
-        <div class="cabecalho">
-          <img src="uploads/logos/logo-sea.png" alt="Ceará" />
-          <div class="titulo">
-            AVALIAÇÃO BIMESTRAL DE LÍNGUA PORTUGUESA - 3º BIM
-          </div>
-        </div>
-
-        <div class="informacoes-alinhadas">
-          <div class="informacoes-aluno">
-            <div class="nome">Nome do participante: JOEL DAMASCENO PARENTE</div>
-            <div class="curso">
-              1ª - 1ª SÉRIE CURSO TÉCNICO EM INFORMÁTICA - INFORMÁTICA -
-              Integral - 2024
-            </div>
-          </div>
-
-          <div class="informacoes-professor">
-            <div class="professor-info">
-              Para uso exclusivo do professor ou aplicador
-            </div>
-            <label style="font-size: 8pt"
-              ><input type="checkbox" /> Aluno ausente</label
-            >&nbsp;&nbsp;
-            <label style="font-size: 8pt"
-              ><input type="checkbox" /> Aluno transferido</label
-            >
-          </div>
-        </div>
-        <div class="grade">
-          <div class="coluna-questao" id="col1"></div>
-          <div class="coluna-questao" id="col2"></div>
-          <div class="coluna-questao" id="col3"></div>
-          <div class="coluna-questao" id="col4"></div>
-        </div>
-      </div>
-      <div class="direita">
-        <div class="numero-aluno">
-          <strong>Número</strong>
-          <div class="digitos">
-            <div class="digito">1</div>
-            <div class="digito">8</div>
-          </div>
-        </div>
-
-        <div class="bloco verificador">
-          <label for="qr">Verificador</label>
-          <div class="qr"></div>
-        </div>
+        <div style="margin-top:8mm"><strong>Verificador</strong></div>
+        <div class="qr"></div>
 
         <div class="bloco">
-          <strong>Cor da Prova:</strong>
-          <label><input type="radio" name="c" /> Azul</label>
-          <label><input type="radio" name="c" /> Branca</label>
-          <label><input type="radio" name="c" /> Rosa</label>
-          <label><input type="radio" name="c" /> Verde</label>
+          <strong>Cor da Prova:</strong><br>
+          <label><input type="radio" name="cor"> Azul</label><br>
+          <label><input type="radio" name="cor"> Branca</label><br>
+          <label><input type="radio" name="cor"> Rosa</label><br>
+          <label><input type="radio" name="cor"> Verde</label>
         </div>
 
-        <div class="bloco serie" style="width: 136px;">
-          <strong>Série:</strong>
-          <label style="display: flex; align-items: center"
-            ><div class="bola">1°</div>
-            <p>ano</p></label
-          >
-          <label style="display: flex; align-items: center"
-            ><div class="bola">2°</div>
-            <p>ano</p></label
-          >
-          <label style="display: flex; align-items: center"
-            ><div class="bola">3°</div>
-            <p>ano</p></label
-          >
+        <div class="bloco serie">
+          <strong>Série:</strong><br>
+          <label><span class="bola"></span> 1º ano</label><br>
+          <label><span class="bola"></span> 2º ano</label><br>
+          <label><span class="bola"></span> 3º ano</label>
         </div>
+
         <div class="instrucao">
-          ATENÇÃO<br />
-          A correção desta folha de respostas é automática.<br />
+          ATENÇÃO<br>
+          A correção desta folha de respostas é automática.<br>
           Não rasgue.
         </div>
-      </div>
-    </div>
-    <script>
-      // O script JavaScript para popular as questões (1..60) permanece o mesmo
-      function criarQuestaoHTML(numero) {
-        return (
-          '<div class="questao">' +
-          '<div class="num">' +
-          numero +
-          "</div>" +
-          '<div class="bolas">' +
-          '<div class="bola">A</div>' +
-          '<div class="bola">B</div>' +
-          '<div class="bola">C</div>' +
-          '<div class="bola">D</div>' +
-          '<div class="bola">E</div>' +
-          "</div>" +
-          "</div>"
-        );
-      }
-      (function renderColunas() {
-        var col1 = document.getElementById("col1");
-        var col2 = document.getElementById("col2");
-        var col3 = document.getElementById("col3");
-        var col4 = document.getElementById("col4");
-        for (var i = 1; i <= 15; i++) {
-          col1.insertAdjacentHTML("beforeend", criarQuestaoHTML(i));
-        }
-        for (var i = 16; i <= 30; i++) {
-          col2.insertAdjacentHTML("beforeend", criarQuestaoHTML(i));
-        }
-        for (var i = 31; i <= 45; i++) {
-          col3.insertAdjacentHTML("beforeend", criarQuestaoHTML(i));
-        }
-        for (var i = 46; i <= 60; i++) {
-          col4.insertAdjacentHTML("beforeend", criarQuestaoHTML(i));
-        }
-      })();
-    </script>
-  </body>
+      </td>
+    </tr>
+  </table>
+</div>
+
+</body>
 </html>

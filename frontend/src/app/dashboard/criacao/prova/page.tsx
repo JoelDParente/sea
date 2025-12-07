@@ -11,8 +11,6 @@ import { ArrowLeft } from '@phosphor-icons/react';
 import { useRouter } from 'next/navigation';
 import { paths } from '@/paths';
 import axios from 'axios';
-import JSZip from 'jszip';
-import { saveAs } from 'file-saver';
 
 export default function Page() {
   const router = useRouter();
@@ -31,8 +29,8 @@ export default function Page() {
   const [questoesSelecionadas, setQuestoesSelecionadas] = useState<Question[]>([]);
   // Quantidade de versões a gerar (1..4)
   const [versionsCount, setVersionsCount] = useState<number>(1);
-  // Estado para loading ao gerar gabaritos
-  const [loadingGabaritos, setLoadingGabaritos] = useState(false);
+  // Estado para loading ao gerar provas (inclui gabaritos no servidor)
+  const [loadingGerar, setLoadingGerar] = useState(false);
 
   // Ao montar, verificar se existe um payload de inicialização vindo do CardAcao (sessionStorage)
   useEffect(() => {
@@ -80,53 +78,19 @@ export default function Page() {
     setQuestoesSelecionadas((s) => s.filter((q) => String(q.id_questao) !== String(id)));
   };
 
-  const handleGerarGabaritos = async () => {
-    if (!prova || !Array.isArray(prova.turmas) || prova.turmas.length === 0) {
-      alert('Selecione pelo menos uma turma');
-      return;
-    }
-
-    setLoadingGabaritos(true);
-    try {
-      // Gerar gabaritos para cada turma selecionada
-      for (const turma of prova.turmas) {
-        try {
-          const res = await axios.post(
-            'http://localhost/sea/backend/controllers/gerarGabaritoTurmaController.php',
-            {
-              id_turma: turma.id_turma,
-              id_prova: null,
-              nome_prova: prova.nome,
-            },
-            { responseType: 'blob' }
-          );
-
-          // Disparar download do PDF
-          const fileName = `gabaritos_${turma.nome_turma.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`;
-          saveAs(res.data, fileName);
-          console.log(`✓ Gabaritos da turma '${turma.nome_turma}' baixados`);
-        } catch (turmaErr) {
-          console.error(`Erro ao gerar gabaritos da turma ${turma.nome_turma}:`, turmaErr);
-          alert(`Erro ao gerar gabaritos da turma ${turma.nome_turma}`);
-        }
-      }
-    } catch (err) {
-      console.error('Erro ao gerar gabaritos:', err);
-      alert('Erro ao gerar gabaritos: ' + (err instanceof Error ? err.message : 'Desconhecido'));
-    } finally {
-      setLoadingGabaritos(false);
-    }
-  };
+  // Nota: a geração de gabaritos agora é feita automaticamente no servidor
+  // quando as versões da prova são geradas e o ZIP é solicitado.
+  // Esta função foi mantida apenas por compatibilidade, mas o fluxo
+  // principal usa o botão "Gerar Provas e Gabaritos" abaixo.
 
   const handleGerarPDF = async () => {
     if (!prova || !componenteSelecionado || !Array.isArray(prova.turmas) || prova.turmas.length === 0) return;
+    setLoadingGerar(true);
     try {
-      const payload = {
+      const payloadVersoes = {
         nome_prova: prova.nome,
-        // série principal: usar a série da primeira turma selecionada
         serie: prova.turmas[0]?.serie ?? '',
         id_disciplina: componenteSelecionado.id_disciplina,
-        id_turmas: prova.turmas.map((t:any)=>t.id_turma),
         questoes: questoesSelecionadas.map((q) => q.id_questao),
         qtd_versoes: versionsCount,
         id_professor: (() => {
@@ -136,9 +100,7 @@ export default function Page() {
               const parsed = JSON.parse(u);
               return parsed?.id || parsed?.id_professor || parsed?.id_usuario || null;
             }
-          } catch (e) {
-            // ignore
-          }
+          } catch (e) {}
           return null;
         })(),
         nome_professor: (() => {
@@ -148,62 +110,42 @@ export default function Page() {
               const parsed = JSON.parse(u);
               return parsed?.nome || parsed?.nome_professor || parsed?.nome_usuario || null;
             }
-          } catch (e) {
-            // ignore
-          }
+          } catch (e) {}
           return null;
         })(),
       };
 
-      console.log('Payload:', payload);
-      
-      const res = await axios.post('http://localhost/sea/backend/controllers/gerarVersoesProvaController.php', payload);
-      
-      if (res.data?.sucesso && Array.isArray(res.data.versoes) && res.data.versoes.length > 0) {
-        console.log('Versões criadas:', res.data.versoes);
-        
-        // Criar ZIP com jszip
-        const zip = new JSZip();
-        let pdfCount = 0;
-        
-        for (const versao of res.data.versoes) {
-          if (!versao.url_pdf) continue;
-          
-          try {
-            // Baixar PDF
-            const pdfRes = await axios.get(versao.url_pdf, {
-              responseType: 'arraybuffer',
-              timeout: 30000,
-            });
-            
-            // Adicionar ao ZIP
-            const fileName = `prova_versao_${versao.codigo_versao}.pdf`;
-            zip.file(fileName, pdfRes.data, { binary: true });
-            pdfCount++;
-            console.log(`✓ PDF adicionado ao ZIP: ${fileName}`);
-          } catch (pdfErr) {
-            console.error(`Erro ao baixar PDF da versão ${versao.codigo_versao}:`, pdfErr);
-          }
+      const resVersoes = await axios.post('http://localhost/sea/backend/controllers/gerarVersoesProvaController.php', payloadVersoes);
+
+      if (resVersoes.data?.sucesso && Array.isArray(resVersoes.data.versoes) && resVersoes.data.versoes.length > 0) {
+        // Construir payload para solicitar ZIP do servidor (provas + gabaritos)
+        const payloadZip = {
+          id_prova: resVersoes.data.id_prova,
+          versoes: resVersoes.data.versoes,
+          nome_prova: prova.nome,
+          id_disciplina: componenteSelecionado.id_disciplina,
+          serie: prova.turmas[0]?.serie ?? '',
+          nome_professor: resVersoes.data.payload_zip?.nome_professor ?? null,
+          id_turmas: prova.turmas.map((t:any)=>t.id_turma)
+        };
+
+        const resZip = await axios.post('http://localhost/sea/backend/controllers/downloadProvasZipController.php', payloadZip);
+        if (resZip.data?.sucesso && resZip.data.url_download) {
+          // redirecionar para download
+          window.location.href = resZip.data.url_download;
+        } else {
+          console.error('Erro ao gerar ZIP no servidor:', resZip.data);
+          alert('Erro: Não foi possível gerar o arquivo ZIP no servidor');
         }
-        
-        if (pdfCount === 0) {
-          alert('Erro: Nenhum PDF foi baixado com sucesso');
-          return;
-        }
-        
-        // Gerar ZIP e disparar download
-        const zipBlob = await zip.generateAsync({ type: 'blob' });
-        const zipName = `${prova.nome.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.zip`;
-        saveAs(zipBlob, zipName);
-        
-        console.log(`✓ ZIP gerado e baixado: ${zipName} (${pdfCount} PDFs)`);
       } else {
-        console.error('Resposta inesperada ao gerar versões:', res.data);
+        console.error('Resposta inesperada ao gerar versões:', resVersoes.data);
         alert('Erro: Não foi possível gerar as versões de prova');
       }
     } catch (err) {
       console.error('Erro ao gerar PDF:', err);
       alert('Erro ao gerar PDF: ' + (err instanceof Error ? err.message : 'Desconhecido'));
+    } finally {
+      setLoadingGerar(false);
     }
   };
 
@@ -262,16 +204,13 @@ export default function Page() {
                 }}
                 sx={{ width: 100 }}
               />
-              <Button 
-                variant="outlined" 
-                color="secondary" 
-                onClick={handleGerarGabaritos} 
-                disabled={!prova || !(Array.isArray(prova?.turmas) && prova?.turmas.length>0) || loadingGabaritos}
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleGerarPDF}
+                disabled={!prova || !componenteSelecionado || questoesSelecionadas.length === 0 || !(Array.isArray(prova?.turmas) && prova?.turmas.length>0) || loadingGerar}
               >
-                {loadingGabaritos ? 'Gerando gabaritos...' : 'Gerar Gabaritos'}
-              </Button>
-              <Button variant="contained" color="primary" onClick={handleGerarPDF} disabled={!prova || !componenteSelecionado || questoesSelecionadas.length === 0 || !(Array.isArray(prova?.turmas) && prova?.turmas.length>0)}>
-                Gerar Provas
+                {loadingGerar ? 'Gerando provas e gabaritos...' : 'Gerar Provas e Gabaritos'}
               </Button>
             </Box>
           </Box>

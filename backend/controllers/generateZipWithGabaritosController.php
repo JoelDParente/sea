@@ -19,7 +19,6 @@ require_once(__DIR__ . '/../dao/GabaritoDAO.php');
 require_once(__DIR__ . '/../dao/ProvasVersoesDAO.php');
 require_once(__DIR__ . '/../dao/ProvasVersoesQuestoesDAO.php');
 require_once(__DIR__ . '/../dao/questaoDAO.php');
-require_once(__DIR__ . '/../lib/GabaritoGenerator.php');
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -46,7 +45,6 @@ $turmaDAO = new TurmaDAO();
 $alunoDAO = new AlunoDAO();
 $gabaritoDAO = new GabaritoDAO();
 $versaoDAO = new ProvasVersoesDAO();
-$gabaritoGenerator = new GabaritoGenerator();
 
 // Buscar turma
 $turma = $turmaDAO->getTurmaById($id_turma);
@@ -93,18 +91,6 @@ try {
                 'email' => $aluno->getEmail()
             ];
 
-            // Gerar PDF do gabarito
-            $pdfPath = $gabaritoGenerator->gerarPDFGabarito(
-                $dadosAluno,
-                $gabaritos,
-                $nome_prova,
-                $aluno->getNome(),
-                $tempDir
-            );
-
-            if ($pdfPath && file_exists($pdfPath)) {
-                $pdfFiles[] = $pdfPath;
-            }
         } catch (Exception $e) {
             error_log("Erro ao gerar gabarito para aluno {$aluno->getIdAluno()}: " . $e->getMessage());
             continue;
