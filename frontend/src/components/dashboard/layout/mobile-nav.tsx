@@ -18,6 +18,7 @@ import { isNavItemActive } from '@/lib/is-nav-item-active';
 import { Logo } from '@/components/core/logo';
 
 import { navItems } from './config';
+import { useUser } from '@/hooks/use-user';
 import { navIcons } from './nav-icons';
 
 export interface MobileNavProps {
@@ -28,6 +29,14 @@ export interface MobileNavProps {
 
 export function MobileNav({ open, onClose }: MobileNavProps): React.JSX.Element {
   const pathname = usePathname();
+  const { user } = useUser();
+  const visibleItems = React.useMemo(() => {
+    const role = user?.tipo ?? null;
+    if (role === 'professor') {
+      return navItems.filter(i => i.key !== 'professor' && i.key !== 'turmas');
+    }
+    return navItems;
+  }, [user?.tipo]);
 
   return (
     <Drawer
@@ -65,7 +74,7 @@ export function MobileNav({ open, onClose }: MobileNavProps): React.JSX.Element 
       </Stack>
       <Divider sx={{ borderColor: 'var(--mui-palette-neutral-700)' }} />
       <Box component="nav" sx={{ flex: '1 1 auto', p: '12px' }}>
-        {renderNavItems({ pathname, items: navItems })}
+        {renderNavItems({ pathname, items: visibleItems })}
       </Box>
     </Drawer>
   );

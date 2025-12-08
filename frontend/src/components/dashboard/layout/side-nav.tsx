@@ -14,10 +14,24 @@ import { isNavItemActive } from '@/lib/is-nav-item-active';
 import { Logo } from '@/components/core/logo';
 
 import { navItems } from './config';
+import { useUser } from '@/hooks/use-user';
 import { navIcons } from './nav-icons';
 
 export function SideNav(): React.JSX.Element {
   const pathname = usePathname();
+  const { user } = useUser();
+  const visibleItems = React.useMemo(() => {
+    const role = user?.tipo ?? null;
+    // Professores não veem 'professor' e 'turmas'
+    if (role === 'professor') {
+      return navItems.filter(i => i.key !== 'professor' && i.key !== 'turmas');
+    }
+    if (role === 'gestor') {
+      return navItems.filter(i => i.key !== 'correcao' && i.key !== 'prova');
+    }
+    // Gestores (e outros tipos) veem tudo
+    return navItems;
+  }, [user?.tipo]);
 
   return (
     <Box
@@ -54,7 +68,7 @@ export function SideNav(): React.JSX.Element {
       </Stack>
       
       <Box component="nav" sx={{ flex: '1 1 auto', p: '12px' }}>
-        {renderNavItems({ pathname, items: navItems })}
+        {renderNavItems({ pathname, items: visibleItems })}
       </Box>
     </Box>
   );

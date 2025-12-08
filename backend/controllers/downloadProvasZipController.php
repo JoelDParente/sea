@@ -115,47 +115,30 @@ try {
         exit;
     }
 
-    // Gerar gabaritos se id_turmas foi fornecido
-    $gabaritoFiles = [];
-    if (!empty($id_turmas)) {
-        error_log('DEBUG: Iniciando geração de gabaritos com id_turmas: ' . json_encode($id_turmas));
-        $payloadGabaritos = [
-            'id_prova' => $id_prova,
-            'nome_prova' => $nome_prova,
-            'id_turmas' => $id_turmas,
-            'id_disciplina' => $id_disciplina,
-            'serie' => $serie,
-            'nome_professor' => $nome_professor
-        ];
+    // Gerar gabarito genérico
+    $gabaritoFile = null;
+    $payloadGabarito = [
+        'id_prova' => $id_prova
+    ];
 
-        // Chamar o controller de gabaritos via HTTP POST
-        $contextOptions = [
-            'http' => [
-                'method' => 'POST',
-                'header' => 'Content-Type: application/json\\r\\n',
-                'content' => json_encode($payloadGabaritos),
-                'timeout' => 60
-            ]
-        ];
-        $context = stream_context_create($contextOptions);
-        $gabaritosUrl = 'http://localhost/sea/backend/controllers/gerarGabaritosController.php';
-        $gabaritosResponse = @file_get_contents($gabaritosUrl, false, $context);
+    // Chamar controller de gabarito via HTTP POST
+    $contextOptions = [
+        'http' => [
+            'method' => 'POST',
+            'header' => 'Content-Type: application/json\r\n',
+            'content' => json_encode($payloadGabarito),
+            'timeout' => 30
+        ]
+    ];
+    $context = stream_context_create($contextOptions);
+    $gabaritosUrl = 'http://localhost/sea/backend/controllers/gerarGabaritosController.php';
+    $gabaritosResponse = @file_get_contents($gabaritosUrl, false, $context);
 
-        error_log('DEBUG: Resposta gabaritos: ' . $gabaritosResponse);
-        if ($gabaritosResponse !== false) {
-            $gabaritosData = json_decode($gabaritosResponse, true);
-            error_log('DEBUG: Dados decodificados: ' . json_encode($gabaritosData));
-            if ($gabaritosData && $gabaritosData['sucesso'] && !empty($gabaritosData['gabarito_files'])) {
-                $gabaritoFiles = $gabaritosData['gabarito_files'];
-                error_log('DEBUG: Gabaritos encontrados: ' . count($gabaritoFiles));
-            } else {
-                error_log('Erro ao gerar gabaritos: ' . ($gabaritosData['erro'] ?? 'desconhecido'));
-            }
-        } else {
-            error_log('Erro ao chamar controller de gabaritos');
+    if ($gabaritosResponse !== false) {
+        $gabaritosData = json_decode($gabaritosResponse, true);
+        if ($gabaritosData && isset($gabaritosData['sucesso']) && $gabaritosData['sucesso'] && isset($gabaritosData['gabarito_file'])) {
+            $gabaritoFile = $gabaritosData['gabarito_file'];
         }
-    } else {
-        error_log('DEBUG: id_turmas vazio, gabaritos não serão gerados');
     }
 
     // Criar ZIP com os PDFs
@@ -172,13 +155,13 @@ try {
     // Adicionar PDFs de provas ao ZIP
     foreach ($pdfFiles as $filePath) {
         $fileName = basename($filePath);
-        $zip->addFile($filePath, 'provas/' . $fileName);
+        $zip->addFile($filePath, $fileName);
     }
 
-    // Adicionar PDFs de gabaritos ao ZIP
-    foreach ($gabaritoFiles as $filePath) {
-        $fileName = basename($filePath);
-        $zip->addFile($filePath, 'gabaritos/' . $fileName);
+    // Adicionar gabarito ao ZIP (se foi gerado com sucesso)
+    if ($gabaritoFile && file_exists($gabaritoFile)) {
+        $fileName = basename($gabaritoFile);
+        $zip->addFile($gabaritoFile, 'gabarito.pdf');
     }
 
     $zip->close();
@@ -198,7 +181,7 @@ try {
         'url_download' => $downloadUrl,
         'arquivo' => $zipFileName,
         'quantidade_pdfs' => count($pdfFiles),
-        'quantidade_gabaritos' => count($gabaritoFiles),
+        'com_gabarito' => ($gabaritoFile ? true : false),
     ]);
 } catch (Exception $e) {
     http_response_code(500);
