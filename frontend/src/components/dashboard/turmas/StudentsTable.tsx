@@ -8,7 +8,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import ModalCadastroAluno from './ModalCadastroAluno';
 
-export default function StudentsTable({ idTurma }: { idTurma: number }): React.JSX.Element {
+export default function StudentsTable({ idTurma, userType, }: { idTurma: number; userType: string;  }): React.JSX.Element {
   const [rows, setRows] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(false);
   const [openAdd, setOpenAdd] = React.useState(false);
@@ -41,25 +41,49 @@ export default function StudentsTable({ idTurma }: { idTurma: number }): React.J
     } catch (err) { console.error(err); alert('Erro ao excluir aluno'); }
   };
 
-  const columns: GridColDef[] = [
-    {
-      field: 'foto', headerName: 'Foto', width: 96, sortable: false,
-      renderCell: (params) => {
-        const src = params.value || '/assets/avatar.png';
-        return <Avatar src={String(src)} alt={String(params.row?.nome || '')} sx={{ width: 40, height: 40 }} />;
-      }
-    },
-    { field: 'matricula', headerName: 'Matrícula', width: 140 },
-    { field: 'nome', headerName: 'Nome', flex: 1 },
-    { field: 'email', headerName: 'E-mail', width: 220 },
-    {
-      field: 'actions', type: 'actions', headerName: 'Ações', width: 120,
-      getActions: (params) => [
-        <GridActionsCellItem icon={<EditIcon />} label="Editar" onClick={() => handleEdit(params.row)} />,
-        <GridActionsCellItem icon={<DeleteIcon />} label="Excluir" onClick={() => handleDelete(Number(params.id))} />,
-      ]
+const columns: GridColDef[] = [
+  {
+    field: 'foto', headerName: 'Foto', width: 96, sortable: false,
+    renderCell: (params) => {
+      const src = params.value || '/assets/avatar.png';
+      return <Avatar src={String(src)} alt={String(params.row?.nome || '')} sx={{ width: 40, height: 40 }} />;
     }
-  ];
+  },
+  { field: 'matricula', headerName: 'Matrícula', width: 140 },
+  { field: 'nome', headerName: 'Nome', flex: 1 },
+  { field: 'email', headerName: 'E-mail', width: 220 },
+
+  {
+    field: 'actions',
+    type: 'actions',
+    headerName: 'Ações',
+    width: 120,
+    getActions: (params) => {
+      const actions = [];
+
+      if (userType === 'gestor') {
+        actions.push(
+          <GridActionsCellItem
+            icon={<EditIcon />}
+            label="Editar"
+            onClick={() => handleEdit(params.row)}
+          />
+        );
+      }
+
+      actions.push(
+        <GridActionsCellItem
+          icon={<DeleteIcon />}
+          label="Excluir"
+          onClick={() => handleDelete(Number(params.id))}
+          disabled={userType !== 'gestor'}
+        />
+      );
+
+      return actions;
+    }
+  }
+];
 
   return (
     <Card>

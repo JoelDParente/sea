@@ -17,6 +17,11 @@ export default function CriarQuestaoPage() {
 
 	return (
 		<Box sx={{ p: 2, width: "100%", maxWidth: "1400px", mx: "auto" }}>
+			{/* Título */}
+			<Typography variant="h5" fontWeight="bold" sx={{ mb: 2 }}>
+				Criar Questão Avulsa 💡
+			</Typography>
+
 			{/* Botão de voltar */}
 			<Button
 				startIcon={<ArrowLeft size={18} />}
@@ -25,11 +30,6 @@ export default function CriarQuestaoPage() {
 			>
 				Voltar para o Menu
 			</Button>
-
-			{/* Título */}
-			<Typography variant="h5" fontWeight="bold" sx={{ mb: 2 }}>
-				Criar Questão Avulsa 💡
-			</Typography>
 
 			{/* Componente principal */}
 			<CriarQuestao onSave={handleQuestaoSalva} />

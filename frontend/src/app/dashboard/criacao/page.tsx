@@ -17,6 +17,8 @@ export default function DashboardPage() {
 
     const handleClickCriarProva = () => {
         // inicia o fluxo pelos modais
+        // remover flag de sessão para forçar reabertura do modal em novo fluxo
+        try { sessionStorage.removeItem('criarProvaNomeSerieDone'); } catch (e) {}
         setOpenNomeSerie(true);
     };
 

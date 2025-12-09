@@ -25,10 +25,11 @@ export default function CriarQuestao({ onSave }: { onSave: (questao: any) => voi
 	// conteúdo HTML vindo do editor Tiptap
 	const [editorContent, setEditorContent] = useState("");
 
-	// Estados para dados do backend
 	const [disciplinas, setDisciplinas] = useState<any[]>([]);
 	const [categorias, setCategorias] = useState<any[]>([]);
 	const [assuntos, setAssuntos] = useState<any[]>([]);
+	const [serieSelecionada, setSerieSelecionada] = useState<string>("");
+
 	const [loadingDados, setLoadingDados] = useState(true);
 
 	const [idUsuario, setIdUsuario] = useState<number | null>(null);
@@ -39,6 +40,21 @@ export default function CriarQuestao({ onSave }: { onSave: (questao: any) => voi
 	const [assuntoSelecionado, setAssuntoSelecionado] = useState<number | "">("");
 
 	const [alternativas, setAlternativas] = useState<Alternativa[]>(getInitialAlternatives());
+
+	const series = [
+		{ id: "1ano", nome: "1º Ano" },
+		{ id: "2ano", nome: "2º Ano" },
+		{ id: "3ano", nome: "3º Ano" },
+		{ id: "4ano", nome: "4º Ano" },
+		{ id: "5ano", nome: "5º Ano" },
+		{ id: "6ano", nome: "6º Ano" },
+		{ id: "7ano", nome: "7º Ano" },
+		{ id: "8ano", nome: "8º Ano" },
+		{ id: "9ano", nome: "9º Ano" },
+		{ id: "1medio", nome: "1º Ano - Ensino Médio" },
+		{ id: "2medio", nome: "2º Ano - Ensino Médio" },
+		{ id: "3medio", nome: "3º Ano - Ensino Médio" },
+	];
 
 	useEffect(() => {
 		const storedUser = localStorage.getItem("user");
@@ -167,12 +183,12 @@ export default function CriarQuestao({ onSave }: { onSave: (questao: any) => voi
 		const alternativaCorreta = alternativas.find((alt) => alt.correta);
 		const respostaCorreta = alternativaCorreta ? alternativaCorreta.texto : "";
 
-		const extractFirstImageUrl = (html:string) => {
-			const div = document.createElement('div');
-			div.innerHTML = html || '';
-			const img = div.querySelector('img');
-			return img ? img.getAttribute('src') : null;
-		}
+		const extractFirstImageUrl = (html: string) => {
+			const div = document.createElement("div");
+			div.innerHTML = html || "";
+			const img = div.querySelector("img");
+			return img ? img.getAttribute("src") : null;
+		};
 
 		const questaoFinal = {
 			titulo,
@@ -184,9 +200,10 @@ export default function CriarQuestao({ onSave }: { onSave: (questao: any) => voi
 			imagem,
 			alternativas: alternativas.map((alt) => ({
 				texto: alt.texto,
-				imagem_url: extractFirstImageUrl(alt.texto)
+				imagem_url: extractFirstImageUrl(alt.texto),
 			})),
 			id_professor: idUsuario,
+			serie: serieSelecionada,
 		};
 
 		console.log("Questão (preview):", questaoFinal);
@@ -302,14 +319,30 @@ export default function CriarQuestao({ onSave }: { onSave: (questao: any) => voi
 								))}
 							</TextField>
 
+							<TextField
+								select
+								label="Série"
+								value={serieSelecionada}
+								onChange={(e) => setSerieSelecionada(e.target.value)}
+								size="small"
+								sx={{ minWidth: 150 }}
+							>
+								{series.map((s) => (
+									<MenuItem key={s.id} value={s.id}>
+										{s.nome}
+									</MenuItem>
+								))}
+							</TextField>
+
 							<Button onClick={() => setModalOpen(true)}>Adicionar imagem principal</Button>
 							{imagem && (
 								<Box>
 									<img src={imagem} style={{ width: "100%", maxHeight: 200 }} />
-									<Button color="error" onClick={() => setImagem(null)}>Remover</Button>
+									<Button color="error" onClick={() => setImagem(null)}>
+										Remover
+									</Button>
 								</Box>
 							)}
-
 						</Box>
 					)}
 

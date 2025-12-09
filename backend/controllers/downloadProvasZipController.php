@@ -68,14 +68,12 @@ if (!mkdir($tempDir, 0777, true)) {
 }
 
 try {
-    // Gerar cada PDF e salvar no diretório temporário
     $pdfFiles = [];
     
     foreach ($versoes as $versaoData) {
         $id_versao = (int)$versaoData['id_versao'];
         $codigo_versao = sanitizeFilename($versaoData['codigo_versao'] ?? 'versao');
         
-        // Construir URL do PDF
         $pdfUrl = "http://localhost/sea/backend/controllers/gerarPdfVersaoController.php?id_versao={$id_versao}";
         if (!empty($id_disciplina)) {
             $pdfUrl .= '&id_disciplina=' . rawurlencode($id_disciplina);
@@ -115,13 +113,11 @@ try {
         exit;
     }
 
-    // Gerar gabarito genérico
     $gabaritoFile = null;
     $payloadGabarito = [
         'id_prova' => $id_prova
     ];
 
-    // Chamar controller de gabarito via HTTP POST
     $contextOptions = [
         'http' => [
             'method' => 'POST',
@@ -158,7 +154,7 @@ try {
         $zip->addFile($filePath, $fileName);
     }
 
-    // Adicionar gabarito ao ZIP (se foi gerado com sucesso)
+    // Adicionar gabarito ao ZIP
     if ($gabaritoFile && file_exists($gabaritoFile)) {
         $fileName = basename($gabaritoFile);
         $zip->addFile($gabaritoFile, 'gabarito.pdf');
@@ -166,14 +162,12 @@ try {
 
     $zip->close();
     
-    // Verificar se o ZIP foi criado
     if (!file_exists($zipPath)) {
         http_response_code(500);
         echo json_encode(['erro' => 'Erro ao finalizar arquivo ZIP']);
         exit;
     }
     
-    // Retornar URL de download
     $downloadUrl = "http://localhost/sea/backend/controllers/downloadZipController.php?file=" . urlencode($zipFileName);
 
     echo json_encode([
@@ -187,8 +181,7 @@ try {
     http_response_code(500);
     echo json_encode(['erro' => 'Erro ao processar: ' . $e->getMessage()]);
 } finally {
-    // Limpar diretório temporário (opcional: manter PDFs por alguns minutos)
-    // removerDiretorio($tempDir);
+
 }
 
 exit;

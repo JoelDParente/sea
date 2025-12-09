@@ -13,12 +13,11 @@ class GabaritoDAO {
     }
 
     public function criarGabarito(Gabarito $gabarito): int {
-        $sql = "INSERT INTO gabarito (id_gabarito, id_prova, questao, alternativa, versao)
-                VALUES (:id_gabarito, :id_prova, :questao, :alternativa, :versao)";
+        $sql = "INSERT INTO gabarito (id_prova, questao, alternativa, versao)
+            VALUES (:id_prova, :questao, :alternativa, :versao)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindValue(':id_gabarito', $gabarito->getIdGabarito(), PDO::PARAM_INT);
-        $stmt->bindValue(':id_prova', $gabarito->getIdProva(), PDO::PARAM_STR);
-        $stmt->bindValue(':questao', $gabarito->getVersao(), PDO::PARAM_STR);
+        $stmt->bindValue(':id_prova', $gabarito->getIdProva(), PDO::PARAM_INT);
+        $stmt->bindValue(':questao', $gabarito->getQuestao(), PDO::PARAM_INT);
         $stmt->bindValue(':alternativa', $gabarito->getAlternativa(), PDO::PARAM_STR);
         $stmt->bindValue(':versao', $gabarito->getVersao(), PDO::PARAM_STR);
 

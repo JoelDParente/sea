@@ -13,8 +13,18 @@ export default function TurmaDetailPage(): React.JSX.Element {
   const id = Number(params.id);
 
   const [turma, setTurma] = React.useState<any | null>(null);
+  const [userType, setUserType] = React.useState<string>('');
 
+  // pegar tipo do usuário
+  React.useEffect(() => {
+    const user = localStorage.getItem('user');
+    if (user) {
+      const payload = JSON.parse(user);
+      setUserType(payload.tipo); // <-- exemplo
+    }
+  }, []);
 
+  // carregar turma
   React.useEffect(() => {
     if (!id) return;
     (async () => {
@@ -35,7 +45,7 @@ export default function TurmaDetailPage(): React.JSX.Element {
       </Stack>
 
       <Box sx={{ display: 'grid', gap: 2 }}>
-        <StudentsTable idTurma={id} />
+        <StudentsTable idTurma={id} userType={userType} />
       </Box>
     </Container>
   );

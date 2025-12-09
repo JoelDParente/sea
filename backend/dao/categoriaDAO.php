@@ -28,6 +28,28 @@ class CategoriaDAO
         return (int)$this->conn->lastInsertId();
     }
 
+    public function listarFormatado($id_disciplina = null)
+    {
+        $sql = "SELECT id_categoria, nome_categoria 
+            FROM categoria";
+
+        if ($id_disciplina !== null) {
+            $sql .= " WHERE id_disciplina = :id_disciplina";
+        }
+
+        $sql .= " ORDER BY nome_categoria ASC";
+
+        $stmt = $this->conn->prepare($sql);
+
+        if ($id_disciplina !== null) {
+            $stmt->bindValue(':id_disciplina', $id_disciplina, PDO::PARAM_INT);
+        }
+
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
     public function getCategoriaById(int $id_categoria): ?Categoria
     {
         $sql = "SELECT * FROM categoria WHERE id_categoria = :id_categoria";

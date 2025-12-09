@@ -4,7 +4,6 @@ header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
 header("Access-Control-Allow-Credentials: true");
 
-// Responde a requisições OPTIONS (preflight)
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
@@ -43,10 +42,8 @@ switch ($metodo) {
         $escola->setRua($data['rua'] ?? '');
         $escola->setNumero($data['num'] ?? '');
         
-        //pega o id da última escola criada
         $idEscola = $dao->criarEscola($escola);
 
-        //Criar usuário gestor
         $usuario = new Usuario();
         $usuario->setNome($data['nome'] ?? '');
         $usuario->setEmail($data['email_gestor'] ?? '');
@@ -57,7 +54,6 @@ switch ($metodo) {
         $usuario->setTelefone($data['telefone_gestor'] ?? null);
         $usuario->setIdEscola($idEscola);
         
-        //cria o usuario
         $userDao->criarUsuario($usuario);
 
 

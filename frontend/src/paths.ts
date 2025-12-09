@@ -6,7 +6,6 @@ export const paths = {
     account: '/dashboard/account',
     turmas: '/dashboard/turmas',
     professor: '/dashboard/professores',
-    correcao: '/dashboard/correcao',
     criacao: {
       root: '/dashboard/criacao',
       prova: '/dashboard/criacao/prova',

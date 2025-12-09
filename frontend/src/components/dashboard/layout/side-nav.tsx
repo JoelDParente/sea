@@ -27,7 +27,7 @@ export function SideNav(): React.JSX.Element {
       return navItems.filter(i => i.key !== 'professor' && i.key !== 'turmas');
     }
     if (role === 'gestor') {
-      return navItems.filter(i => i.key !== 'correcao' && i.key !== 'prova');
+      return navItems.filter(i =>  i.key !== 'prova');
     }
     // Gestores (e outros tipos) veem tudo
     return navItems;

@@ -45,14 +45,19 @@ export default function Page() {
           setComponenteSelecionado(parsed.turma);
         }
         sessionStorage.removeItem('criarProvaInit');
+        // marca que o modal já foi concluído para esta sessão
+        try { sessionStorage.setItem('criarProvaNomeSerieDone', '1'); } catch (e) {}
         setOpenNomeSerie(false);
         setOpenComponente(false);
       } else {
-        setOpenNomeSerie(true);
+        // abrir modal apenas se não existir flag indicando conclusão
+        const done = sessionStorage.getItem('criarProvaNomeSerieDone');
+        if (!done) setOpenNomeSerie(true);
       }
     } catch (e) {
       console.warn('Erro ao ler criarProvaInit', e);
-      setOpenNomeSerie(true);
+      const done = sessionStorage.getItem('criarProvaNomeSerieDone');
+      if (!done) setOpenNomeSerie(true);
     }
   }, []);
 
@@ -60,6 +65,8 @@ export default function Page() {
   const handleConfirmNomeSerie = (payload: { nome: string; turmas: any[] }) => {
     setProva(payload);
     setOpenNomeSerie(false);
+    // persistir flag para evitar reabrir o modal nesta sessão
+    try { sessionStorage.setItem('criarProvaNomeSerieDone', '1'); } catch (e) {}
     setOpenComponente(true);
   };
 

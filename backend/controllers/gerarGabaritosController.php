@@ -27,7 +27,6 @@ if (!$data || !isset($data["id_prova"])) {
 
 $id_prova = intval($data["id_prova"]);
 
-// carregar template do gabarito
 $templatePath = __DIR__ . '/../gabarito.html';
 if (!file_exists($templatePath)) {
     http_response_code(500);
@@ -37,7 +36,6 @@ if (!file_exists($templatePath)) {
 
 $templateHtml = file_get_contents($templatePath);
 
-// criar pasta temporária
 $tempDir = sys_get_temp_dir() . '/sea_gabaritos_' . $id_prova . '_' . uniqid();
 if (!mkdir($tempDir, 0777, true)) {
     http_response_code(500);
@@ -55,7 +53,6 @@ try {
     $dompdf->loadHtml($templateHtml, "UTF-8");
     $dompdf->render();
 
-    // salvar arquivo
     $fileName = "gabarito_{$id_prova}.pdf";
     $filePath = $tempDir . '/' . $fileName;
 
@@ -65,7 +62,6 @@ try {
         exit;
     }
 
-    // retorno limpo
     echo json_encode([
         "sucesso" => true,
         "gabarito_file" => $filePath,

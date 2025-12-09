@@ -1,11 +1,9 @@
 'use client'
 
 import * as React from 'react';
-import type { Metadata } from 'next';
 import Grid from '@mui/material/Grid';
 import { Typography, Box } from '@mui/material';
 
-import { config } from '@/config';
 import { CriarProva } from '@/components/dashboard/overview/criar-prova';
 import { MinhasAvaliacoes } from '@/components/dashboard/overview/minhas-avaliacoes';
 import { ImportarProva } from '@/components/dashboard/overview/importar-prova';
@@ -14,14 +12,20 @@ import { CorrigirProva } from '@/components/dashboard/overview/corrigir-prova';
 
 export default function Page(): React.JSX.Element {
   const [firstName, setFirstName] = React.useState("Professor");
+  const [professorId, setProfessorId] = React.useState<number | null>(null);
 
   React.useEffect(() => {
-    // Esse código só roda no cliente
-    const storedUser = localStorage.getItem("user");
+    const storedUser = localStorage.getItem("user") || localStorage.getItem('usuario');
     if (storedUser) {
-      const user = JSON.parse(storedUser);
-      const nome = user?.nome || user?.name;
-      if (nome) setFirstName(nome.split(" ")[0]);
+      try {
+        const user = JSON.parse(storedUser);
+        const nome = user?.nome || user?.name;
+        if (nome) setFirstName(nome.split(" ")[0]);
+        setProfessorId(user?.id || user?.id_usuario || null);
+        console.debug('dashboard page setProfessorId', { id: user?.id || user?.id_usuario || null });
+      } catch {
+        // ignore parse error
+      }
     }
   }, []);
   return (
@@ -54,26 +58,10 @@ export default function Page(): React.JSX.Element {
             xs: 12,
           }}
         >
-          <MinhasAvaliacoes sx={{ height: '100%' }}
-            provas={[
-              {
-                id: '1',
-                title: 'Prova de Matemática',
-                description: 'Equações, funções e geometria.',
-                logo: '/assets/provas/math.svg',
-                installs: 45,
-                updatedAt: new Date(),
-              },
-              {
-                id: '2',
-                title: 'Prova de História',
-                description: 'Brasil Império e movimentos sociais.',
-                logo: '/assets/provas/history.svg',
-                installs: 32,
-                updatedAt: new Date(),
-              },
-            ]}
-          />
+          {
+            // tenta obter id do usuário logado e passar para o componente
+          }
+          <MinhasAvaliacoes sx={{ height: '100%' }} professorId={professorId} />
         </Grid>
       </Grid>
     </Box>

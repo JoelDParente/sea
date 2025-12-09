@@ -25,7 +25,6 @@ switch ($metodo) {
             $idTurma = (int)$_GET['id_turma'];
             $alunos = $alunoDAO->AlunosPorTurma($idTurma);
 
-            // converter objetos para arrays serializáveis
             $out = array_map(fn($a) => $a->toArray(), $alunos);
 
             echo json_encode($out);
@@ -47,7 +46,6 @@ switch ($metodo) {
         $aluno->setMatricula($data['matricula'] ?? '');
         $aluno->setNome($data['nome'] ?? '');
         $aluno->setEmail($data['email'] ?? '');
-        // foto optional
         $foto = $data['foto'] ?? null;
         $id = $alunoDAO->criarAluno($aluno);
         if (!$id) {
@@ -55,7 +53,7 @@ switch ($metodo) {
             echo json_encode(['erro' => 'Falha ao criar aluno']);
             break;
         }
-        // update photo if provided (URL)
+
         if ($foto) {
             $conn = Database::getInstance()->getConnection();
             $sql = "UPDATE aluno SET foto = :foto WHERE id_aluno = :id_aluno";
@@ -79,7 +77,6 @@ switch ($metodo) {
             break;
         }
 
-        // Carregar o modelo para atualizar
         $aluno = new Aluno();
         $aluno->setIdAluno($idAluno);
         $aluno->setIdTurma($data['id_turma'] ?? null);
@@ -95,7 +92,6 @@ switch ($metodo) {
             break;
         }
 
-        // Atualizar foto (se enviada)
         if (isset($data['foto'])) {
             $conn = Database::getInstance()->getConnection();
             $sql = "UPDATE aluno SET foto = :foto WHERE id_aluno = :id_aluno";

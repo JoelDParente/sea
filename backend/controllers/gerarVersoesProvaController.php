@@ -20,6 +20,9 @@ require_once('../models/prova.php');
 require_once('../models/provaQuestao.php');
 require_once('../models/ProvasVersoes.php');
 require_once('../models/ProvasVersoesQuestoes.php');
+require_once('../dao/questaoDAO.php');
+require_once('../dao/gabaritoDAO.php');
+require_once('../models/gabarito.php');
 
 use Models\Prova;
 use Models\ProvaQuestao;
@@ -71,6 +74,8 @@ $provaDAO = new ProvaDAO();
 $provaQuestaoDAO = new ProvaQuestaoDAO();
 $versaoDAO = new ProvasVersoesDAO();
 $versaoQuestoesDAO = new ProvasVersoesQuestoesDAO();
+$questaoDAO = new QuestaoDAO();
+$gabaritoDAO = new GabaritoDAO();
 
 // criar prova
 $prova = new Prova();
@@ -120,6 +125,23 @@ for ($i = 0; $i < $qtd_versoes; $i++) {
         $pvq->setIdQuestao($qid);
         $pvq->setOrdem($ordem++);
         $versaoQuestoesDAO->adicionarQuestao($pvq);
+
+        // inserir gabarito (resposta correta) para esta questão/versão
+        try {
+            $questaoObj = $questaoDAO->getQuestaoById((int)$qid);
+            $respostaCorreta = $questaoObj ? $questaoObj->getRespostaCorreta() : null;
+            if ($respostaCorreta !== null) {
+                $gab = new \Models\Gabarito();
+                $gab->setIdProva($id_prova)
+                    ->setQuestao((int)$qid)
+                    ->setAlternativa($respostaCorreta)
+                    ->setVersao($codigo);
+                $gabaritoDAO->criarGabarito($gab);
+            }
+        } catch (Exception $e) {
+            // não interrompe a geração da prova por erro de inserção de gabarito
+            error_log('Erro ao inserir gabarito para questao ' . $qid . ': ' . $e->getMessage());
+        }
     }
 
     // monta URL do PDF (gera via gerarPdfVersaoController.php)

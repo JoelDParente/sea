@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../dao/usuarioDAO.php';
-require_once __DIR__ . '/../config/env.php'; // ajusta caminho se necessário
+require_once __DIR__ . '/../config/env.php';
 
 use Firebase\JWT\JWT;
 

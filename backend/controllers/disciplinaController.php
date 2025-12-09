@@ -1,6 +1,4 @@
 <?php
-// controllers/disciplinaController.php
-
 header("Access-Control-Allow-Origin: http://localhost:3000");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
@@ -36,7 +34,6 @@ switch ($metodo) {
             break;
         }
 
-        // Normaliza a saída para um array associativo consistente
         echo json_encode([
             'id_disciplina' => $disciplina->getIdDisciplina(),
             'nome_disciplina' => $disciplina->getNomeDisciplina(),
@@ -45,9 +42,7 @@ switch ($metodo) {
         break;
     }
 
-    // Buscar todas as disciplinas
     $all = $dao->getAllDisciplinas();
-    // Converter objetos Disciplina em arrays associativos para garantir json_encode correto
     $normalized = array_map(function($d) {
         return [
             'id_disciplina' => $d->getIdDisciplina(),

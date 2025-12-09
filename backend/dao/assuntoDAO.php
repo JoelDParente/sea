@@ -4,7 +4,8 @@ require_once __DIR__ . '/../models/assunto.php';
 
 use Models\Assunto;
 
-class AssuntoDAO {
+class AssuntoDAO
+{
     private $conn;
 
     public function __construct()
@@ -12,7 +13,8 @@ class AssuntoDAO {
         $this->conn = Database::getInstance()->getConnection();
     }
 
-    public function listarTodos() {
+    public function listarTodos()
+    {
         $stmt = $this->conn->query("
             SELECT a.*, c.nome_categoria 
             FROM assunto a
@@ -21,7 +23,30 @@ class AssuntoDAO {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function listarPorCategoria($id_categoria) {
+    public function listarFormatado($id_categoria = null)
+    {
+        $sql = "SELECT id_assunto, nome_assunto 
+            FROM assunto";
+
+        if ($id_categoria !== null) {
+            $sql .= " WHERE id_categoria = :id_categoria";
+        }
+
+        $sql .= " ORDER BY nome_assunto ASC";
+
+        $stmt = $this->conn->prepare($sql);
+
+        if ($id_categoria !== null) {
+            $stmt->bindValue(':id_categoria', $id_categoria, PDO::PARAM_INT);
+        }
+
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+    public function listarPorCategoria($id_categoria)
+    {
         $stmt = $this->conn->prepare("
             SELECT a.*, c.nome_categoria 
             FROM assunto a
@@ -32,7 +57,8 @@ class AssuntoDAO {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function criar($assunto) {
+    public function criar($assunto)
+    {
         $stmt = $this->conn->prepare("
             INSERT INTO assunto (id_categoria, nome_assunto) VALUES (?, ?)
         ");

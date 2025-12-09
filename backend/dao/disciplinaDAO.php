@@ -5,14 +5,17 @@ require_once __DIR__ . '/../models/disciplina.php';
 
 use Models\Disciplina;
 
-class DisciplinaDAO {
+class DisciplinaDAO
+{
     private $conn;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->conn = Database::getInstance()->getConnection();
     }
 
-    public function criarDisciplina(Disciplina $disciplina): int {
+    public function criarDisciplina(Disciplina $disciplina): int
+    {
         $sql = "INSERT INTO disciplina (id_disciplina, nome_disciplina, descricao)
                 VALUES (:id_disciplina, :nome_disciplina, :descricao)";
         $stmt = $this->conn->prepare($sql);
@@ -25,7 +28,21 @@ class DisciplinaDAO {
         return (int)$this->conn->lastInsertId();
     }
 
-    public function getDisciplinaById(int $id_disciplina): ?Disciplina {
+    public function formatarLista()
+    {
+        $sql = "SELECT id_disciplina, nome_disciplina 
+            FROM disciplina
+            ORDER BY nome_disciplina ASC";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+    public function getDisciplinaById(int $id_disciplina): ?Disciplina
+    {
         $sql = "SELECT * FROM disciplina WHERE id_disciplina = :id_disciplina";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id_disciplina', $id_disciplina, PDO::PARAM_INT);
@@ -36,22 +53,24 @@ class DisciplinaDAO {
         return $this->mapRowToDisciplina($row);
     }
 
-    public function getAllDisciplinas(): array {
-            $sql = "SELECT * FROM disciplina";
-            try {
-                $stmt = $this->conn->prepare($sql);
-                $stmt->execute();
-                $disciplinas = [];
-                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    $disciplinas[] = $this->mapRowToDisciplina($row);
-                }
-                return $disciplinas;
-            } catch (PDOException $e) {
-                throw new Exception('Erro ao obter disciplinas: ' . $e->getMessage());
+    public function getAllDisciplinas(): array
+    {
+        $sql = "SELECT * FROM disciplina";
+        try {
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+            $disciplinas = [];
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $disciplinas[] = $this->mapRowToDisciplina($row);
             }
+            return $disciplinas;
+        } catch (PDOException $e) {
+            throw new Exception('Erro ao obter disciplinas: ' . $e->getMessage());
+        }
     }
 
-    public function atualizarDisciplina(Disciplina $disciplina): bool {
+    public function atualizarDisciplina(Disciplina $disciplina): bool
+    {
         $sql = "UPDATE disciplina SET id_disciplina = :id_disciplina, nome_disciplina = :nome_disciplina, descricao = :descricao
                 WHERE id_disciplina = :id_disciplina";
         $stmt = $this->conn->prepare($sql);
@@ -62,18 +81,20 @@ class DisciplinaDAO {
         return $stmt->execute();
     }
 
-    public function excluirDisciplina(int $id_disciplina): bool {
+    public function excluirDisciplina(int $id_disciplina): bool
+    {
         $sql = "DELETE FROM disciplina WHERE id_disciplina = :id_disciplina";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id_disciplina', $id_disciplina, PDO::PARAM_INT);
         return $stmt->execute();
     }
 
-    private function mapRowToDisciplina(array $row): Disciplina {
+    private function mapRowToDisciplina(array $row): Disciplina
+    {
         $disciplina = new Disciplina();
         $disciplina->setIdDisciplina($row['id_disciplina'])
-                ->setNomeDisciplina($row['nome_disciplina'])
-                ->setDescricao($row['descricao']);
+            ->setNomeDisciplina($row['nome_disciplina'])
+            ->setDescricao($row['descricao']);
         return $disciplina;
     }
 }

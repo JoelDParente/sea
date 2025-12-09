@@ -14,9 +14,6 @@ export default function CriarQuestaoLayout({
 }) {
   return (
     <Box sx={{ p: 4 }}>
-      <Typography variant="h4" sx={{ mb: 3 }}>
-        Criar Questão
-      </Typography>
       {children}
     </Box>
   );

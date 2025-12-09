@@ -9,7 +9,7 @@ class Questao{
     private $enunciado;
     private $tipo;
     private $respostaCorreta;
-    private $status;
+    private $serie;
     private $publico;
     private $dataCriacao; 
     private $ultimaAtualizacao;
@@ -155,21 +155,21 @@ class Questao{
     }
 
     /**
-     * Get the value of status
+     * Get the value of serie
      */ 
-    public function getStatus()
+    public function getSerie()
     {
-        return $this->status;
+        return $this->serie;
     }
 
     /**
-     * Set the value of status
+     * Set the value of serie
      *
      * @return  self
      */ 
-    public function setStatus($status)
+    public function setSerie($serie)
     {
-        $this->status = $status;
+        $this->serie = $serie;
 
         return $this;
     }
