@@ -11,7 +11,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 include('../config/database.php');
 include('../dao/alunoDAO.php');
-include('../models/aluno.php');
 
 use Models\Aluno;
 
@@ -66,6 +65,47 @@ switch ($metodo) {
             $stmt->execute();
         }
         echo json_encode(['sucesso' => true, 'id_aluno' => $id]);
+        break;
+
+    case 'PUT':
+        $queryId = $_GET['id_aluno'] ?? null;
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        $idAluno = $queryId ? (int)$queryId : ($data['id_aluno'] ?? null);
+
+        if (!$idAluno) {
+            http_response_code(400);
+            echo json_encode(['erro' => 'id_aluno ausente']);
+            break;
+        }
+
+        // Carregar o modelo para atualizar
+        $aluno = new Aluno();
+        $aluno->setIdAluno($idAluno);
+        $aluno->setIdTurma($data['id_turma'] ?? null);
+        $aluno->setMatricula($data['matricula'] ?? '');
+        $aluno->setNome($data['nome'] ?? '');
+        $aluno->setEmail($data['email'] ?? '');
+
+        $ok = $alunoDAO->atualizarAluno($aluno);
+
+        if (!$ok) {
+            http_response_code(500);
+            echo json_encode(['erro' => 'Falha ao atualizar aluno']);
+            break;
+        }
+
+        // Atualizar foto (se enviada)
+        if (isset($data['foto'])) {
+            $conn = Database::getInstance()->getConnection();
+            $sql = "UPDATE aluno SET foto = :foto WHERE id_aluno = :id_aluno";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindValue(':foto', $data['foto'] ?? null, PDO::PARAM_STR);
+            $stmt->bindValue(':id_aluno', $idAluno, PDO::PARAM_INT);
+            $stmt->execute();
+        }
+
+        echo json_encode(['sucesso' => true]);
         break;
 
     case 'DELETE':

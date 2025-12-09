@@ -8,26 +8,32 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import ModalCadastroAluno from './ModalCadastroAluno';
 
-export default function StudentsTable({ idTurma } : { idTurma: number }) : React.JSX.Element {
+export default function StudentsTable({ idTurma }: { idTurma: number }): React.JSX.Element {
   const [rows, setRows] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(false);
   const [openAdd, setOpenAdd] = React.useState(false);
   const [editRow, setEditRow] = React.useState<any | null>(null);
 
+  // abrir modal de edição
+  const handleEdit = (row: any) => {
+    setEditRow(row);
+    setOpenAdd(true);
+  };
+
   const fetch = React.useCallback(async () => {
     setLoading(true);
     try {
       const res = await axios.get(`http://localhost/sea/backend/controllers/AlunoController.php?id_turma=${idTurma}`);
-      setRows(Array.isArray(res.data) ? res.data.map((r:any)=>({ id: r.id_aluno, ...r })) : []);
+      setRows(Array.isArray(res.data) ? res.data.map((r: any) => ({ id: r.id_aluno, ...r })) : []);
       console.log(res);
-      
+
     } catch (err) { console.error(err); }
     finally { setLoading(false); }
   }, [idTurma]);
 
   React.useEffect(() => { if (idTurma) fetch(); }, [fetch, idTurma]);
 
-  const handleDelete = async (id:number) => {
+  const handleDelete = async (id: number) => {
     if (!confirm('Excluir aluno?')) return;
     try {
       await axios.delete(`http://localhost/sea/backend/controllers/AlunoController.php?id_aluno=${id}`);
@@ -40,7 +46,7 @@ export default function StudentsTable({ idTurma } : { idTurma: number }) : React
       field: 'foto', headerName: 'Foto', width: 96, sortable: false,
       renderCell: (params) => {
         const src = params.value || '/assets/avatar.png';
-        return <Avatar src={String(src)} alt={String(params.row?.nome || '')} sx={{ width: 90, height: 90 }} />;
+        return <Avatar src={String(src)} alt={String(params.row?.nome || '')} sx={{ width: 40, height: 40 }} />;
       }
     },
     { field: 'matricula', headerName: 'Matrícula', width: 140 },
@@ -49,7 +55,7 @@ export default function StudentsTable({ idTurma } : { idTurma: number }) : React
     {
       field: 'actions', type: 'actions', headerName: 'Ações', width: 120,
       getActions: (params) => [
-        <GridActionsCellItem icon={<EditIcon />} label="Editar" onClick={() => setEditRow(params.row)} />,
+        <GridActionsCellItem icon={<EditIcon />} label="Editar" onClick={() => handleEdit(params.row)} />,
         <GridActionsCellItem icon={<DeleteIcon />} label="Excluir" onClick={() => handleDelete(Number(params.id))} />,
       ]
     }
@@ -64,11 +70,17 @@ export default function StudentsTable({ idTurma } : { idTurma: number }) : React
       )} />
       <CardContent>
         <Box sx={{ height: 420 }}>
-          <DataGrid rows={rows} columns={columns} loading={loading} pageSizeOptions={[5,10,25]} initialState={{ pagination: { paginationModel: { pageSize: 10, page: 0 } } }} />
+          <DataGrid rows={rows} columns={columns} loading={loading} pageSizeOptions={[5, 10, 25]} initialState={{ pagination: { paginationModel: { pageSize: 10, page: 0 } } }} />
         </Box>
       </CardContent>
 
-      <ModalCadastroAluno open={openAdd} onClose={() => setOpenAdd(false)} idTurma={idTurma} onSuccess={() => { setOpenAdd(false); fetch(); }} />
+      <ModalCadastroAluno
+        open={openAdd}
+        onClose={() => { setOpenAdd(false); setEditRow(null); }}
+        idTurma={idTurma}
+        editData={editRow}
+        onSuccess={() => { setOpenAdd(false); setEditRow(null); fetch(); }}
+      />
 
     </Card>
   );
