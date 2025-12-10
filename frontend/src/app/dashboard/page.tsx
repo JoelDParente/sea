@@ -7,7 +7,7 @@ import { Typography, Box } from '@mui/material';
 import { CriarProva } from '@/components/dashboard/overview/criar-prova';
 import { MinhasAvaliacoes } from '@/components/dashboard/overview/minhas-avaliacoes';
 import { ImportarProva } from '@/components/dashboard/overview/importar-prova';
-import { CorrigirProva } from '@/components/dashboard/overview/corrigir-prova';
+import { Calendario } from '@/components/dashboard/overview/corrigir-prova';
 
 
 export default function Page(): React.JSX.Element {
@@ -35,21 +35,18 @@ export default function Page(): React.JSX.Element {
       </Typography>
 
       <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-        Aqui você pode criar, corrigir e acompanhar suas avaliações de forma rápida e intuitiva.
+        Aqui você pode criar e acompanhar suas avaliações de forma rápida e intuitiva.
       </Typography>
       {/* Criar Prova */}
       <Grid container spacing={2}>
-        <Grid size={{ lg: 4, sm: 6, xs: 12 }}>
+        <Grid size={{ lg: 5, sm: 6, xs: 12 }}>
           <CriarProva sx={{ height: '100%' }} />
         </Grid>
-        {/* Corrigir Prova */}
-        <Grid size={{ lg: 4, sm: 6, xs: 12 }}>
-          <CorrigirProva sx={{ height: '100%' }} />
+
+        <Grid size={{ lg: 7, sm: 6, xs: 12 }}>
+          <Calendario sx={{ height: '100%' }} />
         </Grid>
-        {/* Importar Prova */}
-        <Grid size={{ lg: 4, sm: 6, xs: 12 }}>
-          <ImportarProva sx={{ height: '100%' }} />
-        </Grid>
+
         {/* Minhas Avaliações */}
         <Grid
           size={{
