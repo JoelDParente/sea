@@ -21,6 +21,17 @@
   --icon-fontSize-lg: 1.5rem;
 }
 
+/* Dark theme CSS variables */
+html[data-mui-color-scheme='dark'] {
+  --mui-palette-background-default: #0f1419;
+  --mui-palette-background-paper: #1a1f2e;
+  --mui-palette-divider: rgba(255, 255, 255, 0.12);
+  --mui-palette-text-primary: #e8eef7;
+  --mui-palette-text-secondary: #9ca3af;
+  --mui-palette-text-disabled: #6b7280;
+  color-scheme: dark;
+}
+
 *:focus-visible {
   outline: 2px solid var(--mui-palette-primary-main);
 }

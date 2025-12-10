@@ -1,13 +1,10 @@
 "use client";
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import { ClockIcon } from '@phosphor-icons/react/dist/ssr/Clock';
@@ -65,7 +62,7 @@ export function ProvaCard({ prova, onView, onDownload, onEdit, onDelete }: Prova
     console.warn('delete requested for prova', prova.id);
   };
   return (
-    <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+    <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%', borderColor: 'var(--mui-palette-divider)', borderWidth: 1, borderStyle: 'solid' }} >
       <CardContent sx={{ flex: '1 1 auto' }}>
         <Stack spacing={2}>
           <Stack spacing={1}>

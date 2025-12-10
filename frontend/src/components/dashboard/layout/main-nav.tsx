@@ -5,8 +5,11 @@ import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
+import Tooltip from '@mui/material/Tooltip';
 import { ListIcon } from '@phosphor-icons/react/dist/ssr/List';
+import { Moon, Sun } from '@phosphor-icons/react/dist/ssr';
 import { useUser } from '@/hooks/use-user';
+import { useThemeContext } from '@/contexts/theme-context';
 
 import { usePopover } from '@/hooks/use-popover';
 
@@ -16,6 +19,7 @@ import { UserPopover } from './user-popover';
 export function MainNav(): React.JSX.Element {
   const [openNav, setOpenNav] = React.useState<boolean>(false);
   const { user } = useUser();
+  const { mode, toggleTheme } = useThemeContext();
   const avatar = user?.foto ?? '../assets/avatar.png';
 
   const userPopover = usePopover<HTMLDivElement>();
@@ -49,6 +53,11 @@ export function MainNav(): React.JSX.Element {
 
           </Stack>
           <Stack sx={{ alignItems: 'center' }} direction="row" spacing={2}>
+            <Tooltip title={mode === 'light' ? 'Modo escuro' : 'Modo claro'}>
+              <IconButton onClick={toggleTheme} size="small" color='primary'>
+                {mode === 'light' ? <Moon weight="bold" /> : <Sun weight="bold" />}
+              </IconButton>
+            </Tooltip>
             <Avatar
               onClick={userPopover.handleOpen}
               ref={userPopover.anchorRef}

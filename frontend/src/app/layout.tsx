@@ -6,6 +6,7 @@ import '@/styles/global.css';
 import { UserProvider } from '@/contexts/user-context';
 import { LocalizationProvider } from '@/components/core/localization-provider';
 import { ThemeProvider } from '@/components/core/theme-provider/theme-provider';
+import { ThemeContextProvider } from '@/contexts/theme-context';
 
 export const viewport = { width: 'device-width', initialScale: 1 } satisfies Viewport;
 
@@ -19,7 +20,9 @@ export default function Layout({ children }: LayoutProps): React.JSX.Element {
       <body>
         <LocalizationProvider>
           <UserProvider>
-            <ThemeProvider>{children}</ThemeProvider>
+            <ThemeContextProvider>
+              <ThemeProvider>{children}</ThemeProvider>
+            </ThemeContextProvider>
           </UserProvider>
         </LocalizationProvider>
       </body>

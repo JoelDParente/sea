@@ -7,16 +7,16 @@ import CardContent from '@mui/material/CardContent';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { FileText } from '@phosphor-icons/react/dist/ssr/FileText';
+import { Pencil } from '@phosphor-icons/react/dist/ssr/Pencil';
 import { useRouter } from 'next/navigation';
 import type { SxProps } from '@mui/material/styles';
 import { paths } from '@/paths';
 
-export interface CriarProvaProps {
+export interface CriarQuestaoProps {
   sx?: SxProps;
 }
 
-export function CriarProva({ sx }: CriarProvaProps): React.JSX.Element {
+export function CriarQuestao({ sx }: CriarQuestaoProps): React.JSX.Element {
   const router = useRouter();
 
   return (
@@ -45,10 +45,10 @@ export function CriarProva({ sx }: CriarProvaProps): React.JSX.Element {
           <Stack direction="row" alignItems="center" justifyContent="space-between">
             <Stack spacing={1}>
               <Typography variant="h5" fontWeight={600}>
-                Criar Prova
+                Criar Questão
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Monte avaliações personalizadas com poucos cliques.
+                Crie questões para diversas matérias.
               </Typography>
             </Stack>
 
@@ -57,19 +57,19 @@ export function CriarProva({ sx }: CriarProvaProps): React.JSX.Element {
                 height: 56,
                 width: 56,
                 borderRadius: "14px",
-                background: "rgba(25,118,210,0.1)",
-                color: "var(--mui-palette-primary-main)",
+                background: "rgba(25, 192, 128, 0.1)",
+                color: "var(--mui-palette-success-main)",
                 boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
               }}
             >
-              <FileText size={30} weight="duotone" />
+              <Pencil size={30} weight="duotone" />
             </Avatar>
           </Stack>
 
           {/* Action */}
           <Button
             variant="contained"
-            onClick={() => router.push(paths.dashboard.criacao.root)}
+            onClick={() => router.push(paths.dashboard.criacao.questao)}
             sx={{
               px: 3,
               py: 1.2,
@@ -78,8 +78,10 @@ export function CriarProva({ sx }: CriarProvaProps): React.JSX.Element {
               fontWeight: 500,
               alignSelf: "flex-start",
             }}
+
+            color="success"
           >
-            Iniciar criação
+            Criar questão
           </Button>
 
         </Stack>
