@@ -8,10 +8,13 @@ import { Calendario } from "@/components/dashboard/overview/calendario";
 import { CriarProva } from "@/components/dashboard/overview/criar-prova";
 import { CriarQuestao } from "@/components/dashboard/overview/criar-questao";
 import { MinhasAvaliacoes } from "@/components/dashboard/overview/minhas-avaliacoes";
+import { CardProfessores } from "@/components/dashboard/overview/professores-card";
+import { TurmasCard } from "@/components/dashboard/overview/turmas-card";
 
 export default function Page(): React.JSX.Element {
 	const [firstName, setFirstName] = React.useState("Professor");
 	const [professorId, setProfessorId] = React.useState<number | null>(null);
+	const [userType, setUserType] = React.useState<string | null>(null);
 
 	React.useEffect(() => {
 		const storedUser = localStorage.getItem("user") || localStorage.getItem("usuario");
@@ -21,6 +24,7 @@ export default function Page(): React.JSX.Element {
 				const nome = user?.nome || user?.name;
 				if (nome) setFirstName(nome.split(" ")[0]);
 				setProfessorId(user?.id || user?.id_usuario || null);
+				setUserType(user?.tipo || user?.type || null);
 				console.debug("dashboard page setProfessorId", { id: user?.id || user?.id_usuario || null });
 			} catch {
 				// ignore parse error
@@ -41,20 +45,31 @@ export default function Page(): React.JSX.Element {
 				{/* Coluna empilhando CriarProva + CriarQuestao */}
 				<Grid size={{ lg: 4, sm: 6, xs: 12 }}>
 					<Box display="flex" flexDirection="column" gap={2} height="100%">
-						<CriarProva />
-						<CriarQuestao />
+						{userType === "gestor" ? (
+							<>
+								<CardProfessores />
+								<TurmasCard />
+							</>
+						) : (
+							<>
+								<CriarProva />
+								<CriarQuestao />
+							</>
+						)}
 					</Box>
 				</Grid>
 
 				{/* Calendário */}
-				<Grid size={{ lg: 7, sm: 6, xs: 12 }}>
+				<Grid size={{ lg: 8, sm: 6, xs: 12 }}>
 					<Calendario />
 				</Grid>
 
-				{/* Minhas Avaliações */}
-				<Grid size={{ lg: 12, md: 12, xs: 12 }}>
-					<MinhasAvaliacoes sx={{ height: "100%" }} professorId={professorId} />
-				</Grid>
+				{/* Minhas Avaliações (apenas para professores) */}
+				{userType === "professor" && (
+					<Grid size={{ lg: 12, md: 12, xs: 12 }}>
+						<MinhasAvaliacoes sx={{ height: "100%" }} professorId={professorId} />
+					</Grid>
+				)}
 			</Grid>
 		</Box>
 	);

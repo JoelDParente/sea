@@ -12,6 +12,7 @@ import { MuiTab } from './tab';
 import { MuiTableBody } from './table-body';
 import { MuiTableCell } from './table-cell';
 import { MuiTableHead } from './table-head';
+import { MuiOutlinedInput, MuiFilledInput, MuiInputLabel, MuiSelect, MuiInputBase } from './input';
 
 export const components = {
   MuiAvatar,
@@ -22,6 +23,11 @@ export const components = {
   MuiLink,
   MuiStack,
   MuiTab,
+  MuiOutlinedInput,
+  MuiFilledInput,
+  MuiInputLabel,
+  MuiSelect,
+  MuiInputBase,
   MuiTableBody,
   MuiTableCell,
   MuiTableHead,

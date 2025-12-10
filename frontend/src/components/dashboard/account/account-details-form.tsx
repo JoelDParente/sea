@@ -23,7 +23,6 @@ export function AccountDetailsForm(): React.JSX.Element {
   const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
   const email = String(user?.email ?? '');
   const phone = String(user?.telefone ?? user?.phone ?? '');
-  const city = String(user?.cidade ?? user?.city ?? '');
 
   return (
     <form

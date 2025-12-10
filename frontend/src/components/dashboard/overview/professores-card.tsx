@@ -7,16 +7,16 @@ import CardContent from '@mui/material/CardContent';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { Pencil } from '@phosphor-icons/react/dist/ssr/Pencil';
+import { Users } from '@phosphor-icons/react/dist/ssr/Users';
 import { useRouter } from 'next/navigation';
 import type { SxProps } from '@mui/material/styles';
 import { paths } from '@/paths';
 
-export interface CriarQuestaoProps {
+export interface CardProfessoresProps {
   sx?: SxProps;
 }
 
-export function CriarQuestao({ sx }: CriarQuestaoProps): React.JSX.Element {
+export function CardProfessores({ sx }: CardProfessoresProps): React.JSX.Element {
   const router = useRouter();
 
   return (
@@ -44,10 +44,10 @@ export function CriarQuestao({ sx }: CriarQuestaoProps): React.JSX.Element {
           <Stack direction="row" alignItems="center" justifyContent="space-between">
             <Stack spacing={1}>
               <Typography variant="h5" fontWeight={600}>
-                Criar Questão
+                Gerenciar Professores
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Crie questões para diversas matérias.
+                Adicione e relacione seus professores às turmas.
               </Typography>
             </Stack>
 
@@ -61,14 +61,14 @@ export function CriarQuestao({ sx }: CriarQuestaoProps): React.JSX.Element {
                 boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
               }}
             >
-              <Pencil size={30} weight="duotone" />
+              <Users size={30} weight="duotone" />
             </Avatar>
           </Stack>
 
           {/* Action */}
           <Button
             variant="contained"
-            onClick={() => router.push(paths.dashboard.criacao.questao)}
+            onClick={() => router.push(paths.dashboard.turmas)}
             sx={{
               px: 3,
               py: 1.2,
@@ -80,7 +80,7 @@ export function CriarQuestao({ sx }: CriarQuestaoProps): React.JSX.Element {
 
             color="success"
           >
-            Criar questão
+            Gerenciar Professores
           </Button>
 
         </Stack>

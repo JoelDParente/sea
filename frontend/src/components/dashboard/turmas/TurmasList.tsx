@@ -56,9 +56,9 @@ export default function TurmasList(): React.JSX.Element {
       headerName: 'Ações',
       width: 140,
       getActions: (params) => [
-        <GridActionsCellItem icon={<VisibilityIcon />} label="Ver" onClick={() => router.push(`/dashboard/turmas/${params.id}`)} />,
-        <GridActionsCellItem icon={<EditIcon />} label="Editar" onClick={() => setOpenCreate(true)} showInMenu={false} />,
-        <GridActionsCellItem icon={<DeleteIcon />} label="Excluir" onClick={() => handleDelete(Number(params.id))} showInMenu={false} />,
+        <GridActionsCellItem icon={<VisibilityIcon />} label="Ver" onClick={() => router.push(`/dashboard/turmas/${params.id}`)} color='inherit' />,
+        <GridActionsCellItem icon={<EditIcon />} label="Editar" onClick={() => setOpenCreate(true)} showInMenu={false} color='inherit' />,
+        <GridActionsCellItem icon={<DeleteIcon />} label="Excluir" onClick={() => handleDelete(Number(params.id))} showInMenu={false} color='inherit'/>,
       ],
     },
   ];

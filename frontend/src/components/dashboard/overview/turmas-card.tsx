@@ -7,16 +7,16 @@ import CardContent from '@mui/material/CardContent';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { Pencil } from '@phosphor-icons/react/dist/ssr/Pencil';
+import { ChalkboardIcon } from '@phosphor-icons/react';
 import { useRouter } from 'next/navigation';
 import type { SxProps } from '@mui/material/styles';
 import { paths } from '@/paths';
 
-export interface CriarQuestaoProps {
+export interface TurmasCardProps {
   sx?: SxProps;
 }
 
-export function CriarQuestao({ sx }: CriarQuestaoProps): React.JSX.Element {
+export function TurmasCard({ sx }: TurmasCardProps): React.JSX.Element {
   const router = useRouter();
 
   return (
@@ -44,10 +44,10 @@ export function CriarQuestao({ sx }: CriarQuestaoProps): React.JSX.Element {
           <Stack direction="row" alignItems="center" justifyContent="space-between">
             <Stack spacing={1}>
               <Typography variant="h5" fontWeight={600}>
-                Criar Questão
+                Gerenciar Turmas
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Crie questões para diversas matérias.
+                Monitore, adicione e edite as informações das turmas.
               </Typography>
             </Stack>
 
@@ -56,19 +56,19 @@ export function CriarQuestao({ sx }: CriarQuestaoProps): React.JSX.Element {
                 height: 56,
                 width: 56,
                 borderRadius: "14px",
-                background: "rgba(25, 192, 128, 0.1)",
-                color: "var(--mui-palette-success-main)",
+                background: "rgba(25,118,210,0.1)",
+                color: "var(--mui-palette-primary-main)",
                 boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
               }}
             >
-              <Pencil size={30} weight="duotone" />
+              <ChalkboardIcon size={30} weight="duotone" />
             </Avatar>
           </Stack>
 
           {/* Action */}
           <Button
             variant="contained"
-            onClick={() => router.push(paths.dashboard.criacao.questao)}
+            onClick={() => router.push(paths.dashboard.turmas)}
             sx={{
               px: 3,
               py: 1.2,
@@ -78,9 +78,9 @@ export function CriarQuestao({ sx }: CriarQuestaoProps): React.JSX.Element {
               alignSelf: "flex-start",
             }}
 
-            color="success"
+            color="primary"
           >
-            Criar questão
+            Gerenciar Turmas
           </Button>
 
         </Stack>

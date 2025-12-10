@@ -67,7 +67,7 @@ export function SignInForm(): React.JSX.Element {
 	);
 
 	return (
-		<Stack spacing={4}>
+		<Stack spacing={4} sx={{ boxShadow: "rgba(149, 157, 165, 0.4) 0px 0px 24px", p: 5, borderRadius: 2 }}>
 			<Stack spacing={1}>
 				<Typography variant="h4">Bem-vindo de volta</Typography>
 				<Typography color="text.secondary" variant="body2">

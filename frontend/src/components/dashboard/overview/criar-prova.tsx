@@ -21,22 +21,21 @@ export function CriarProva({ sx }: CriarProvaProps): React.JSX.Element {
 
   return (
     <Card
-      sx={{
-        ...sx,
+      sx={(theme) => ({
         display: "flex",
         flexDirection: "column",
         p: 3,
         borderRadius: "18px",
         border: "1px solid rgba(0,0,0,0.06)",
         background: "var(--mui-palette-background-paper)",
-        boxShadow: "0 4px 12px rgba(0,0,0,0.04)",
+        boxShadow: theme.palette.mode === 'dark' ? "0 4px 12px rgba(255,255,255,0.12)" : "rgba(149, 157, 165, 0.4) 0px 0px 24px",
         transition: "all .25s ease",
         "&:hover": {
-          boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
+          boxShadow: theme.palette.mode === 'dark' ? "0 8px 24px rgba(255, 255, 255, 0.09)" : "0 8px 24px rgba(0,0,0,0.08)",
           borderColor: "rgba(0,0,0,0.12)",
           transform: "translateY(-3px)",
         }
-      }}
+      })}
     >
       <CardContent>
         <Stack spacing={3}>

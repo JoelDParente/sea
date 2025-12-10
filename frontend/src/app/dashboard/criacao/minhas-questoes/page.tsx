@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Typography, Grid, Card, CardContent, CardActions, Button, Box, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import axios from 'axios';
-import ModalEditarQuestao from '@/components/criar-prova/ModalEditarQuestao';
+import ModalEditarQuestao from '@/components/dashboard/criar-prova/ModalEditarQuestao';
 import { ArrowLeft } from '@phosphor-icons/react';
 import { useRouter } from 'next/navigation';
 import { paths } from '@/paths';

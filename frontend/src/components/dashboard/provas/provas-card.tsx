@@ -87,12 +87,12 @@ export function ProvaCard({ prova, onView, onDownload, onEdit, onDelete }: Prova
         </Stack>
         <Stack direction="row" spacing={0}>
           <Tooltip title="Ver">
-            <IconButton size="small" onClick={handleView}>
+            <IconButton size="small" onClick={handleView}  color='inherit'>
               <Eye weight="bold" />
             </IconButton>
           </Tooltip>
           <Tooltip title="Editar">
-            <IconButton size="small" onClick={handleEdit}>
+            <IconButton size="small" onClick={handleEdit}  color='inherit'>
               <Pencil weight="bold" />
             </IconButton>
           </Tooltip>

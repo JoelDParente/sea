@@ -234,7 +234,7 @@ export default function CriarQuestao({ onSave }: { onSave: (questao: any) => voi
 				display: "flex",
 				flexDirection: "column",
 				boxShadow: "none",
-				p: 0,
+				p: 3,
 			}}
 		>
 			{/* Conteúdo principal dividido em duas colunas */}
@@ -382,7 +382,6 @@ export default function CriarQuestao({ onSave }: { onSave: (questao: any) => voi
 					display: "flex",
 					justifyContent: "flex-end",
 					alignItems: "center",
-					borderTop: "1px solid #eee",
 					p: 2,
 					backgroundColor: "background.paper",
 				}}

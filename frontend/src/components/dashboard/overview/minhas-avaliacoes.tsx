@@ -115,7 +115,7 @@ export function MinhasAvaliacoes({ provas: initialProvas = [], sx, professorId =
   }, [initialProvas, professorId]);
 
   return (
-    <Card sx={{ ...sx, mt: 4 }}>
+    <Card sx={{ ...sx, mt: 4, boxShadow: "rgba(149, 157, 165, 0.4) 0px 0px 24px" }}>
       <CardHeader
         title="Minhas Avaliações"
         sx={{

@@ -107,12 +107,14 @@ const fetchProfessores = React.useCallback(async () => {
 					label="Editar"
 					onClick={() => handleEdit(params.row as Professor)}
 					showInMenu={false}
+					color='inherit'
 				/>,
 				<GridActionsCellItem
 					icon={<DeleteIcon />}
 					label="Excluir"
 					onClick={() => handleDelete(Number(params.id))}
 					showInMenu={false}
+					color='inherit'
 				/>,
 			],
 		},

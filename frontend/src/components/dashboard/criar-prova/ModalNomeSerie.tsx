@@ -141,7 +141,18 @@ export default function ModalNomeSerie({ open, onClose, onConfirm }: Props) {
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClose}>Cancelar</Button>
-                <Button variant="contained" onClick={handleConfirm} disabled={!canConfirm || noTurmas}>
+                <Button
+                    variant="contained"
+                    onClick={handleConfirm}
+                    disabled={!canConfirm || noTurmas}
+                    sx={(theme) => ({
+                        backgroundColor: theme.palette.mode === 'dark' ? theme.palette.primary.main : undefined,
+                        color: theme.palette.mode === 'dark' ? theme.palette.primary.contrastText : undefined,
+                        '&:hover': {
+                            backgroundColor: theme.palette.mode === 'dark' ? theme.palette.primary.dark : undefined,
+                        },
+                    })}
+                >
                     Confirmar
                 </Button>
             </DialogActions>

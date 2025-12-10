@@ -23,6 +23,13 @@ export function AccountInfo(): React.JSX.Element {
     console.log('Arquivo recebido:', file);
   }
 
+  function capitalizarPrimeiraLetra(texto: string): string {
+  if (!texto) {
+    return ""; 
+  }
+  return texto.charAt(0).toUpperCase() + texto.slice(1);
+}
+
   return (
     <>
       <Card>
@@ -33,7 +40,7 @@ export function AccountInfo(): React.JSX.Element {
             <Stack spacing={1} sx={{ textAlign: 'center' }}>
               <Typography variant="h5">{String(user?.nome ?? '')}</Typography>
               <Typography color="text.secondary" variant="body2">
-                {String(user?.tipo ?? '')}
+                {capitalizarPrimeiraLetra(String(user?.tipo ?? ''))}
               </Typography>
             </Stack>
           </Stack>

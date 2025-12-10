@@ -5,8 +5,8 @@ import CardAcao from '@/components/dashboard/criacao/card-acao';
 import { useRouter } from 'next/navigation';
 import { paths } from '@/paths';
 import React, { useState } from 'react';
-import ModalNomeSerie from '@/components/criar-prova/ModalNomeSerie';
-import ModalComponenteCurricular from '@/components/criar-prova/ModalDisciplina';
+import ModalNomeSerie from '@/components/dashboard/criar-prova/ModalNomeSerie';
+import ModalComponenteCurricular from '@/components/dashboard/criar-prova/ModalDisciplina';
 
 export default function DashboardPage() {
     const router = useRouter();

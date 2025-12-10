@@ -105,7 +105,7 @@ export default function ListaAlternativas({ alternativas, setAlternativas }: Lis
               <Checkbox checked={alt.correta} onChange={() => handleCorretaChange(alt.id)} />
 
               {/* Deletar */}
-              <IconButton onClick={() => handleRemover(alt.id)}>
+              <IconButton onClick={() => handleRemover(alt.id)} color='inherit'>
                 <DeleteIcon />
               </IconButton>
             </Grid>

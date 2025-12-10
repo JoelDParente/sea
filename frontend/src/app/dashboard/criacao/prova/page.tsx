@@ -2,11 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 import { Container, Box, Button, Typography, Stack, TextField } from '@mui/material';
-import ModalNomeSerie from '@/components/criar-prova/ModalNomeSerie';
-import ModalComponenteCurricular from '@/components/criar-prova/ModalDisciplina';
-import ConstrutorTabs from '@/components/criar-prova/ConstrutorTabs';
-import ListaQuestoes, { Question } from '@/components/criar-prova/ListaQuestoes';
-import QuestoesSelecionadas from '@/components/criar-prova/QuestoesSelecionadas';
+import ModalNomeSerie from '@/components/dashboard/criar-prova/ModalNomeSerie';
+import ModalComponenteCurricular from '@/components/dashboard/criar-prova/ModalDisciplina';
+import ConstrutorTabs from '@/components/dashboard/criar-prova/ConstrutorTabs';
+import ListaQuestoes, { Question } from '@/components/dashboard/criar-prova/ListaQuestoes';
+import QuestoesSelecionadas from '@/components/dashboard/criar-prova/QuestoesSelecionadas';
 import { ArrowLeft } from '@phosphor-icons/react';
 import { useRouter } from 'next/navigation';
 import { paths } from '@/paths';
