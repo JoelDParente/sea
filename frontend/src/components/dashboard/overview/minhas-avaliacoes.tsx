@@ -65,12 +65,16 @@ export function MinhasAvaliacoes({ provas: initialProvas = [], sx, professorId =
         const url = `http://localhost/sea/backend/controllers/listarProvasProfessorController.php${params}`;
 
         const res = await axios.get(url);
+
+        // Garante que SEMPRE exista um array
         const data = Array.isArray(res.data) ? res.data : [];
 
         const mapped: Prova[] = data.map((p) => ({
           id: String(((p.id_prova ?? p.id) || '')),
           title: p.titulo ?? `Prova ${p.id_prova}`,
-          description: p.serie ? `Série ${p.serie}` : (p.id_disciplina ? `Disciplina ${p.id_disciplina}` : ''),
+          description: p.serie
+            ? `Série ${p.serie}`
+            : (p.id_disciplina ? `Disciplina ${p.id_disciplina}` : ''),
           logo: '',
           installs: 0,
           updatedAt: p.data_criacao ? new Date(p.data_criacao) : new Date(),

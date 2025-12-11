@@ -124,11 +124,6 @@ export function SignInForm(): React.JSX.Element {
 							</FormControl>
 						)}
 					/>
-					<div>
-						<Link component={RouterLink} href={paths.auth.resetPassword} variant="subtitle2">
-							Esqueceu sua senha?
-						</Link>
-					</div>
 					{errors.root ? <Alert color="error">{errors.root.message}</Alert> : null}
 					<Button disabled={isPending} type="submit" variant="contained">
 						Login
