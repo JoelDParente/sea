@@ -12,7 +12,6 @@ export const paths = {
       questao: '/dashboard/criacao/questao',
       minhasQuestoes: '/dashboard/criacao/minhas-questoes',
     },
-    settings: '/dashboard/settings',
   },
   errors: { notFound: '/errors/not-found' },
 } as const;
