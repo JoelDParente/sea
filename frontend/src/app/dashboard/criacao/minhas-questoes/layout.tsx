@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { config } from '@/config';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 
 export const metadata: Metadata = {
   title: `Gerenciamento de Questões | ${config.site.name}`,

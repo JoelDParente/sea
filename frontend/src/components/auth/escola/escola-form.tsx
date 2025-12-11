@@ -20,8 +20,6 @@ import {
 	Stack,
 	Typography,
 } from "@mui/material";
-import { EyeIcon } from "@phosphor-icons/react/dist/ssr/Eye";
-import { EyeSlashIcon } from "@phosphor-icons/react/dist/ssr/EyeSlash";
 import { Controller, useForm } from "react-hook-form";
 import { IMaskInput } from "react-imask";
 import { z as zod } from "zod";

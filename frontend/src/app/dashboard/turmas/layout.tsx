@@ -3,8 +3,7 @@ import { config } from '@/config';
 import { Box } from '@mui/material';
 
 export const metadata: Metadata = {
-  title: `Professores | ${config.site.name}`,
-  description: 'Gerencie os professores cadastrados na plataforma.',
+  title: `Turmas da Escola | ${config.site.name}`,
 };
 
 export default function CriacaoLayout({

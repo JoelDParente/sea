@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Stack, TextField } from "@mui/material";
-import axios from "axios";
-import { on } from "events";
 
 export default function ModalCadastroTurma({
 	open,

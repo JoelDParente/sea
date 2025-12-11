@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import {
   Dialog, DialogTitle, DialogContent, DialogActions,
   Button, Stack, FormControl, InputLabel,
-  OutlinedInput, FormHelperText, Checkbox, FormControlLabel
+  OutlinedInput, FormHelperText
 } from "@mui/material";
 import axios from "axios";
 import { Controller, useForm } from "react-hook-form";

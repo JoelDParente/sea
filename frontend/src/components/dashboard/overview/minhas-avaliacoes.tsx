@@ -9,14 +9,12 @@ import type { SxProps } from '@mui/material/styles';
 import axios from 'axios';
 import { ProvaCard, Prova } from '@/components/dashboard/provas/provas-card';
 
-// Props do componente
 export interface MinhasAvaliacoesProps {
   provas?: Prova[];
   sx?: SxProps;
   professorId?: number | null;
 }
 
-// Componente principal
 export function MinhasAvaliacoes({ provas: initialProvas = [], sx, professorId = null }: MinhasAvaliacoesProps): React.JSX.Element {
   const [provas, setProvas] = React.useState<Prova[]>(initialProvas);
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -28,12 +26,10 @@ export function MinhasAvaliacoes({ provas: initialProvas = [], sx, professorId =
     runsCountRef.current += 1;
     console.debug('MinhasAvaliacoes useEffect run', { initialProvas, professorId, run: runsCountRef.current });
 
-    // proteção temporária: evita loop infinito de fetchs
     if (runsCountRef.current > 20) {
       console.warn('MinhasAvaliacoes: muitas execuções de useEffect detectadas, abortando novos fetches.');
       return;
     }
-    // Se já vierem provas via props, usa-as e não busca
     if (initialProvas && initialProvas.length > 0) {
       setProvas(initialProvas);
       return;
@@ -45,7 +41,6 @@ export function MinhasAvaliacoes({ provas: initialProvas = [], sx, professorId =
       try {
         setLoading(true);
         setError(null);
-        // Prioriza prop professorId, em seguida tenta buscar user/usuario no localStorage
         let idUsuario: number | null = null;
         if (typeof professorId === 'number' && professorId > 0) {
           idUsuario = professorId;
@@ -63,7 +58,6 @@ export function MinhasAvaliacoes({ provas: initialProvas = [], sx, professorId =
 
         const params = idUsuario ? `?id_professor=${idUsuario}` : '';
 
-        // evita refetchs contínuos para o mesmo professor se já temos provas
         if (idUsuario && lastFetchedId.current === idUsuario && provas.length > 0) {
           if (!cancelled) setLoading(false);
           return;
@@ -71,9 +65,8 @@ export function MinhasAvaliacoes({ provas: initialProvas = [], sx, professorId =
         const url = `http://localhost/sea/backend/controllers/listarProvasProfessorController.php${params}`;
 
         const res = await axios.get(url);
-        const data = res.data as Array<any>;
+        const data = Array.isArray(res.data) ? res.data : [];
 
-        // Mapear para o formato utilizado por ProvaCard
         const mapped: Prova[] = data.map((p) => ({
           id: String(((p.id_prova ?? p.id) || '')),
           title: p.titulo ?? `Prova ${p.id_prova}`,
@@ -85,17 +78,14 @@ export function MinhasAvaliacoes({ provas: initialProvas = [], sx, professorId =
 
         if (cancelled) return;
 
-        // atualiza referência de último fetch bem-sucedido
         lastFetchedId.current = idUsuario;
 
-        // evita atualizações de state redundantes que causam re-renders
         setProvas((prev) => {
           try {
             const a = JSON.stringify(prev);
             const b = JSON.stringify(mapped);
             if (a === b) return prev;
           } catch {
-            // em caso de erro no stringify, apenas atualiza
           }
           console.debug('MinhasAvaliacoes setProvas updating', { prevLength: prev.length, newLength: mapped.length });
           return mapped;

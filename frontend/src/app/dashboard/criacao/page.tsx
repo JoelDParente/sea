@@ -13,7 +13,7 @@ export default function DashboardPage() {
 
     const [openNomeSerie, setOpenNomeSerie] = useState(false);
     const [openComponente, setOpenComponente] = useState(false);
-    const [tmpProva, setTmpProva] = useState<{ nome: string; serie: string } | null>(null);
+    const [tmpProva, setTmpProva] = useState<{ nome: string; turmas: any[] } | null>(null);
 
     const handleClickCriarProva = () => {
         // inicia o fluxo pelos modais
@@ -22,7 +22,7 @@ export default function DashboardPage() {
         setOpenNomeSerie(true);
     };
 
-    const handleConfirmNomeSerie = (payload: { nome: string; serie: string }) => {
+    const handleConfirmNomeSerie = (payload: { nome: string; turmas: any[] }) => {
         setTmpProva(payload);
         setOpenNomeSerie(false);
         setOpenComponente(true);

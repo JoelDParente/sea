@@ -8,6 +8,5 @@ export const navItems = [
   },
   { key: 'turma', title: 'Turmas', href: paths.dashboard.turmas, icon: 'chalkboard' },
   { key: 'professor', title: 'Professores', href: paths.dashboard.professor, icon: 'users' },
-  { key: 'settings', title: 'Configurações', href: paths.dashboard.settings, icon: 'gear-six' },
   { key: 'account', title: 'Conta', href: paths.dashboard.account, icon: 'user' },
 ] satisfies NavItemConfig[];

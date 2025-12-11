@@ -7,6 +7,23 @@ export const MuiButton = {
     root: ({ theme }: any) => ({
       borderRadius: '12px',
       textTransform: 'none',
+
+      '&.Mui-disabled': {
+        opacity: 1,
+        backgroundColor:
+          theme.palette.mode === 'dark'
+            ? 'rgba(255,255,255,255.12)'
+            : 'rgba(0,0,0,0.2)',
+        color:
+          theme.palette.mode === 'dark'
+            ? 'inherit'
+            : 'inherit',
+        borderColor:
+          theme.palette.mode === 'dark'
+            ? 'rgba(255,255,255,0.2)'
+            : 'rgba(0,0,0,0.2)',
+        cursor: 'not-allowed',
+      },
     }),
     sizeSmall: { padding: '6px 16px' },
     sizeMedium: { padding: '8px 20px' },

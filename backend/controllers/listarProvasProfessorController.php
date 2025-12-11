@@ -24,21 +24,26 @@ switch ($metodo) {
         if (isset($_GET['id_professor'])) {
             $idProfessor = (int)$_GET['id_professor'];
             $provas = $dao->listarPorProfessor($idProfessor);
-            echo json_encode(array_map(function($p) {
-                return [
-                    'id_prova' => $p->getIdProva(),
-                    'id_professor' => $p->getIdProfessor(),
-                    'id_disciplina' => $p->getIdDisciplina(),
-                    'titulo' => $p->getTitulo(),
-                    'serie' => $p->getSerie(),
-                    'versao' => $p->getVersao(),
-                    'data_criacao' => $p->getDataCriacao(),
-                    'ultima_atualizacao' => $p->getUltimaAtualizacao()
-                ];
-            }, $provas));
+            echo json_encode([
+                'status' => 'ok',
+                'quantidade' => count($provas),
+                'provas' => array_map(function ($p) {
+                    return [
+                        'id_prova' => $p->getIdProva(),
+                        'id_professor' => $p->getIdProfessor(),
+                        'id_disciplina' => $p->getIdDisciplina(),
+                        'titulo' => $p->getTitulo(),
+                        'serie' => $p->getSerie(),
+                        'versao' => $p->getVersao(),
+                        'data_criacao' => $p->getDataCriacao(),
+                        'ultima_atualizacao' => $p->getUltimaAtualizacao()
+                    ];
+                }, $provas)
+            ]);
         } else {
             $provas = $dao->getAllProvas();
-            echo json_encode(array_map(function($p) {
+            error_log("Provas encontradas: " . print_r($provas, true));
+            echo json_encode(array_map(function ($p) {
                 return [
                     'id_prova' => $p->getIdProva(),
                     'id_professor' => $p->getIdProfessor(),

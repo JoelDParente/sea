@@ -44,12 +44,10 @@ export default function ModalNomeSerie({ open, onClose, onConfirm }: Props) {
             try {
                 setLoading(true);
 
-                // 1) buscar todas as turmas (lista mestra)
                 const allRes = await axios.get('http://localhost/sea/backend/controllers/TurmaController.php');
                 const allTurmas = Array.isArray(allRes.data) ? allRes.data : [];
                 setOptions(allTurmas);
 
-                // 2) tentar obter id do professor do localStorage
                 let profId: number | null = null;
                 try {
                     const u = localStorage.getItem('user');
@@ -62,17 +60,14 @@ export default function ModalNomeSerie({ open, onClose, onConfirm }: Props) {
                 }
 
                 if (!profId) {
-                    // sem professor, não pré-seleciona nada
                     setSelectedTurmas([]);
                     return;
                 }
 
-                // 3) buscar turmas atribuídas ao professor (apenas IDs / info mínima)
                 const assignedRes = await axios.get(`http://localhost/sea/backend/controllers/ProfessorTurmaController.php?id_professor=${profId}`);
                 const assigned = Array.isArray(assignedRes.data) ? assignedRes.data : [];
 				console.log(assignedRes.data);
                 
-                // verifica se professor não tem turmas atribuídas
                 if (assigned.length === 0) {
                     setNoTurmas(true);
                     setSelectedTurmas([]);
@@ -81,7 +76,6 @@ export default function ModalNomeSerie({ open, onClose, onConfirm }: Props) {
                 
                 setNoTurmas(false);
                 
-                // 4) mapear assigned para objetos completos vindos de allTurmas
                 const assignedIds = new Set(assigned.map((a: any) => Number(a.id_turma)));
                 const matched = allTurmas.filter((t: any) => assignedIds.has(Number(t.id_turma)));
                 setSelectedTurmas(matched);
