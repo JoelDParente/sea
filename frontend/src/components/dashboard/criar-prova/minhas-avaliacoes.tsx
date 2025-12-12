@@ -7,7 +7,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 import type { SxProps } from '@mui/material/styles';
 import axios from 'axios';
-import { ProvaCard, Prova } from '@/components/dashboard/provas/provas-card';
+import { ProvaCard, Prova } from './provas-card';
 
 export interface MinhasAvaliacoesProps {
   provas?: Prova[];

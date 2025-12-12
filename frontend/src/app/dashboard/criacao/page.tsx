@@ -9,7 +9,7 @@ import { paths } from "@/paths";
 import CardAcao from "@/components/dashboard/criacao/card-acao";
 import ModalComponenteCurricular from "@/components/dashboard/criar-prova/ModalDisciplina";
 import ModalNomeSerie from "@/components/dashboard/criar-prova/ModalNomeSerie";
-import { MinhasAvaliacoes } from "@/components/dashboard/overview/minhas-avaliacoes";
+import { MinhasAvaliacoes } from "@/components/dashboard/criar-prova/minhas-avaliacoes";
 
 export default function DashboardPage() {
 	const router = useRouter();
