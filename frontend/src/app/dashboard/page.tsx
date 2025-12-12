@@ -65,11 +65,7 @@ export default function Page(): React.JSX.Element {
 				</Grid>
 
 				{/* Minhas Avaliações (apenas para professores) */}
-				{userType === "professor" && (
-					<Grid size={{ lg: 12, md: 12, xs: 12 }}>
-						<MinhasAvaliacoes sx={{ height: "100%" }} professorId={professorId} />
-					</Grid>
-				)}
+
 			</Grid>
 		</Box>
 	);

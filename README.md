@@ -2,6 +2,7 @@
 - Clone o repositório: `git clone https://github.com/JoelDParente/sea.git`
 - Garanta que o Node.js está instalado e atualizado
 - Instale as dependências: `npm install`
+- Na pasta backend: `composer install`
 - Incie o Server: `npm run dev`
 - Abra o Navegador em: `http://localhost:3000`
 

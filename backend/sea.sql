@@ -3,13 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 04/12/2025 às 01:22
+-- Tempo de geração: 12/12/2025 às 18:36
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
-
-CREATE DATABASE sea;
-
-USE sea;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -107,7 +103,12 @@ INSERT INTO `alternativas` (`id_alternativa`, `id_questao`, `texto`, `caminho_im
 (91, 19, '<p>20 200</p>', NULL),
 (92, 19, '<p>20 300</p>', NULL),
 (93, 19, '<p>20 400</p>', NULL),
-(94, 19, '<p>20 600</p>', NULL);
+(94, 19, '<p>20 600</p>', NULL),
+(95, 20, '<p>consagração de relacionamentos afetivos</p>', NULL),
+(96, 20, '<p>administração da independência interior</p>', NULL),
+(97, 20, '<p>fugacidade do conhecimento empírico.</p>', NULL),
+(98, 20, '<p>liberdade de expressão religiosa.</p>', NULL),
+(99, 20, '<p>busca de prazeres efêmeros.</p>', NULL);
 
 -- --------------------------------------------------------
 
@@ -168,7 +169,9 @@ INSERT INTO `aluno` (`id_aluno`, `id_turma`, `matricula`, `nome`, `foto`, `email
 (39, 11, '5245105', 'RYAN VIANA OLIVEIRA', NULL, 'ryan.oliveira@aluno.ce.gov.br'),
 (40, 11, '3033402', 'SAMUA HELEN MAIA PEREIRA', 'http://localhost/sea/backend/uploads/alunos/34e5cd9d-32bb-42eb-971a-a7f34a001a2c.jpg', 'samua.pereira'),
 (41, 11, '3375288', 'VICENTE ALEXANDRE LARANJEIRA SILVA COSTA', 'http://localhost/sea/backend/uploads/alunos/a952b65c-4dcd-475c-bba2-7bfb9a87e13f.jpg', 'vicente.costa@aluno.ce.gov.br'),
-(42, 11, '2295006', 'VITORIA EVELLY RUBENS DE SENA', 'http://localhost/sea/backend/uploads/alunos/1c61211d-bf88-4dac-bf66-af2b79a44af7.jpg', 'vitoria.sena@aluno.ce.gov.br');
+(42, 11, '2295006', 'VITORIA EVELLY RUBENS DE SENA', 'http://localhost/sea/backend/uploads/alunos/1c61211d-bf88-4dac-bf66-af2b79a44af7.jpg', 'vitoria.sena@aluno.ce.gov.br'),
+(43, 15, '001', 'Junior 1', NULL, 'junior1@bol.com.br'),
+(44, 15, '002', 'Junior 2', NULL, 'junior2@bol.com.br');
 
 -- --------------------------------------------------------
 
@@ -353,6 +356,67 @@ CREATE TABLE `gabarito` (
   `versao` varchar(6) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Despejando dados para a tabela `gabarito`
+--
+
+INSERT INTO `gabarito` (`id_gabarito`, `id_prova`, `questao`, `alternativa`, `versao`) VALUES
+(49, 87, 9, 'A', 'Azul'),
+(50, 87, 10, 'A', 'Azul'),
+(51, 87, 20, '<p>fugacidade do conhecimento empírico.</p>', 'Azul'),
+(52, 87, 12, 'A', 'Azul'),
+(53, 87, 13, 'D', 'Azul'),
+(54, 87, 12, 'A', 'Amarel'),
+(55, 87, 13, 'D', 'Amarel'),
+(56, 87, 10, 'A', 'Amarel'),
+(57, 87, 20, '<p>fugacidade do conhecimento empírico.</p>', 'Amarel'),
+(58, 87, 9, 'A', 'Amarel'),
+(59, 87, 12, 'A', 'Verde'),
+(60, 87, 20, '<p>fugacidade do conhecimento empírico.</p>', 'Verde'),
+(61, 87, 9, 'A', 'Verde'),
+(62, 87, 10, 'A', 'Verde'),
+(63, 87, 13, 'D', 'Verde'),
+(69, 89, 13, 'D', 'Azul'),
+(70, 89, 20, '<p>fugacidade do conhecimento empírico.</p>', 'Azul'),
+(71, 89, 10, 'A', 'Azul'),
+(72, 89, 9, 'A', 'Azul'),
+(73, 89, 12, 'A', 'Azul'),
+(74, 89, 13, 'D', 'Amarel'),
+(75, 89, 9, 'A', 'Amarel'),
+(76, 89, 10, 'A', 'Amarel'),
+(77, 89, 20, '<p>fugacidade do conhecimento empírico.</p>', 'Amarel'),
+(78, 89, 12, 'A', 'Amarel'),
+(79, 89, 12, 'A', 'Verde'),
+(80, 89, 10, 'A', 'Verde'),
+(81, 89, 13, 'D', 'Verde'),
+(82, 89, 9, 'A', 'Verde'),
+(83, 89, 20, '<p>fugacidade do conhecimento empírico.</p>', 'Verde'),
+(84, 89, 12, 'A', 'Branco'),
+(85, 89, 10, 'A', 'Branco'),
+(86, 89, 20, '<p>fugacidade do conhecimento empírico.</p>', 'Branco'),
+(87, 89, 13, 'D', 'Branco'),
+(88, 89, 9, 'A', 'Branco'),
+(89, 90, 9, 'A', 'Azul'),
+(90, 90, 10, 'A', 'Azul'),
+(91, 90, 13, 'D', 'Azul'),
+(92, 90, 20, '<p>fugacidade do conhecimento empírico.</p>', 'Azul'),
+(93, 90, 12, 'A', 'Azul'),
+(94, 90, 10, 'A', 'Amarel'),
+(95, 90, 13, 'D', 'Amarel'),
+(96, 90, 12, 'A', 'Amarel'),
+(97, 90, 20, '<p>fugacidade do conhecimento empírico.</p>', 'Amarel'),
+(98, 90, 9, 'A', 'Amarel'),
+(99, 90, 10, 'A', 'Verde'),
+(100, 90, 20, '<p>fugacidade do conhecimento empírico.</p>', 'Verde'),
+(101, 90, 13, 'D', 'Verde'),
+(102, 90, 12, 'A', 'Verde'),
+(103, 90, 9, 'A', 'Verde'),
+(104, 90, 9, 'A', 'Branco'),
+(105, 90, 10, 'A', 'Branco'),
+(106, 90, 13, 'D', 'Branco'),
+(107, 90, 12, 'A', 'Branco'),
+(108, 90, 20, '<p>fugacidade do conhecimento empírico.</p>', 'Branco');
+
 -- --------------------------------------------------------
 
 --
@@ -414,7 +478,8 @@ CREATE TABLE `professorturma` (
 --
 
 INSERT INTO `professorturma` (`id_turma`, `id_professor`) VALUES
-(11, 20);
+(11, 20),
+(11, 6);
 
 -- --------------------------------------------------------
 
@@ -438,37 +503,9 @@ CREATE TABLE `prova` (
 --
 
 INSERT INTO `prova` (`id_prova`, `id_professor`, `id_disciplina`, `titulo`, `serie`, `versao`, `data_criacao`, `ultima_atualizacao`) VALUES
-(7, 6, NULL, 'tese', NULL, '1º ano', '2025-11-25 18:42:13', '2025-11-25 18:42:13'),
-(8, 6, NULL, 'Teste', NULL, '1º ano', '2025-11-25 18:46:23', '2025-11-25 18:46:23'),
-(9, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 20:34:44', '2025-11-25 20:34:44'),
-(10, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 20:35:30', '2025-11-25 20:35:30'),
-(11, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 20:36:04', '2025-11-25 20:36:04'),
-(12, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 20:39:13', '2025-11-25 20:39:13'),
-(13, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 20:39:44', '2025-11-25 20:39:44'),
-(14, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 20:42:28', '2025-11-25 20:42:28'),
-(15, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 20:43:54', '2025-11-25 20:43:54'),
-(16, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 20:46:58', '2025-11-25 20:46:58'),
-(17, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 20:47:29', '2025-11-25 20:47:29'),
-(18, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 20:47:51', '2025-11-25 20:47:51'),
-(19, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 20:48:18', '2025-11-25 20:48:18'),
-(20, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 20:48:30', '2025-11-25 20:48:30'),
-(21, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 20:48:40', '2025-11-25 20:48:40'),
-(22, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 20:48:48', '2025-11-25 20:48:48'),
-(23, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 21:00:15', '2025-11-25 21:00:15'),
-(24, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 21:01:29', '2025-11-25 21:01:29'),
-(25, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 21:10:05', '2025-11-25 21:10:05'),
-(26, 6, NULL, 'poiuytre', NULL, '1º ano', '2025-11-25 21:14:39', '2025-11-25 21:14:39'),
-(27, 6, NULL, 'Teste', NULL, '1º ano', '2025-11-25 21:15:26', '2025-11-25 21:15:26'),
-(28, 6, NULL, 'Teste 1', NULL, '1º ano', '2025-11-25 21:39:22', '2025-11-25 21:39:22'),
-(29, 6, NULL, 'Teste 3', NULL, '1º ano', '2025-11-25 21:43:02', '2025-11-25 21:43:02'),
-(30, 6, NULL, 'Teste', NULL, '1º ano', '2025-11-26 03:41:53', '2025-11-26 03:41:53'),
-(31, 6, 2, 'Avaliação de Teste', NULL, '2º ano', '2025-11-27 03:28:24', '2025-11-27 03:28:24'),
-(32, 6, 2, 'Teste', NULL, '2º ano', '2025-11-28 04:40:20', '2025-11-28 04:40:20'),
-(33, 6, 1, 'teste', '2º ano', 'Azul', '2025-11-29 04:33:54', '2025-11-29 04:33:54'),
-(34, 6, 1, 'Prova de Matemática', '2º ano', 'Branco', '2025-12-02 20:36:38', '2025-12-02 20:36:38'),
-(35, 6, 2, 'Prova de Português', '2º ano', 'Branco', '2025-12-02 20:39:36', '2025-12-02 20:39:36'),
-(36, 6, 1, 'Matemática', '2º ano', 'Branco', '2025-12-02 20:40:45', '2025-12-02 20:40:45'),
-(37, 6, 2, 'Avaliação Bimestral', '2º ano', 'Branco', '2025-12-03 21:22:57', '2025-12-03 21:22:57');
+(87, 20, 2, 'Avaliação Bimestral de Português', '2', 'Verde', '2025-12-09 21:23:36', '2025-12-09 21:23:36'),
+(89, 20, 2, 'Avaliação Teste', '2', 'Branco', '2025-12-10 20:42:05', '2025-12-10 20:42:05'),
+(90, 20, 2, 'Avaliação Teste', '2', 'Branco', '2025-12-10 20:42:44', '2025-12-10 20:42:44');
 
 -- --------------------------------------------------------
 
@@ -486,84 +523,21 @@ CREATE TABLE `provaquestao` (
 --
 
 INSERT INTO `provaquestao` (`id_questao`, `id_prova`) VALUES
-(9, 7),
-(10, 7),
-(10, 8),
-(9, 8),
-(10, 9),
-(9, 9),
-(10, 10),
-(9, 10),
-(10, 11),
-(9, 11),
-(10, 12),
-(9, 12),
-(10, 13),
-(9, 13),
-(10, 14),
-(9, 14),
-(10, 15),
-(9, 15),
-(10, 16),
-(9, 16),
-(10, 17),
-(9, 17),
-(10, 18),
-(9, 18),
-(10, 19),
-(9, 19),
-(10, 20),
-(9, 20),
-(10, 21),
-(9, 21),
-(10, 22),
-(9, 22),
-(10, 23),
-(9, 23),
-(10, 24),
-(9, 24),
-(10, 25),
-(9, 25),
-(10, 26),
-(9, 26),
-(10, 27),
-(9, 27),
-(12, 28),
-(10, 28),
-(9, 28),
-(13, 29),
-(9, 29),
-(12, 29),
-(10, 29),
-(13, 30),
-(12, 30),
-(10, 30),
-(9, 30),
-(13, 31),
-(9, 31),
-(12, 31),
-(10, 31),
-(13, 32),
-(9, 32),
-(12, 32),
-(10, 32),
-(14, 33),
-(15, 34),
-(18, 34),
-(17, 34),
-(16, 34),
-(13, 35),
-(9, 35),
-(12, 35),
-(10, 35),
-(18, 36),
-(15, 36),
-(17, 36),
-(16, 36),
-(13, 37),
-(9, 37),
-(12, 37),
-(10, 37);
+(20, 87),
+(10, 87),
+(9, 87),
+(13, 87),
+(12, 87),
+(20, 89),
+(10, 89),
+(9, 89),
+(13, 89),
+(12, 89),
+(20, 90),
+(10, 90),
+(9, 90),
+(13, 90),
+(12, 90);
 
 -- --------------------------------------------------------
 
@@ -583,51 +557,17 @@ CREATE TABLE `provas_versoes` (
 --
 
 INSERT INTO `provas_versoes` (`id_versao`, `id_prova`, `codigo_versao`, `data_criacao`) VALUES
-(10, 7, '', '2025-11-25 11:42:13'),
-(11, 8, '', '2025-11-25 11:46:23'),
-(12, 9, '', '2025-11-25 13:34:44'),
-(13, 10, '', '2025-11-25 13:35:30'),
-(14, 11, '', '2025-11-25 13:36:04'),
-(15, 12, '', '2025-11-25 13:39:13'),
-(16, 13, '', '2025-11-25 13:39:44'),
-(17, 14, '', '2025-11-25 13:42:28'),
-(18, 15, '', '2025-11-25 13:43:55'),
-(19, 16, '', '2025-11-25 13:46:58'),
-(20, 17, '', '2025-11-25 13:47:29'),
-(21, 18, '', '2025-11-25 13:47:51'),
-(22, 19, '', '2025-11-25 13:48:18'),
-(23, 20, '', '2025-11-25 13:48:30'),
-(24, 21, '', '2025-11-25 13:48:40'),
-(25, 22, '', '2025-11-25 13:48:48'),
-(26, 23, '', '2025-11-25 14:00:15'),
-(27, 24, '', '2025-11-25 14:01:29'),
-(28, 25, '', '2025-11-25 14:10:05'),
-(29, 26, '', '2025-11-25 14:14:39'),
-(30, 27, '', '2025-11-25 14:15:26'),
-(31, 28, '', '2025-11-25 14:39:22'),
-(32, 29, '', '2025-11-25 14:43:02'),
-(33, 29, '', '2025-11-25 14:43:02'),
-(34, 29, '', '2025-11-25 14:43:02'),
-(35, 30, '', '2025-11-25 20:41:53'),
-(36, 31, '', '2025-11-26 20:28:24'),
-(37, 32, '', '2025-11-27 21:40:20'),
-(38, 33, 'Azul', '2025-11-28 21:33:55'),
-(39, 34, 'Azul', '2025-12-02 13:36:38'),
-(40, 34, '', '2025-12-02 13:36:38'),
-(41, 34, 'Verde', '2025-12-02 13:36:38'),
-(42, 34, '', '2025-12-02 13:36:38'),
-(43, 35, 'Azul', '2025-12-02 13:39:36'),
-(44, 35, '', '2025-12-02 13:39:36'),
-(45, 35, 'Verde', '2025-12-02 13:39:36'),
-(46, 35, '', '2025-12-02 13:39:36'),
-(47, 36, 'Azul', '2025-12-02 13:40:45'),
-(48, 36, '', '2025-12-02 13:40:45'),
-(49, 36, 'Verde', '2025-12-02 13:40:45'),
-(50, 36, '', '2025-12-02 13:40:45'),
-(51, 37, 'Azul', '2025-12-03 14:22:57'),
-(52, 37, '', '2025-12-03 14:22:57'),
-(53, 37, 'Verde', '2025-12-03 14:22:57'),
-(54, 37, '', '2025-12-03 14:22:57');
+(238, 87, 'Azul', '2025-12-09 14:23:36'),
+(239, 87, '', '2025-12-09 14:23:36'),
+(240, 87, 'Verde', '2025-12-09 14:23:36'),
+(242, 89, 'Azul', '2025-12-10 13:42:05'),
+(243, 89, '', '2025-12-10 13:42:05'),
+(244, 89, 'Verde', '2025-12-10 13:42:05'),
+(245, 89, '', '2025-12-10 13:42:05'),
+(246, 90, 'Azul', '2025-12-10 13:42:44'),
+(247, 90, '', '2025-12-10 13:42:44'),
+(248, 90, 'Verde', '2025-12-10 13:42:44'),
+(249, 90, '', '2025-12-10 13:42:44');
 
 -- --------------------------------------------------------
 
@@ -647,140 +587,61 @@ CREATE TABLE `provas_versoes_questoes` (
 --
 
 INSERT INTO `provas_versoes_questoes` (`id_versao_questao`, `id_versao`, `id_questao`, `ordem`) VALUES
-(29, 10, 9, 1),
-(30, 10, 10, 2),
-(31, 11, 10, 1),
-(32, 11, 9, 2),
-(33, 12, 10, 1),
-(34, 12, 9, 2),
-(35, 13, 9, 1),
-(36, 13, 10, 2),
-(37, 14, 10, 1),
-(38, 14, 9, 2),
-(39, 15, 9, 1),
-(40, 15, 10, 2),
-(41, 16, 9, 1),
-(42, 16, 10, 2),
-(43, 17, 10, 1),
-(44, 17, 9, 2),
-(45, 18, 9, 1),
-(46, 18, 10, 2),
-(47, 19, 9, 1),
-(48, 19, 10, 2),
-(49, 20, 9, 1),
-(50, 20, 10, 2),
-(51, 21, 9, 1),
-(52, 21, 10, 2),
-(53, 22, 9, 1),
-(54, 22, 10, 2),
-(55, 23, 9, 1),
-(56, 23, 10, 2),
-(57, 24, 9, 1),
-(58, 24, 10, 2),
-(59, 25, 10, 1),
-(60, 25, 9, 2),
-(61, 26, 10, 1),
-(62, 26, 9, 2),
-(63, 27, 9, 1),
-(64, 27, 10, 2),
-(65, 28, 9, 1),
-(66, 28, 10, 2),
-(67, 29, 10, 1),
-(68, 29, 9, 2),
-(69, 30, 9, 1),
-(70, 30, 10, 2),
-(71, 31, 9, 1),
-(72, 31, 12, 2),
-(73, 31, 10, 3),
-(74, 32, 13, 1),
-(75, 32, 9, 2),
-(76, 32, 10, 3),
-(77, 32, 12, 4),
-(78, 33, 13, 1),
-(79, 33, 9, 2),
-(80, 33, 12, 3),
-(81, 33, 10, 4),
-(82, 34, 10, 1),
-(83, 34, 12, 2),
-(84, 34, 9, 3),
-(85, 34, 13, 4),
-(86, 35, 13, 1),
-(87, 35, 12, 2),
-(88, 35, 9, 3),
-(89, 35, 10, 4),
-(90, 36, 10, 1),
-(91, 36, 9, 2),
-(92, 36, 12, 3),
-(93, 36, 13, 4),
-(94, 37, 12, 1),
-(95, 37, 13, 2),
-(96, 37, 10, 3),
-(97, 37, 9, 4),
-(98, 38, 14, 1),
-(99, 39, 18, 1),
-(100, 39, 16, 2),
-(101, 39, 17, 3),
-(102, 39, 15, 4),
-(103, 40, 18, 1),
-(104, 40, 15, 2),
-(105, 40, 16, 3),
-(106, 40, 17, 4),
-(107, 41, 16, 1),
-(108, 41, 15, 2),
-(109, 41, 17, 3),
-(110, 41, 18, 4),
-(111, 42, 18, 1),
-(112, 42, 17, 2),
-(113, 42, 15, 3),
-(114, 42, 16, 4),
-(115, 43, 13, 1),
-(116, 43, 10, 2),
-(117, 43, 9, 3),
-(118, 43, 12, 4),
-(119, 44, 13, 1),
-(120, 44, 10, 2),
-(121, 44, 9, 3),
-(122, 44, 12, 4),
-(123, 45, 12, 1),
-(124, 45, 10, 2),
-(125, 45, 9, 3),
-(126, 45, 13, 4),
-(127, 46, 12, 1),
-(128, 46, 13, 2),
-(129, 46, 10, 3),
-(130, 46, 9, 4),
-(131, 47, 16, 1),
-(132, 47, 17, 2),
-(133, 47, 15, 3),
-(134, 47, 18, 4),
-(135, 48, 18, 1),
-(136, 48, 16, 2),
-(137, 48, 17, 3),
-(138, 48, 15, 4),
-(139, 49, 18, 1),
-(140, 49, 15, 2),
-(141, 49, 17, 3),
-(142, 49, 16, 4),
-(143, 50, 15, 1),
-(144, 50, 16, 2),
-(145, 50, 17, 3),
-(146, 50, 18, 4),
-(147, 51, 9, 1),
-(148, 51, 13, 2),
-(149, 51, 10, 3),
-(150, 51, 12, 4),
-(151, 52, 10, 1),
-(152, 52, 12, 2),
-(153, 52, 9, 3),
-(154, 52, 13, 4),
-(155, 53, 12, 1),
-(156, 53, 10, 2),
-(157, 53, 9, 3),
-(158, 53, 13, 4),
-(159, 54, 9, 1),
-(160, 54, 13, 2),
-(161, 54, 10, 3),
-(162, 54, 12, 4);
+(891, 238, 9, 1),
+(892, 238, 10, 2),
+(893, 238, 20, 3),
+(894, 238, 12, 4),
+(895, 238, 13, 5),
+(896, 239, 12, 1),
+(897, 239, 13, 2),
+(898, 239, 10, 3),
+(899, 239, 20, 4),
+(900, 239, 9, 5),
+(901, 240, 12, 1),
+(902, 240, 20, 2),
+(903, 240, 9, 3),
+(904, 240, 10, 4),
+(905, 240, 13, 5),
+(911, 242, 13, 1),
+(912, 242, 20, 2),
+(913, 242, 10, 3),
+(914, 242, 9, 4),
+(915, 242, 12, 5),
+(916, 243, 13, 1),
+(917, 243, 9, 2),
+(918, 243, 10, 3),
+(919, 243, 20, 4),
+(920, 243, 12, 5),
+(921, 244, 12, 1),
+(922, 244, 10, 2),
+(923, 244, 13, 3),
+(924, 244, 9, 4),
+(925, 244, 20, 5),
+(926, 245, 12, 1),
+(927, 245, 10, 2),
+(928, 245, 20, 3),
+(929, 245, 13, 4),
+(930, 245, 9, 5),
+(931, 246, 9, 1),
+(932, 246, 10, 2),
+(933, 246, 13, 3),
+(934, 246, 20, 4),
+(935, 246, 12, 5),
+(936, 247, 10, 1),
+(937, 247, 13, 2),
+(938, 247, 12, 3),
+(939, 247, 20, 4),
+(940, 247, 9, 5),
+(941, 248, 10, 1),
+(942, 248, 20, 2),
+(943, 248, 13, 3),
+(944, 248, 12, 4),
+(945, 248, 9, 5),
+(946, 249, 9, 1),
+(947, 249, 10, 2),
+(948, 249, 13, 3),
+(949, 249, 12, 4),
+(950, 249, 20, 5);
 
 -- --------------------------------------------------------
 
@@ -826,7 +687,8 @@ INSERT INTO `questao` (`id_questao`, `id_assunto`, `id_professor`, `serie`, `enu
 (16, 1, 6, NULL, '<p>Uma fábrica de tijolos ecológicos com 3 funcionários, cada um trabalhando 6 horas diárias, produz 720 unidades por dia. Para atender ao crescimento da demanda por esse tipo de tijolo, essa fábrica passou a ter 5 funcionários, cada um trabalhando 9 horas por dia, aumentando, assim, sua capacidade de produção. Todos os funcionários produzem igual quantidade de tijolos a cada hora, independentemente de trabalharem 6 ou 9 horas diárias. O número de tijolos fabricados diariamente após o aumento da capacidade de produção é</p>', '<p>800</p>', 'objetiva', 0, '2025-12-02 16:30:43', '2025-12-02 16:30:43'),
 (17, 1, 6, NULL, '<p>Para acompanhar o fluxo de visitantes em seu prédio, uma empresa estabeleceu um código de identificação para a visitação. De acordo com a regra estabelecida, cada visitante será identificado com um código sequencial numérico com 7 dígitos, determinado, da esquerda para a direita, da seguinte forma: </p><ul><li><p>o primeiro dígito indica o andar ao qual o visitante se dirige, que é um número de 1 a 4; </p></li><li><p>os dois próximos dígitos correspondem ao número do setor da empresa ao qual o visitante se destina. Esse número varia de 01 a 20; </p></li><li><p>os três dígitos seguintes correspondem ao número do funcionário da empresa com quem o visitante irá se reunir. Esse número varia de 001 a 135; </p></li><li><p>o último dígito indica se o visitante chegou à empresa pela manhã, dígito 0, ou à tarde, dígito 1.</p></li></ul><p>Um visitante chegou à empresa às 10 horas da manhã para se reunir com o funcionário identificado pelo número 109, que trabalha no setor 08 da empresa, localizado no 2º andar. </p><p>O código de identificação desse visitante é</p>', '<p>0109082.</p>', 'objetiva', 0, '2025-12-02 16:33:34', '2025-12-02 16:33:34'),
 (18, 1, 6, NULL, '<p>Na cantina de uma escola, há cinco alimentos vendidos em pacotes com diferentes quantidades de porções. As informações nutricionais contidas nos rótulos desses produtos estão indicadas nas imagens. </p><img src=\"http://localhost/sea/backend/uploads/alternativas/fccbd6b1-b8c3-47a0-b9ed-90effc5dc165.png\" alt=\"Captura de tela 2025-12-02 133408\" title=\"Captura de tela 2025-12-02 133408\"><p></p><p>Uma estudante opta sempre pelo alimento com a menor quantidade total de sódio por pacote. Qual desses produtos deve ser o escolhido pela estudante?</p>', '<p>Batata chips.</p>', 'objetiva', 0, '2025-12-02 16:35:22', '2025-12-02 16:35:22'),
-(19, 1, 6, NULL, '<p>Uma distribuidora de combustível possui caminhões-tanque com capacidade de 30 000 litros cada. Em qualquer transporte realizado por esses caminhões, um mesmo volume de combustível é descartado, pois fica com muitas impurezas. Esse volume descartado independe da quantidade transportada. Um posto de combustível encomendou 10 000 litros de gasolina dessa distribuidora, que enviou 10 200 litros, considerando o volume descartado no transporte. Mesmo assim, a quantidade de gasolina entregue ao posto foi de 9 900 litros. Em um novo pedido, esse posto solicitou que fosse entregue exatamente o dobro do volume de gasolina encomendado no pedido anterior. </p><p>Utilizando o mesmo caminhão da entrega anterior, qual é o volume mínimo de gasolina, em litro, que a distribuidora deverá enviar para garantir a entrega da quantidade encomendada nesse novo pedido?</p>', '<p>20 300</p>', 'objetiva', 0, '2025-12-02 16:44:30', '2025-12-02 16:44:30');
+(19, 1, 6, NULL, '<p>Uma distribuidora de combustível possui caminhões-tanque com capacidade de 30 000 litros cada. Em qualquer transporte realizado por esses caminhões, um mesmo volume de combustível é descartado, pois fica com muitas impurezas. Esse volume descartado independe da quantidade transportada. Um posto de combustível encomendou 10 000 litros de gasolina dessa distribuidora, que enviou 10 200 litros, considerando o volume descartado no transporte. Mesmo assim, a quantidade de gasolina entregue ao posto foi de 9 900 litros. Em um novo pedido, esse posto solicitou que fosse entregue exatamente o dobro do volume de gasolina encomendado no pedido anterior. </p><p>Utilizando o mesmo caminhão da entrega anterior, qual é o volume mínimo de gasolina, em litro, que a distribuidora deverá enviar para garantir a entrega da quantidade encomendada nesse novo pedido?</p>', '<p>20 300</p>', 'objetiva', 0, '2025-12-02 16:44:30', '2025-12-02 16:44:30'),
+(20, 45, 20, '2', '<p>Sentimos que toda satisfação de nossos desejos advinda do mundo assemelha-se à esmola que mantém hoje o mendigo vivo, porém prolonga amanhã a sua fome. A resignação, ao contrário, assemelha-se à fortuna herdada: livra o herdeiro para sempre de todas as preocupações. </p><p>SCHOPENHAUER, A. Aforismo para a sabedoria da vida. São Paulo: Martins Fontes, 2005. </p><p>O trecho destaca uma ideia remanescente de uma tradição filosófica ocidental, segundo a qual a felicidade se mostra indissociavelmente ligada à</p>', '<p>fugacidade do conhecimento empírico.</p>', 'objetiva', 0, '2025-12-09 17:06:29', '2025-12-09 17:06:29');
 
 -- --------------------------------------------------------
 
@@ -858,7 +720,8 @@ CREATE TABLE `turma` (
 --
 
 INSERT INTO `turma` (`id_turma`, `id_escola`, `nome_turma`, `serie`, `turno`) VALUES
-(11, 10, 'Informática 2024', '2', 'integral');
+(11, 10, 'Informática 2024', '2', 'integral'),
+(15, 10, 'Juniors 1', '1', 'integral');
 
 -- --------------------------------------------------------
 
@@ -886,7 +749,7 @@ CREATE TABLE `usuario` (
 
 INSERT INTO `usuario` (`id_usuario`, `id_escola`, `nome`, `email`, `foto`, `senha`, `telefone`, `tipo`, `ativo`, `data_cadastro`, `ultima_atualizacao`) VALUES
 (6, 10, 'Joel Damasceno Parente', 'jo3ldamasceno@gmail.com', 'http://localhost/sea/backend/uploads/usuarios/user_6_1764286354.jpg', '$2y$10$wlPhXbc4hLilhs62wGwABeVcosuBR/SOnYKiB4oGs/EpuVvG7TjVy', '(85) 99125-9840', 'gestor', 1, '2025-11-08 14:52:15', '2025-11-27 23:32:34'),
-(20, 10, 'Fernando Pessoa Oliveira de Sousa', 'fernandoufc2012@gmail.com', 'http://localhost/sea/backend/uploads/usuarios/user_20_1764781729.png', '$2y$10$S4YgLKc9zqUzapt08A62we2BxtKICJ1ey4aHF.AqBsU2OZG.Sjs5C', '(85) 99125-9840', 'professor', 1, '2025-12-03 17:03:00', '2025-12-03 17:08:49');
+(20, 10, 'Fernando Pessoa Oliveira de Sousa', 'fernandoufc2012@gmail.com', 'http://localhost/sea/backend/uploads/usuarios/user_20_1765374340.png', '$2y$10$S4YgLKc9zqUzapt08A62we2BxtKICJ1ey4aHF.AqBsU2OZG.Sjs5C', '(85) 99125-9840', 'professor', 1, '2025-12-03 17:03:00', '2025-12-10 13:45:40');
 
 --
 -- Índices para tabelas despejadas
@@ -1056,13 +919,13 @@ ALTER TABLE `admingeral`
 -- AUTO_INCREMENT de tabela `alternativas`
 --
 ALTER TABLE `alternativas`
-  MODIFY `id_alternativa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
+  MODIFY `id_alternativa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 
 --
 -- AUTO_INCREMENT de tabela `aluno`
 --
 ALTER TABLE `aluno`
-  MODIFY `id_aluno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id_aluno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT de tabela `assunto`
@@ -1092,31 +955,31 @@ ALTER TABLE `escola`
 -- AUTO_INCREMENT de tabela `gabarito`
 --
 ALTER TABLE `gabarito`
-  MODIFY `id_gabarito` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_gabarito` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
 
 --
 -- AUTO_INCREMENT de tabela `prova`
 --
 ALTER TABLE `prova`
-  MODIFY `id_prova` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id_prova` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
 
 --
 -- AUTO_INCREMENT de tabela `provas_versoes`
 --
 ALTER TABLE `provas_versoes`
-  MODIFY `id_versao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id_versao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=251;
 
 --
 -- AUTO_INCREMENT de tabela `provas_versoes_questoes`
 --
 ALTER TABLE `provas_versoes_questoes`
-  MODIFY `id_versao_questao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=163;
+  MODIFY `id_versao_questao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=953;
 
 --
 -- AUTO_INCREMENT de tabela `questao`
 --
 ALTER TABLE `questao`
-  MODIFY `id_questao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_questao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de tabela `tags`
@@ -1128,7 +991,7 @@ ALTER TABLE `tags`
 -- AUTO_INCREMENT de tabela `turma`
 --
 ALTER TABLE `turma`
-  MODIFY `id_turma` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_turma` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de tabela `usuario`

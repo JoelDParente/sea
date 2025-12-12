@@ -14,25 +14,18 @@ import axios from 'axios';
 
 export default function Page() {
   const router = useRouter();
-  // Etapa 1: Nome e Turmas
   const [openNomeSerie, setOpenNomeSerie] = useState(false);
   const [prova, setProva] = useState<{ nome: string; turmas: any[] } | null>(null);
 
-  // Etapa 2: Componente curricular
   const [openComponente, setOpenComponente] = useState(false);
   const [componenteSelecionado, setComponenteSelecionado] = useState<any | null>(null);
 
-  // Tabs
   const [tab, setTab] = useState(0);
 
-  // Questões selecionadas
   const [questoesSelecionadas, setQuestoesSelecionadas] = useState<Question[]>([]);
-  // Quantidade de versões a gerar (1..4)
   const [versionsCount, setVersionsCount] = useState<number>(1);
-  // Estado para loading ao gerar provas (inclui gabaritos no servidor)
   const [loadingGerar, setLoadingGerar] = useState(false);
 
-  // Ao montar, verificar se existe um payload de inicialização vindo do CardAcao (sessionStorage)
   useEffect(() => {
     try {
       const raw = sessionStorage.getItem('criarProvaInit');
@@ -45,12 +38,10 @@ export default function Page() {
           setComponenteSelecionado(parsed.turma);
         }
         sessionStorage.removeItem('criarProvaInit');
-        // marca que o modal já foi concluído para esta sessão
         try { sessionStorage.setItem('criarProvaNomeSerieDone', '1'); } catch (e) {}
         setOpenNomeSerie(false);
         setOpenComponente(false);
       } else {
-        // abrir modal apenas se não existir flag indicando conclusão
         const done = sessionStorage.getItem('criarProvaNomeSerieDone');
         if (!done) setOpenNomeSerie(true);
       }
@@ -61,11 +52,9 @@ export default function Page() {
     }
   }, []);
 
-  // Abre o modal do componente ao confirmar nome/turmas
   const handleConfirmNomeSerie = (payload: { nome: string; turmas: any[] }) => {
     setProva(payload);
     setOpenNomeSerie(false);
-    // persistir flag para evitar reabrir o modal nesta sessão
     try { sessionStorage.setItem('criarProvaNomeSerieDone', '1'); } catch (e) {}
     setOpenComponente(true);
   };
@@ -85,10 +74,6 @@ export default function Page() {
     setQuestoesSelecionadas((s) => s.filter((q) => String(q.id_questao) !== String(id)));
   };
 
-  // Nota: a geração de gabaritos agora é feita automaticamente no servidor
-  // quando as versões da prova são geradas e o ZIP é solicitado.
-  // Esta função foi mantida apenas por compatibilidade, mas o fluxo
-  // principal usa o botão "Gerar Provas e Gabaritos" abaixo.
 
   const handleGerarPDF = async () => {
     if (!prova || !componenteSelecionado || !Array.isArray(prova.turmas) || prova.turmas.length === 0) return;
@@ -125,7 +110,6 @@ export default function Page() {
       const resVersoes = await axios.post('http://localhost/sea/backend/controllers/gerarVersoesProvaController.php', payloadVersoes);
 
       if (resVersoes.data?.sucesso && Array.isArray(resVersoes.data.versoes) && resVersoes.data.versoes.length > 0) {
-        // Construir payload para solicitar ZIP do servidor (provas + gabaritos)
         const payloadZip = {
           id_prova: resVersoes.data.id_prova,
           versoes: resVersoes.data.versoes,
@@ -138,7 +122,6 @@ export default function Page() {
 
         const resZip = await axios.post('http://localhost/sea/backend/controllers/downloadProvasZipController.php', payloadZip);
         if (resZip.data?.sucesso && resZip.data.url_download) {
-          // redirecionar para download
           window.location.href = resZip.data.url_download;
         } else {
           console.error('Erro ao gerar ZIP no servidor:', resZip.data);

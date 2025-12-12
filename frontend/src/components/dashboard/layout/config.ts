@@ -3,7 +3,7 @@ import { paths } from '@/paths';
 
 export const navItems = [
   { key: 'overview', title: 'Inicio', href: paths.dashboard.overview, icon: 'house', matcher: { type: 'equals', href: '/dashboard' }, },
-  { key: 'prova', title: 'Criação de Avaliações', href: paths.dashboard.criacao.root, icon: 'prova',
+  { key: 'prova', title: 'Avaliações', href: paths.dashboard.criacao.root, icon: 'prova',
     matcher: { type: 'startsWith', href: paths.dashboard.criacao.root },
   },
   { key: 'professor', title: 'Professores', href: paths.dashboard.professor, icon: 'users' },
