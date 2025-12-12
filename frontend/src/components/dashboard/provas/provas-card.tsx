@@ -86,11 +86,6 @@ export function ProvaCard({ prova, onView, onDownload, onEdit, onDelete }: Prova
           </Typography>
         </Stack>
         <Stack direction="row" spacing={0}>
-          <Tooltip title="Editar">
-            <IconButton size="small" onClick={handleEdit}  color='inherit'>
-              <Pencil weight="bold" />
-            </IconButton>
-          </Tooltip>
           <Tooltip title="Deletar">
             <IconButton size="small" color="error" onClick={handleDelete}>
               <TrashSimple weight="bold" />
