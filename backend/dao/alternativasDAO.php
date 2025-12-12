@@ -4,7 +4,6 @@ require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/alternativa.php';
 
 use Models\Alternativa;
-use Models\Questao;
 
 class AlternativaDAO
 {

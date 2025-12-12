@@ -1,5 +1,4 @@
 <?php
-// dao/ProvaTurmaDAO.php
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/provaTurma.php';
 
@@ -12,7 +11,6 @@ class ProvaTurmaDAO {
         $this->conn = Database::getInstance()->getConnection();
     }
 
-    // CREATE
     public function criarProvaTurma(ProvaTurma $leciona): bool {
         $sql = "INSERT INTO provaturma (id_prova, id_turma)
                 VALUES (:id_prova, :id_turma)";
@@ -22,7 +20,6 @@ class ProvaTurmaDAO {
         return $stmt->execute();
     }
 
-    // READ por chave composta (id_prova, id_turma, id_turma)
     public function getProvaTurmaById(int $idTurma, int $idProfesor): ?ProvaTurma {
         $sql = "SELECT * FROM provaturma 
                 WHERE id_prova = :id_prova AND id_turma = :id_turma";
@@ -36,7 +33,6 @@ class ProvaTurmaDAO {
         return $this->mapRowToProvaTurma($row);
     }
 
-    // READ todos
     public function getAllProvaTurmas(): array {
         $sql = "SELECT * FROM provaturma";
         $stmt = $this->conn->query($sql);
@@ -47,7 +43,6 @@ class ProvaTurmaDAO {
         return $lecionas;
     }
 
-    // DELETE
     public function excluirProvaTurma(int $idTurma, int $idProfessor): bool {
         $sql = "DELETE FROM provaturma 
                 WHERE id_prova = :id_prova AND id_turma = :id_turma";

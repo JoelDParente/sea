@@ -1,5 +1,4 @@
 <?php
-// dao/ProfessorDisciplinaDAO.php
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/professorDisciplina.php';
 
@@ -12,7 +11,7 @@ class ProfessorDisciplinaDAO {
         $this->conn = Database::getInstance()->getConnection();
     }
 
-    // CREATE
+
     public function criarProfessorDisciplina(ProfessorDisciplina $leciona): bool {
         $sql = "INSERT INTO professordisciplina (id_disciplina, id_professor)
                 VALUES (:id_disciplina, :id_professor)";
@@ -22,7 +21,6 @@ class ProfessorDisciplinaDAO {
         return $stmt->execute();
     }
 
-    // READ por chave composta (id_disciplina, id_professor, id_questao)
     public function getProfessorDisciplinaById(int $idDisciplina, int $idProfesor): ?ProfessorDisciplina {
         $sql = "SELECT * FROM professordisciplina 
                 WHERE id_disciplina = :id_disciplina AND id_professor = :id_professor";
@@ -52,7 +50,6 @@ public function getDisciplinaByProfessorId(int $idProfessor): array {
 }
 
 
-    // READ todos
     public function getAllProfessorDisciplinas(): array {
         $sql = "SELECT * FROM professordisciplina";
         $stmt = $this->conn->query($sql);
@@ -63,7 +60,6 @@ public function getDisciplinaByProfessorId(int $idProfessor): array {
         return $lecionas;
     }
 
-    // DELETE
     public function excluirProfessorDisciplina(int $idDisciplina, int $idProfessor): bool {
         $sql = "DELETE FROM professordisciplina 
                 WHERE id_disciplina = :id_disciplina AND id_professor = :id_professor";

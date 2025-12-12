@@ -22,7 +22,7 @@ export interface UserPopoverProps {
 }
 
 export function UserPopover({ anchorEl, onClose, open }: UserPopoverProps): React.JSX.Element {
-  const { user } = useUser();  // ← dados do JWT
+  const { user } = useUser(); 
   const { checkSession } = useUser();
 
   const router = useRouter();
@@ -65,8 +65,8 @@ export function UserPopover({ anchorEl, onClose, open }: UserPopoverProps): Reac
 
       <MenuList disablePadding sx={{ p: '8px', '& .MuiMenuItem-root': { borderRadius: 1 } }}>
         <MenuItem onClick={handleSignOut} sx={{ color: "error.main" }}>
-          <ListItemIcon>
-            <SignOutIcon fontSize="var(--icon-fontSize-md)" />
+          <ListItemIcon  sx={{ color: "inherit" }}>
+            <SignOutIcon fontSize="var(--icon-fontSize-md)"  />
           </ListItemIcon>
           Sair
         </MenuItem>

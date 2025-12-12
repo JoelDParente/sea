@@ -47,6 +47,7 @@ export function MainNav(): React.JSX.Element {
                 setOpenNav(true);
               }}
               sx={{ display: { lg: 'none' } }}
+              color="inherit"
             >
               <ListIcon />
             </IconButton>

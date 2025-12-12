@@ -14,8 +14,7 @@ use Models\Usuario;
 
 include('../dao/escolaDAO.php');
 include('../dao/usuarioDAO.php');
-require_once('../models/escola.php');
-require_once('../models/usuario.php');
+
 $userDao = new UsuarioDAO();
 $dao = new EscolaDAO();
 

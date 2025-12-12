@@ -12,7 +12,7 @@ class GabaritoAlunoDAO {
         $this->conn = Database::getInstance()->getConnection();
     }
 
-    // CREATE
+
     public function criarGabaritoAluno(GabaritoAluno $gabarito): bool {
         $sql = "INSERT INTO gabaritoaluno (id_prova, id_aluno, id_questao, resposta_aluno)
                 VALUES (:id_prova, :id_aluno, :id_questao, :resposta_aluno)";
@@ -24,7 +24,7 @@ class GabaritoAlunoDAO {
         return $stmt->execute();
     }
 
-    // READ por chave composta (id_prova, id_aluno, id_questao)
+
     public function getGabaritoAlunoById(int $idProva, int $idAluno, int $idQuestao): ?GabaritoAluno {
         $sql = "SELECT * FROM gabaritoaluno 
                 WHERE id_prova = :id_prova AND id_aluno = :id_aluno AND id_questao = :id_questao";
@@ -39,7 +39,7 @@ class GabaritoAlunoDAO {
         return $this->mapRowToGabaritoAluno($row);
     }
 
-    // READ todos
+
     public function getAllGabaritoAlunos(): array {
         $sql = "SELECT * FROM gabaritoaluno";
         $stmt = $this->conn->query($sql);
@@ -50,7 +50,7 @@ class GabaritoAlunoDAO {
         return $gabaritos;
     }
 
-    // UPDATE
+
     public function atualizarGabaritoAluno(GabaritoAluno $gabarito): bool {
         $sql = "UPDATE gabaritoaluno 
                 SET resposta_aluno = :resposta_aluno
@@ -63,7 +63,7 @@ class GabaritoAlunoDAO {
         return $stmt->execute();
     }
 
-    // DELETE
+ 
     public function excluirGabaritoAluno(int $idProva, int $idAluno, int $idQuestao): bool {
         $sql = "DELETE FROM gabaritoaluno 
                 WHERE id_prova = :id_prova AND id_aluno = :id_aluno AND id_questao = :id_questao";

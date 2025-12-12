@@ -43,7 +43,7 @@ export default function Page(): React.JSX.Element {
 			{/* Criar Prova */}
 			<Grid container spacing={2}>
 				{/* Coluna empilhando CriarProva + CriarQuestao */}
-				<Grid size={{ lg: 4, sm: 6, xs: 12 }}>
+				<Grid size={{ lg: 4, sm: 12, xs: 12 }}>
 					<Box display="flex" flexDirection="column" gap={2} height="100%">
 						{userType === "gestor" ? (
 							<>
@@ -60,7 +60,7 @@ export default function Page(): React.JSX.Element {
 				</Grid>
 
 				{/* Calendário */}
-				<Grid size={{ lg: 8, sm: 6, xs: 12 }}>
+				<Grid size={{ lg: 8, sm: 12, xs: 12 }}>
 					<Calendario />
 				</Grid>
 

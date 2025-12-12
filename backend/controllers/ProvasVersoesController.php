@@ -16,7 +16,7 @@ require_once('../dao/ProvasVersoesDAO.php');
 require_once('../dao/ProvasVersoesQuestoesDAO.php');
 require_once('../models/ProvasVersoes.php');
 require_once('../models/ProvasVersoesQuestoes.php');
-require_once('../dao/questaoDAO.php'); // para pegar questões da prova
+require_once('../dao/questaoDAO.php'); 
 
 use Models\ProvasVersoes;
 use Models\ProvasVersoesQuestoes;

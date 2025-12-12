@@ -12,7 +12,6 @@ class ProfessorTurmaDAO {
         $this->conn = Database::getInstance()->getConnection();
     }
 
-    // CREATE
     public function criarProfessorTurma(ProfessorTurma $leciona): bool {
         $sql = "INSERT INTO professorturma (id_turma, id_professor)
                 VALUES (:id_turma, :id_professor)";
@@ -22,7 +21,6 @@ class ProfessorTurmaDAO {
         return $stmt->execute();
     }
 
-    // READ por chave composta (id_turma, id_professor, id_questao)
     public function getProfessorTurmaById(int $idTurma, int $idProfesor): ?ProfessorTurma {
         $sql = "SELECT * FROM professorturma 
                 WHERE id_turma = :id_turma AND id_professor = :id_professor";
@@ -36,7 +34,6 @@ class ProfessorTurmaDAO {
         return $this->mapRowToProfessorTurma($row);
     }
 
-    // READ todos
     public function getAllProfessorTurmas(): array {
         $sql = "SELECT * FROM professorturma";
         $stmt = $this->conn->query($sql);
@@ -47,7 +44,6 @@ class ProfessorTurmaDAO {
         return $lecionas;
     }
 
-    // READ turmas por professor
     public function getTurmaByProfessorId(int $idProfessor): array {
         $sql = "
             SELECT t.id_turma, t.nome_turma, t.serie, t.turno
@@ -63,7 +59,7 @@ class ProfessorTurmaDAO {
         return $stmt->fetchAll(PDO::FETCH_ASSOC); 
     }
 
-    // DELETE
+
     public function excluirProfessorTurma(int $idTurma, int $idProfessor): bool {
         $sql = "DELETE FROM professorturma 
                 WHERE id_turma = :id_turma AND id_professor = :id_professor";

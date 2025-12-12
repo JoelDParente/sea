@@ -1,5 +1,4 @@
 <?php
-// dao/ProvaQuestaoDAO.php
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/provaQuestao.php';
 
@@ -12,7 +11,6 @@ class ProvaQuestaoDAO {
         $this->conn = Database::getInstance()->getConnection();
     }
 
-    // CREATE
     public function criarProvaQuestao(ProvaQuestao $leciona): bool {
         $sql = "INSERT INTO provaquestao (id_prova, id_questao)
                 VALUES (:id_prova, :id_questao)";
@@ -22,7 +20,6 @@ class ProvaQuestaoDAO {
         return $stmt->execute();
     }
 
-    // READ por chave composta (id_prova, id_questao, id_questao)
     public function getProvaQuestaoById(int $idTurma, int $idProfesor): ?ProvaQuestao {
         $sql = "SELECT * FROM provaquestao 
                 WHERE id_prova = :id_prova AND id_questao = :id_questao";
@@ -36,7 +33,6 @@ class ProvaQuestaoDAO {
         return $this->mapRowToProvaQuestao($row);
     }
 
-    // READ todos
     public function getAllProvaQuestaos(): array {
         $sql = "SELECT * FROM provaquestao";
         $stmt = $this->conn->query($sql);
@@ -47,7 +43,6 @@ class ProvaQuestaoDAO {
         return $lecionas;
     }
 
-    // DELETE
     public function excluirProvaQuestao(int $idTurma, int $idProfessor): bool {
         $sql = "DELETE FROM provaquestao 
                 WHERE id_prova = :id_prova AND id_questao = :id_questao";

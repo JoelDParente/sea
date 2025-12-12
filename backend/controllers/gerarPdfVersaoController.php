@@ -63,9 +63,6 @@ if (!$questoes || count($questoes) === 0) {
     exit;
 }
 
-/* -----------------------------------------------------------
-   CONFIGURAÇÃO DO PDF
------------------------------------------------------------ */
 
 $pdf = new TCPDF();
 
@@ -92,15 +89,10 @@ novaPagina($pdf);
 $pdf->SetFont('helvetica', '', 11);
 
 
-/* -----------------------------------------------------------
-CABEÇALHO DA PROVA
------------------------------------------------------------ */
-
-
 $codigoVersao = $versao['codigo_versao'];
 $pdf->SetFont('helvetica', '', 11);
 
-// preparar nome da prova para exibição (sanitizar)
+
 $nomeAval = $nome_prova && $nome_prova !== '' ? htmlspecialchars($nome_prova, ENT_QUOTES, 'UTF-8') : '&nbsp;';
 $logoEscola = 'http://localhost/sea/backend/uploads/logos/logo-sea.png';
 
@@ -161,12 +153,10 @@ td {
 
 $pdf->writeHTML($htmlHeader, false, false, false, false, '');
 
-$pdf->setEqualColumns(2, 88); // duas colunas de 95 mm
+$pdf->setEqualColumns(2, 88); 
 $colunaAtual = 0;
 $pdf->selectColumn($colunaAtual);
-/* -----------------------------------------------------------
-   QUESTÕES
------------------------------------------------------------ */
+
 
 foreach ($questoes as $index => $q) {
 
@@ -219,10 +209,6 @@ $pdf->writeHTML($htmlAlt, true, false, true, false, '');
 
     $pdf->Ln(5);
 }
-
-/* -----------------------------------------------------------
-   SAÍDA DO PDF
------------------------------------------------------------ */
 
 $pdf->Output("prova_versao_{$id_versao}.pdf", 'I');
 exit;
