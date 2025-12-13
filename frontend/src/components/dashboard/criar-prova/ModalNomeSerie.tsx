@@ -126,7 +126,6 @@ export default function ModalNomeSerie({ open, onClose, onConfirm }: Props) {
                             multiple
                             options={options}
                             getOptionLabel={(opt) => `${opt.nome_turma} (${opt.serie})`}
-                            value={selectedTurmas}
                             onChange={(e, v) => setSelectedTurmas(v)}
                             renderInput={(params) => <TextField {...params} label="Selecione as turmas" placeholder="Turmas" />}
                         />

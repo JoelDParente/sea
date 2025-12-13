@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Box, Button, Card, CardContent, MenuItem, TextField, Typography } from "@mui/material";
+import { Box, Button, Card, CardContent, MenuItem, TextField, Typography, Snackbar, Alert } from "@mui/material";
 import axios from "axios";
-
 import { SimpleEditor } from "@/components/tiptap-templates/simple/simple-editor";
 
 import ListaAlternativas, { Alternativa } from "./lista-alternativas";
@@ -40,6 +39,11 @@ export default function CriarQuestao({ onSave }: { onSave: (questao: any) => voi
 	const [assuntoSelecionado, setAssuntoSelecionado] = useState<number | "">("");
 
 	const [alternativas, setAlternativas] = useState<Alternativa[]>(getInitialAlternatives());
+
+	const [snackbarOpen, setSnackbarOpen] = useState(false);
+	const [snackbarMessage, setSnackbarMessage] = useState('');
+	const [snackbarSeverity, setSnackbarSeverity] =
+		useState<'success' | 'error' | 'warning' | 'info'>('info');
 
 	const series = [
 		{ id: "1ano", nome: "1º Ano" },
@@ -115,6 +119,16 @@ export default function CriarQuestao({ onSave }: { onSave: (questao: any) => voi
 		}
 	};
 
+	const showSnackbar = (
+		message: string,
+		severity: 'success' | 'error' | 'warning' | 'info' = 'info'
+	) => {
+		setSnackbarMessage(message);
+		setSnackbarSeverity(severity);
+		setSnackbarOpen(true);
+	};
+
+
 	// Buscar assuntos quando categoria muda
 	const buscarAssuntos = async (idCategoria: number) => {
 		try {
@@ -154,17 +168,25 @@ export default function CriarQuestao({ onSave }: { onSave: (questao: any) => voi
 
 	const handleSave = () => {
 		if (!editorContent || !editorContent.replace(/<[^>]+>/g, "").trim()) {
-			alert("O enunciado não pode estar vazio.");
+			showSnackbar('O enunciado não pode estar vazio');
+			setSnackbarSeverity("warning");
+
 			return;
 		}
 
 		if (!alternativas.some((alt) => alt.correta)) {
-			alert("Marque a alternativa correta.");
+			showSnackbar('Marque a alternativa correta');
+			setSnackbarSeverity("warning");
+
+
 			return;
 		}
 
 		if (!disciplinaSelecionada || !categoriaSelecionada || !assuntoSelecionado) {
-			alert("Selecione disciplina, categoria e assunto para a questão.");
+			showSnackbar('Selecione disciplina, assunto e categoria');
+			setSnackbarSeverity("warning");
+
+
 			return;
 		}
 
@@ -218,11 +240,15 @@ export default function CriarQuestao({ onSave }: { onSave: (questao: any) => voi
 				setEditorContent("");
 				setAlternativas(getInitialAlternatives());
 				setImagem(null);
-				alert("Questão salva com sucesso!");
+				showSnackbar('Questão salva com sucesso');
+				setSnackbarSeverity("success");
+
+
 			})
 			.catch((err) => {
 				console.error("Erro ao enviar questão:", err);
-				alert("Erro ao enviar questão para o servidor.");
+				showSnackbar('Não foi possível enviar a questão para o servidor');
+				setSnackbarSeverity("warning");
 			});
 	};
 
@@ -392,6 +418,22 @@ export default function CriarQuestao({ onSave }: { onSave: (questao: any) => voi
 			</Box>
 
 			<ModalUploadImagem open={modalOpen} onClose={() => setModalOpen(false)} onUploadSuccess={setImagem} />
+
+			<Snackbar
+				open={snackbarOpen}
+				autoHideDuration={5000}
+				onClose={() => setSnackbarOpen(false)}
+				anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+			>
+				<Alert
+					onClose={() => setSnackbarOpen(false)}
+					severity={snackbarSeverity}
+					variant="filled"
+					sx={{ width: '100%' }}
+				>
+					{snackbarMessage}
+				</Alert>
+			</Snackbar>
 		</Card>
 	);
 }

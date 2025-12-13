@@ -10,6 +10,8 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
 import axios from 'axios';
 import ModalCadastroTurma from './ModalCadastroTurma';
+import { Snackbar, Alert } from '@mui/material';
+import { Backdrop, CircularProgress } from '@mui/material';
 
 export default function TurmasList(): React.JSX.Element {
   const router = useRouter();
@@ -17,6 +19,21 @@ export default function TurmasList(): React.JSX.Element {
   const [loading, setLoading] = React.useState(false);
   const [search, setSearch] = React.useState('');
   const [openCreate, setOpenCreate] = React.useState(false);
+  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+  const [snackbarMessage, setSnackbarMessage] = React.useState('');
+  const [navigatingId, setNavigatingId] = React.useState<number | null>(null);
+
+  const [snackbarSeverity, setSnackbarSeverity] =
+    React.useState<'success' | 'error' | 'info' | 'warning'>('info');
+
+  const showSnackbar = (
+    message: string,
+    severity: 'success' | 'error' | 'info' | 'warning' = 'info'
+  ) => {
+    setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
+    setSnackbarOpen(true);
+  };
 
   const fetchTurmas = React.useCallback(async () => {
     setLoading(true);
@@ -25,7 +42,9 @@ export default function TurmasList(): React.JSX.Element {
       setRows(Array.isArray(res.data) ? res.data.map((r: any) => ({ id: r.id_turma, ...r })) : []);
     } catch (err) {
       console.error('Erro ao buscar turmas', err);
-    } finally { setLoading(false); }
+      showSnackbar('Erro ao buscar turmas', 'error');
+    }
+    finally { setLoading(false); }
   }, []);
 
   React.useEffect(() => { fetchTurmas(); }, [fetchTurmas]);
@@ -34,17 +53,30 @@ export default function TurmasList(): React.JSX.Element {
     try {
       await axios.post('http://localhost/sea/backend/controllers/TurmaController.php', data);
       setOpenCreate(false);
+      showSnackbar('Turma criada com sucesso', 'success');
       fetchTurmas();
-    } catch (err) { console.error(err); alert('Erro ao criar turma'); }
+    } catch (err) {
+      console.error(err);
+      showSnackbar('Erro ao criar turma', 'error');
+    }
   };
+
 
   const handleDelete = async (id: number) => {
     if (!confirm('Confirmar exclusão desta turma?')) return;
+
     try {
-      await axios.delete(`http://localhost/sea/backend/controllers/TurmaController.php?id_turma=${id}`);
+      await axios.delete(
+        `http://localhost/sea/backend/controllers/TurmaController.php?id_turma=${id}`
+      );
+      showSnackbar('Turma excluída com sucesso', 'success');
       fetchTurmas();
-    } catch (err) { console.error(err); alert('Erro ao excluir turma'); }
+    } catch (err) {
+      console.error(err);
+      showSnackbar('Erro ao excluir turma', 'error');
+    }
   };
+
 
   const columns: GridColDef[] = [
     { field: 'nome_turma', headerName: 'Turma', flex: 1 },
@@ -56,9 +88,21 @@ export default function TurmasList(): React.JSX.Element {
       headerName: 'Ações',
       width: 140,
       getActions: (params) => [
-        <GridActionsCellItem icon={<VisibilityIcon />} label="Ver" onClick={() => router.push(`/dashboard/turmas/${params.id}`)} color='inherit' />,
+<GridActionsCellItem
+  icon={
+    navigatingId === Number(params.id)
+      ? <CircularProgress size={18} />
+      : <VisibilityIcon />
+  }
+  label="Ver"
+  onClick={() => {
+    setNavigatingId(Number(params.id));
+    router.push(`/dashboard/turmas/${params.id}`);
+  }}
+  color="inherit"
+/>,
         <GridActionsCellItem icon={<EditIcon />} label="Editar" onClick={() => setOpenCreate(true)} showInMenu={false} color='inherit' />,
-        <GridActionsCellItem icon={<DeleteIcon />} label="Excluir" onClick={() => handleDelete(Number(params.id))} showInMenu={false} color='inherit'/>,
+        <GridActionsCellItem icon={<DeleteIcon />} label="Excluir" onClick={() => handleDelete(Number(params.id))} showInMenu={false} color='inherit' />,
       ],
     },
   ];
@@ -88,6 +132,23 @@ export default function TurmasList(): React.JSX.Element {
       </CardContent>
 
       <ModalCadastroTurma open={openCreate} onClose={() => setOpenCreate(false)} onSubmit={handleCreate} />
+
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={4000}
+        onClose={() => setSnackbarOpen(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert
+          onClose={() => setSnackbarOpen(false)}
+          severity={snackbarSeverity}
+          variant="filled"
+          sx={{ width: '100%' }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
+
     </Card>
   );
 }
