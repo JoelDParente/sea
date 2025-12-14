@@ -7,7 +7,6 @@ import Grid from "@mui/material/Grid";
 import { Calendario } from "@/components/dashboard/overview/calendario";
 import { CriarProva } from "@/components/dashboard/overview/criar-prova";
 import { CriarQuestao } from "@/components/dashboard/overview/criar-questao";
-import { MinhasAvaliacoes } from "@/components/dashboard/overview/minhas-avaliacoes";
 import { CardProfessores } from "@/components/dashboard/overview/professores-card";
 import { TurmasCard } from "@/components/dashboard/overview/turmas-card";
 

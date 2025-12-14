@@ -71,6 +71,7 @@
     "dayjs": "^1.11.13",
     "dompurify": "^3.3.0",
     "file-saver": "^2.0.5",
+    "framer-motion": "^12.23.26",
     "isomorphic-dompurify": "^2.33.0",
     "jodit-react": "^5.2.26",
     "jszip": "^3.10.1",

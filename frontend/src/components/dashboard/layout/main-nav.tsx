@@ -53,6 +53,7 @@ export function MainNav(): React.JSX.Element {
             </IconButton>
 
           </Stack>
+          
           <Stack sx={{ alignItems: 'center' }} direction="row" spacing={2}>
             <Tooltip title={mode === 'light' ? 'Modo escuro' : 'Modo claro'}>
               <IconButton onClick={toggleTheme} size="small" color='primary'>

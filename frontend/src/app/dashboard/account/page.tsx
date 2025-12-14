@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 
 import { config } from '@/config';
 import { AccountDetailsForm } from '@/components/dashboard/account/account-details-form';
+import { EscolaDetailsForm } from '@/components/dashboard/account/escola-details-form';
 import { AccountInfo } from '@/components/dashboard/account/account-info';
 
 export const metadata = { title: `Conta | ${config.site.name}` } satisfies Metadata;
@@ -32,8 +33,15 @@ export default function Page(): React.JSX.Element {
             md: 6,
             xs: 12,
           }}
+
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 3,
+          }}
         >
           <AccountDetailsForm />
+          <EscolaDetailsForm />
         </Grid>
       </Grid>
     </Stack>

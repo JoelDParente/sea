@@ -31,7 +31,7 @@ export function AccountDetailsForm(): React.JSX.Element {
       }}
     >
       <Card>
-        <CardHeader subheader="As informações podem ser editadas" title="Perfil" />
+        <CardHeader title="Perfil" />
         <Divider />
         <CardContent>
           <Grid container spacing={3}>
@@ -95,10 +95,6 @@ export function AccountDetailsForm(): React.JSX.Element {
             </Grid>
           </Grid>
         </CardContent>
-        <Divider />
-        <CardActions sx={{ justifyContent: 'flex-end' }}>
-          <Button variant="contained">Salvar detalhes</Button>
-        </CardActions>
       </Card>
     </form>
   );

@@ -48,9 +48,15 @@ async signInWithPassword(params: SignInWithPasswordParams): Promise<{ error?: st
     console.log(response);
 
     // Sucesso — guardar token retornado pelo backend
-    const { token, user } = response.data;
+    const { token, user, escola } = response.data;
     localStorage.setItem("jwt", token);
     localStorage.setItem("user", JSON.stringify(user));
+
+    if (escola) {
+      localStorage.setItem("escola", JSON.stringify(escola));
+    } else {
+      localStorage.removeItem("escola");
+    }
 
     return {};
   } catch (error: any) {
@@ -96,6 +102,7 @@ async getUser(): Promise<{ data?: User | null; error?: string }> {
 async signOut(): Promise<{ error?: string }> {
   localStorage.removeItem('jwt');
   localStorage.removeItem('user');
+  localStorage.removeItem('escola');
   return {};
 }
 }

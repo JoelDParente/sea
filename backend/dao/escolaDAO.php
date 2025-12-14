@@ -5,15 +5,18 @@ require_once __DIR__ . '/../models/escola.php';
 
 use Models\Escola;
 
-class EscolaDAO {
+class EscolaDAO
+{
     private $conn;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->conn = Database::getInstance()->getConnection();
     }
 
     // CREATE
-    public function criarEscola(Escola $escola): int {
+    public function criarEscola(Escola $escola): int
+    {
         $sql = "INSERT INTO escola (inep, nome_escola, email, telefone, logo, estado, cidade, bairro, rua, num)
                 VALUES (:inep, :nome_escola, :email, :telefone, :logo, :estado, :cidade, :bairro, :rua, :num)";
         $stmt = $this->conn->prepare($sql);
@@ -33,19 +36,36 @@ class EscolaDAO {
     }
 
     // READ por ID
-    public function getEscolaById(int $id): ?Escola {
-        $sql = "SELECT * FROM escola WHERE id = :id";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    public function getEscolaById(int $id_escola): ?array
+    {
+        $sql = "SELECT 
+                id_escola,
+                inep,
+                nome_escola,
+                email,
+                telefone,
+                logo,
+                estado,
+                cidade,
+                bairro,
+                rua,
+                num
+            FROM escola
+            WHERE id_escola = :id_escola
+            LIMIT 1";
 
-        if (!$row) return null;
-        return $this->mapRowToEscola($row);
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':id_escola', $id_escola, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $escola = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $escola ?: null;
     }
 
+
     // READ todos
-    public function getAllEscolas(): array {
+    public function getAllEscolas(): array
+    {
         $sql = "SELECT * FROM escola";
         $stmt = $this->conn->query($sql);
         $escolas = [];
@@ -56,9 +76,10 @@ class EscolaDAO {
     }
 
     // UPDATE
-    public function atualizarEscola(Escola $escola): bool {
+    public function atualizarEscola(Escola $escola): bool
+    {
         $sql = "UPDATE escola SET inep = :inep, nome_escola = :nome_escola, email = :email, telefone = :telefone, logo = :logo, estado = :estado, cidade = :cidade, bairro = :bairro, rua = :rua, num = :num
-                WHERE id = :id";
+                WHERE id_escola = :id_escola";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':inep', $escola->getInep(), PDO::PARAM_STR);
         $stmt->bindValue(':nome_escola', $escola->getNomeEscola(), PDO::PARAM_STR);
@@ -75,25 +96,27 @@ class EscolaDAO {
     }
 
     // DELETE
-    public function excluirEscola(int $id): bool {
+    public function excluirEscola(int $id): bool
+    {
         $sql = "DELETE FROM escola WHERE id = :id";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         return $stmt->execute();
     }
 
-    private function mapRowToEscola(array $row): Escola {
+    private function mapRowToEscola(array $row): Escola
+    {
         $escola = new Escola();
         $escola->setId($row['id_escola'])
-                ->setNomeEscola($row['nome_escola'])
-                ->setEmail($row['email'])
-                ->setTelefone($row['telefone'])
-                ->setLogo($row['logo'])
-                ->setEstado($row['estado'])
-                ->setCidade($row['cidade'])
-                ->setBairro($row['bairro'])
-                ->setRua($row['rua'])
-                ->setNumero($row['num']);
+            ->setNomeEscola($row['nome_escola'])
+            ->setEmail($row['email'])
+            ->setTelefone($row['telefone'])
+            ->setLogo($row['logo'])
+            ->setEstado($row['estado'])
+            ->setCidade($row['cidade'])
+            ->setBairro($row['bairro'])
+            ->setRua($row['rua'])
+            ->setNumero($row['num']);
         return $escola;
     }
 }

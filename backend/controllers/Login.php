@@ -13,10 +13,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../dao/usuarioDAO.php';
+require_once __DIR__ . '/../dao/EscolaDAO.php';
 require_once __DIR__ . '/../config/env.php';
 
 try {
-    // Recebe JSON do axios
     $input = json_decode(file_get_contents('php://input'), true);
     $email = $input['email'] ?? '';
     $senha = $input['senha'] ?? '';
@@ -25,7 +25,7 @@ try {
         throw new Exception('E-mail e senha são obrigatórios.');
     }
 
-    // Busca usuário no BD via DAO
+    // Usuário
     $usuarioDAO = new UsuarioDAO();
     $usuario = $usuarioDAO->buscarPorEmail($email);
 
@@ -37,7 +37,12 @@ try {
         throw new Exception('Senha incorreta.');
     }
 
-    // Gera JWT válido por 1 hora
+    // Escola
+    // Escola
+    $escolaDAO = new EscolaDAO();
+    $escola = $escolaDAO->getEscolaById((int)$usuario['id_escola']);
+
+    // JWT
     $payload = [
         "exp" => time() + 3600,
         "iat" => time(),
@@ -58,9 +63,9 @@ try {
             "foto" => $usuario["foto"],
             "telefone" => $usuario["telefone"],
             "tipo" => $usuario["tipo"]
-        ]
+        ],
+        "escola" => $escola
     ]);
-
 } catch (Exception $e) {
     http_response_code(401);
     echo json_encode(["error" => $e->getMessage()]);
