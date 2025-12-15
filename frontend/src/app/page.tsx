@@ -31,47 +31,89 @@ export default function Home() {
     <>
       <LandingNavbar />
 
-      {/* Hero Section */}
       <Box
         sx={{
-          minHeight: '100vh',          // ocupa a tela toda
-          display: 'flex',
-          alignItems: 'center',        // centraliza verticalmente
-          bgcolor: '#0f1419',          // cor solicitada
+          position: 'relative',
+          minHeight: '100vh',
+          overflow: 'hidden',
+          bgcolor: '#0f1419',
           color: 'primary.contrastText',
-          textAlign: 'center',
-
-
+          display: 'flex',
+          alignItems: 'center',
         }}
       >
-        <Container maxWidth="md">
-          <ScrollReveal>
-            <Typography variant="h2" component="h1" gutterBottom>
-              Crie e organize avaliações com facilidade
-            </Typography>
-          </ScrollReveal>
+        {/* 🎥 Vídeo de fundo */}
+        <Box
+          component="video"
+          autoPlay
+          loop
+          muted
+          playsInline
+          sx={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            opacity: 0.35,              // visibilidade reduzida
+            zIndex: 0,
+          }}
+        >
+          <source src="../assets/fundoAnimado.mp4" type="video/mp4" />
+        </Box>
 
-          <ScrollReveal delay={0.1}>
-            <Typography variant="h5" sx={{ mb: 5, opacity: 0.9 }}>
-              O SEA é o sistema completo para professores elaborarem, gerenciarem e reutilizarem provas escolares de forma simples e eficiente.
-            </Typography>
-          </ScrollReveal>
+        {/* 🌫️ Overlay escuro (opcional, recomendado) */}
+        <Box
+          sx={{
+            position: 'absolute',
+            inset: 0,
+            bgcolor: 'rgba(15,20,25,0.6)',
+            zIndex: 2,
+          }}
+        />
 
-          <ScrollReveal delay={0.2}>
-            <Stack
-              direction={{ xs: 'column', sm: 'row' }}
-              spacing={2}
-              justifyContent="center"
-            >
-              <Button component={Link} href={paths.auth.signIn} variant="contained">
-                Entrar
-              </Button>
+        <Container maxWidth="md" sx={{ position: 'relative', zIndex: 3 }}>
+          <Box
+            sx={{
+              px: { xs: 3, md: 6 },
+              py: { xs: 4, md: 6 },
+              borderRadius: 4,
+              bgcolor: 'rgba(15,20,25,0.55)',
+              backdropFilter: 'blur(6px)',
+              boxShadow: '0 20px 60px rgba(0,0,0,0.45)',
+              align: 'center',
+              textAlign: 'center',
+            }}
+          >
+            <ScrollReveal>
+              <Typography variant="h2" component="h1" gutterBottom>
+                Crie e organize avaliações com facilidade
+              </Typography>
+            </ScrollReveal>
 
-              <Button component={Link} href={paths.auth.signUp} variant="outlined">
-                Começar agora
-              </Button>
-            </Stack>
-          </ScrollReveal>
+            <ScrollReveal delay={0.1}>
+              <Typography variant="h5" sx={{ mb: 5, opacity: 0.9 }}>
+                O SEA é o sistema completo para professores elaborarem, gerenciarem e reutilizarem provas escolares de forma simples e eficiente.
+              </Typography>
+            </ScrollReveal>
+
+            <ScrollReveal delay={0.2}>
+              <Stack
+                direction={{ xs: 'column', sm: 'row' }}
+                spacing={2}
+                justifyContent="center"
+              >
+                <Button component={Link} href={paths.auth.signIn} variant="contained">
+                  Entrar
+                </Button>
+
+                <Button component={Link} href={paths.auth.signUp} variant="outlined">
+                  Começar agora
+                </Button>
+              </Stack>
+            </ScrollReveal>
+          </Box>
         </Container>
       </Box>
 
