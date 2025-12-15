@@ -22,6 +22,7 @@ import {
 import { ScrollReveal } from '@/components/landing/ScrollReveal';
 import { LandingNavbar } from '@/components/landing/navbar';
 import Link from 'next/link';
+
 import { LandingFooter } from '@/components/landing/footer';
 import { paths } from '@/paths';
 
@@ -78,10 +79,6 @@ export default function Home() {
             sx={{
               px: { xs: 3, md: 6 },
               py: { xs: 4, md: 6 },
-              borderRadius: 4,
-              bgcolor: 'rgba(15,20,25,0.55)',
-              backdropFilter: 'blur(6px)',
-              boxShadow: '0 20px 60px rgba(0,0,0,0.45)',
               align: 'center',
               textAlign: 'center',
             }}
